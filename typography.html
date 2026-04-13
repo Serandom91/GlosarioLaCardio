@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tipografía — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --font-sans:             'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono:             'IBM Plex Mono', 'Fira Code', monospace;
+
+      /* Tamaños */
+      --size-h1:               48px;
+      --size-h2:               40px;
+      --size-h3:               32px;
+      --size-h4:               24px;
+      --size-h5:               20px;
+      --size-h6:               16px;
+      --size-body-lg:          18px;
+      --size-body-base:        16px;
+      --size-body-sm:          14px;
+      --size-body-xs:          13px;
+      --size-label-md:         14px;
+      --size-label-sm:         12px;
+      --size-caption:          11px;
+
+      /* Pesos */
+      --weight-regular:        400;
+      --weight-medium:         500;
+
+      /* Interletrado */
+      --leading-tight:         1.2;
+      --leading-snug:          1.3;
+      --leading-normal:        1.4;
+      --leading-base:          1.5;
+      --leading-relaxed:       1.6;
+      --leading-loose:         1.7;
+
+      /* Letter spacing */
+      --tracking-tight:        -0.5px;
+      --tracking-snug:         -0.3px;
+      --tracking-normal:        0px;
+      --tracking-wide:          0.6px;
+
+      /* Colores */
+      --text-primary:          #1a1a1a;
+      --text-secondary:        #5F5E5A;
+      --text-tertiary:         #888780;
+      --text-link:             #002D72;
+
+      /* Fondo */
+      --bg-page:               #F4F3F0;
+      --bg-surface:            #ffffff;
+      --bg-code:               #F1EFE8;
+      --border-default:        rgba(0,0,0,0.12);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      padding: 48px 32px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: var(--size-caption);
+      font-weight: var(--weight-medium);
+      color: var(--text-tertiary);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 16px 0;
+      border-bottom: 0.5px solid var(--border-default);
+    }
+
+    .type-row--center {
+      align-items: center;
+    }
+
+    .type-meta {
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+
+    .type-meta__name {
+      font-size: var(--size-caption);
+      font-weight: var(--weight-medium);
+      color: var(--text-tertiary);
+      margin-bottom: 2px;
+    }
+
+    .type-meta__spec {
+      font-size: var(--size-caption);
+      color: var(--text-tertiary);
+    }
+
+    /* ─── HEADINGS ───────────────────────────────────────────── */
+    .t-h1 {
+      font-size: var(--size-h1);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--text-primary);
+    }
+
+    .t-h2 {
+      font-size: var(--size-h2);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-snug);
+      color: var(--text-primary);
+    }
+
+    .t-h3 {
+      font-size: var(--size-h3);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-snug);
+      letter-spacing: -0.2px;
+      color: var(--text-primary);
+    }
+
+    .t-h4 {
+      font-size: var(--size-h4);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-snug);
+      color: var(--text-primary);
+    }
+
+    .t-h5 {
+      font-size: var(--size-h5);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--text-primary);
+    }
+
+    .t-h6 {
+      font-size: var(--size-h6);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-normal);
+      color: var(--text-primary);
+    }
+
+    /* ─── BODY ───────────────────────────────────────────────── */
+    .t-body-lg {
+      font-size: var(--size-body-lg);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-loose);
+      color: var(--text-primary);
+    }
+
+    .t-body-base {
+      font-size: var(--size-body-base);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-base);
+      color: var(--text-primary);
+    }
+
+    .t-body-sm {
+      font-size: var(--size-body-sm);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-relaxed);
+      color: var(--text-secondary);
+    }
+
+    .t-body-xs {
+      font-size: var(--size-body-xs);
+      font-weight: var(--weight-regular);
+      line-height: var(--leading-relaxed);
+      color: var(--text-secondary);
+    }
+
+    /* ─── UI LABELS ──────────────────────────────────────────── */
+    .t-label-md {
+      font-size: var(--size-label-md);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+    }
+
+    .t-label-sm {
+      font-size: var(--size-label-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-primary);
+    }
+
+    .t-caption {
+      font-size: var(--size-caption);
+      font-weight: var(--weight-regular);
+      color: var(--text-tertiary);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    .t-link {
+      font-size: var(--size-body-base);
+      font-weight: var(--weight-regular);
+      color: var(--text-link);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ─── CÓDIGO ─────────────────────────────────────────────── */
+    .t-mono {
+      font-family: var(--font-mono);
+      font-size: var(--size-body-xs);
+      font-weight: var(--weight-regular);
+      color: var(--text-primary);
+      background: var(--bg-code);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADINGS ─────────────────────────────────────────── -->
+  <div class="section">
+    <p class="section-label">Headings</p>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H1</p>
+        <p class="type-meta__spec">48px · 500 · 1.2</p>
+      </div>
+      <h1 class="t-h1">Título principal</h1>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H2</p>
+        <p class="type-meta__spec">40px · 500 · 1.2</p>
+      </div>
+      <h2 class="t-h2">Título de sección</h2>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H3</p>
+        <p class="type-meta__spec">32px · 500 · 1.3</p>
+      </div>
+      <h3 class="t-h3">Subtítulo de sección</h3>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H4</p>
+        <p class="type-meta__spec">24px · 500 · 1.3</p>
+      </div>
+      <h4 class="t-h4">Título de componente</h4>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H5</p>
+        <p class="type-meta__spec">20px · 500 · 1.4</p>
+      </div>
+      <h5 class="t-h5">Título de card</h5>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">H6</p>
+        <p class="type-meta__spec">16px · 500 · 1.4</p>
+      </div>
+      <h6 class="t-h6">Título de subsección</h6>
+    </div>
+  </div>
+
+  <!-- ─── BODY ─────────────────────────────────────────────── -->
+  <div class="section">
+    <p class="section-label">Body</p>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">Body LG</p>
+        <p class="type-meta__spec">18px · 400 · 1.7</p>
+      </div>
+      <p class="t-body-lg">El texto de cuerpo grande se usa para introducciones y párrafos destacados.</p>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">Body Base</p>
+        <p class="type-meta__spec">16px · 400 · 1.5</p>
+      </div>
+      <p class="t-body-base">El texto base es el estándar para párrafos, descripciones y contenido general en toda la interfaz.</p>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">Body SM</p>
+        <p class="type-meta__spec">14px · 400 · 1.6</p>
+      </div>
+      <p class="t-body-sm">Texto secundario para descripciones de cards, metadatos y contenido de soporte.</p>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta">
+        <p class="type-meta__name">Body XS</p>
+        <p class="type-meta__spec">13px · 400 · 1.6</p>
+      </div>
+      <p class="t-body-xs">Texto auxiliar para labels, hints y textos de ayuda en formularios.</p>
+    </div>
+  </div>
+
+  <!-- ─── UI LABELS ────────────────────────────────────────── -->
+  <div class="section">
+    <p class="section-label">UI labels</p>
+
+    <div class="type-row type-row--center">
+      <div class="type-meta">
+        <p class="type-meta__name">Label MD</p>
+        <p class="type-meta__spec">14px · 500</p>
+      </div>
+      <p class="t-label-md">Label de formulario</p>
+    </div>
+
+    <div class="type-row type-row--center">
+      <div class="type-meta">
+        <p class="type-meta__name">Label SM</p>
+        <p class="type-meta__spec">12px · 500</p>
+      </div>
+      <p class="t-label-sm">Botón, badge, navegación</p>
+    </div>
+
+    <div class="type-row type-row--center">
+      <div class="type-meta">
+        <p class="type-meta__name">Caption</p>
+        <p class="type-meta__spec">11px · 400 · uppercase</p>
+      </div>
+      <p class="t-caption">Eyebrow / overline / categoría</p>
+    </div>
+
+    <div class="type-row type-row--center">
+      <div class="type-meta">
+        <p class="type-meta__name">Link</p>
+        <p class="type-meta__spec">hereda · 400 · underline</p>
+      </div>
+      <a class="t-link">Enlace de navegación</a>
+    </div>
+  </div>
+
+  <!-- ─── CÓDIGO ───────────────────────────────────────────── -->
+  <div class="section">
+    <p class="section-label">Código</p>
+    <div class="type-row type-row--center">
+      <div class="type-meta">
+        <p class="type-meta__name">Mono</p>
+        <p class="type-meta__spec">13px · 400</p>
+      </div>
+      <code class="t-mono">font-size: 13px; font-family: monospace;</code>
+    </div>
+  </div>
+
+</body>
+</html>

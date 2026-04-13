@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Botones — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --brand-primary: #002D72; --brand-primary-hover: #00245C; --brand-primary-active: #001B45; --brand-primary-subtle: #E5EBEF;
+      --brand-secondary: #E40046; --brand-secondary-hover: #B70038; --brand-secondary-subtle: #FEE5EB;
+      --text-primary: #1a1a1a; --text-secondary: #5F5E5A; --text-tertiary: #888780;
+      --bg-page: #F4F3F0; --bg-surface: #ffffff; --border-default: rgba(0,0,0,0.12);
+      --radius-full: 9999px; --radius-md: 8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; max-width: 900px; margin: 0 auto; }
+    .section { margin-bottom: 2.5rem; }
+    .section-label { font-size: 11px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1rem; }
+    .btn-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .row-label { font-size: 11px; color: var(--text-tertiary); min-width: 80px; }
+
+    /* Base */
+    .btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sans); font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s; border: none; text-decoration: none; white-space: nowrap; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 1; pointer-events: none; background: #C5C4C1; color: #888780; border-color: transparent; }
+    .btn svg { flex-shrink: 0; }
+
+    /* Tamaños */
+    .btn--lg  { font-size: 15px; padding: 10px 22px; border-radius: var(--radius-full); }
+    .btn--md  { font-size: 13px; padding: 7px 16px;  border-radius: var(--radius-full); }
+    .btn--sm  { font-size: 12px; padding: 5px 12px;  border-radius: var(--radius-full); }
+
+    /* Variantes primario */
+    .btn--primary         { background: var(--brand-primary); color: #fff; border: 1px solid transparent; }
+    .btn--primary:hover   { background: var(--brand-primary-hover); }
+    .btn--primary:active  { background: var(--brand-primary-active); }
+
+    /* Variantes secundario (outline) */
+    .btn--secondary        { background: transparent; color: var(--brand-primary); border: 1px solid var(--brand-primary); }
+    .btn--secondary:hover  { background: var(--brand-primary-subtle); }
+
+    /* Variantes ghost */
+    .btn--ghost        { background: transparent; color: var(--brand-primary); border: 1px solid transparent; }
+    .btn--ghost:hover  { background: var(--brand-primary-subtle); }
+
+    /* Variante danger */
+    .btn--danger        { background: var(--brand-secondary); color: #fff; border: 1px solid transparent; }
+    .btn--danger:hover  { background: var(--brand-secondary-hover); }
+
+    /* Disabled overrides por variante */
+    .btn--secondary:disabled,
+    .btn--ghost:disabled,
+    .btn--danger-outline:disabled { background: #E6E5E2; color: #A4A3A0; border-color: #C5C4C1; }
+
+    /* Variante danger outline */
+    .btn--danger-outline        { background: transparent; color: var(--brand-secondary); border: 1px solid var(--brand-secondary); }
+    .btn--danger-outline:hover  { background: var(--brand-secondary-subtle); }
+
+    /* Icon only */
+    .btn--icon { padding: 8px; border-radius: 50%; }
+    .btn--icon.btn--sm { padding: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <p class="section-label">Primario — pill relleno</p>
+    <div class="btn-row"><span class="row-label">LG</span>
+      <button class="btn btn--primary btn--lg">Guardar cambios</button>
+      <button class="btn btn--primary btn--lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nuevo elemento
+      </button>
+      <button class="btn btn--primary btn--lg" disabled>Deshabilitado</button>
+    </div>
+    <div class="btn-row"><span class="row-label">MD</span>
+      <button class="btn btn--primary btn--md">Guardar cambios</button>
+      <button class="btn btn--primary btn--md">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nuevo elemento
+      </button>
+      <button class="btn btn--primary btn--md" disabled>Deshabilitado</button>
+    </div>
+    <div class="btn-row"><span class="row-label">SM</span>
+      <button class="btn btn--primary btn--sm">Guardar</button>
+      <button class="btn btn--primary btn--sm">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar
+      </button>
+      <button class="btn btn--primary btn--sm" disabled>Deshabilitado</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Secundario — pill outline</p>
+    <div class="btn-row"><span class="row-label">LG</span>
+      <button class="btn btn--secondary btn--lg">Ver más</button>
+      <button class="btn btn--secondary btn--lg">
+        Leer más
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn btn--secondary btn--lg" disabled>Deshabilitado</button>
+    </div>
+    <div class="btn-row"><span class="row-label">MD</span>
+      <button class="btn btn--secondary btn--md">Ver más</button>
+      <button class="btn btn--secondary btn--md">
+        Leer más
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn btn--secondary btn--md" disabled>Deshabilitado</button>
+    </div>
+    <div class="btn-row"><span class="row-label">SM</span>
+      <button class="btn btn--secondary btn--sm">Ver más</button>
+      <button class="btn btn--secondary btn--sm" disabled>Deshabilitado</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Ghost</p>
+    <div class="btn-row">
+      <button class="btn btn--ghost btn--lg">Cancelar</button>
+      <button class="btn btn--ghost btn--md">Cancelar</button>
+      <button class="btn btn--ghost btn--sm">Cancelar</button>
+      <button class="btn btn--ghost btn--md" disabled>Deshabilitado</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Danger</p>
+    <div class="btn-row">
+      <button class="btn btn--danger btn--lg">Eliminar cuenta</button>
+      <button class="btn btn--danger btn--md">Eliminar</button>
+      <button class="btn btn--danger-outline btn--lg">Eliminar cuenta</button>
+      <button class="btn btn--danger-outline btn--md">Eliminar</button>
+    </div>
+  </div>
+
+</body>
+</html>

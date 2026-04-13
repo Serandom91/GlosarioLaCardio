@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cateterismo Cardíaco — Glosario LaCardio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary:        #002D72;
+      --brand-primary-hover:  #00245C;
+      --brand-primary-active: #001B45;
+      --brand-secondary:      #E40046;
+      --text-primary:         #080808;
+      --text-secondary:       #616161;
+      --text-tertiary:        #83827F;
+      --border-default:       #C5C4C1;
+      --bg-topbar:            #EEF5FF;
+      --jordy-blue:           #AACCFF;
+      --gray-2:               #C9C9C9;
+      --font-h:               'Fira Sans', sans-serif;
+      --font-b:               'Open Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-b); color: var(--text-primary); background: #fff; min-width: 1440px; }
+
+    /* ── TOPBAR ─────────────────────────────── */
+    .topbar {
+      background: var(--bg-topbar);
+      padding: 9px 60px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .topbar__links { display: flex; gap: 30px; align-items: flex-start; }
+    .topbar__link {
+      font-size: 12px; color: var(--brand-primary); text-decoration: none;
+      padding-bottom: 9px; letter-spacing: 0.06px; white-space: nowrap;
+    }
+    .topbar__link--active { font-weight: 600; border-bottom: 2px solid var(--brand-primary); }
+    .topbar__actions { display: flex; gap: 30px; align-items: center; padding-bottom: 9px; }
+    .topbar__action {
+      font-size: 12px; color: var(--text-secondary); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+
+    /* ── NAVBAR ─────────────────────────────── */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 9px 20.6px 0 rgba(196,210,216,0.4);
+      padding: 0 61px;
+      display: flex;
+      align-items: flex-end;
+      gap: 36px;
+      height: 90px;
+    }
+    .navbar__logo { padding-bottom: 18px; flex-shrink: 0; }
+    .logo-lc { display: flex; align-items: center; text-decoration: none; }
+    .logo-lc img { height: 42px; width: auto; display: block; }
+    .navbar__nav { display: flex; gap: 36px; align-items: flex-end; flex: 1; }
+    .navbar__item {
+      display: flex; gap: 12px; align-items: center;
+      padding-bottom: 24px; text-decoration: none; cursor: pointer;
+    }
+    .navbar__item--active { border-bottom: 2px solid var(--brand-primary); }
+    .navbar__item-text { font-size: 14px; line-height: 20px; letter-spacing: 0.21px; white-space: nowrap; }
+    .navbar__item--active .navbar__item-text { color: var(--brand-primary); }
+    .navbar__item:not(.navbar__item--active) .navbar__item-text { color: var(--text-primary); }
+    .navbar__chevron { width: 24px; height: 24px; flex-shrink: 0; transform: rotate(-90deg); }
+    .navbar__cta { padding-bottom: 18px; flex-shrink: 0; }
+    .btn-agendar {
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; border: 1px solid var(--brand-primary); border-radius: 6px;
+      height: 42px; padding: 11px 16px;
+      font-family: var(--font-b); font-size: 18px; font-weight: 700;
+      color: var(--brand-primary); text-decoration: none; cursor: pointer;
+      letter-spacing: -0.36px; white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-agendar:hover { background: var(--bg-topbar); }
+    .navbar__fundacion { padding-bottom: 18px; flex-shrink: 0; }
+    .logo-fc { display: flex; align-items: center; text-decoration: none; }
+    .logo-fc img { height: 42px; width: auto; display: block; }
+
+    /* ── BREADCRUMB ──────────────────────────── */
+    .breadcrumb {
+      padding: 14px 60px;
+      display: flex; align-items: center; gap: 3px;
+      font-size: 12px; letter-spacing: 0.06px;
+      background: linear-gradient(180deg, #EEF5FF 0%, #fff 100%);
+    }
+    .breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--brand-primary); }
+    .breadcrumb__sep { color: var(--text-tertiary); margin: 0 1px; }
+    .breadcrumb__current { color: var(--brand-primary); }
+
+    /* ── MAIN LAYOUT ─────────────────────────── */
+    .page-content {
+      display: flex;
+      gap: 48px;
+      padding: 36px 120px 60px;
+      align-items: flex-start;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────── */
+    .sidebar {
+      width: 244px;
+      flex-shrink: 0;
+      background: #fff;
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: 24px;
+      position: sticky;
+      top: 24px;
+    }
+    .sidebar__heading {
+      font-family: var(--font-b); font-size: 14px; font-weight: 700;
+      color: var(--brand-primary); letter-spacing: -0.14px; line-height: 20px;
+      margin-bottom: 16px;
+    }
+    .sidebar__links { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar__link {
+      font-size: 13px; font-weight: 400; color: var(--text-secondary);
+      text-decoration: none; line-height: 20px; padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s;
+    }
+    .sidebar__link:hover { color: var(--brand-primary); }
+    .sidebar__link.active { color: var(--brand-primary); font-weight: 600; }
+
+    /* ── ARTICLE ─────────────────────────────── */
+    .article { flex: 1; min-width: 0; }
+
+    .article__meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .badge-specialty {
+      display: inline-block;
+      background: var(--bg-topbar);
+      color: var(--brand-primary);
+      font-family: var(--font-b); font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    .share-row {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .share-label { font-size: 13px; color: var(--text-tertiary); }
+    .share-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--brand-primary); display: flex; align-items: center;
+      justify-content: center; text-decoration: none; transition: background 0.15s;
+    }
+    .share-btn:hover { background: var(--brand-primary-hover); }
+    .share-btn--email { background: var(--text-secondary); }
+    .share-btn--email:hover { background: var(--text-primary); }
+
+    .article__title {
+      font-family: var(--font-h); font-size: 38px; font-weight: 400;
+      line-height: 1.2; color: var(--text-primary); margin-bottom: 20px;
+    }
+
+    .article__body { font-size: 16px; line-height: 26px; color: var(--text-secondary); }
+    .article__body p { margin-bottom: 16px; }
+    .article__body h2 {
+      font-family: var(--font-h); font-size: 22px; font-weight: 500;
+      color: var(--text-primary); margin: 32px 0 12px; line-height: 1.3;
+    }
+    .article__body ul {
+      padding-left: 20px; margin-bottom: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .article__body li { font-size: 16px; line-height: 26px; color: var(--text-secondary); }
+
+    /* Blue callout */
+    .callout-lacardio {
+      background: var(--bg-topbar);
+      border-radius: 8px;
+      padding: 32px 36px;
+      margin-top: 36px;
+    }
+    .callout-lacardio__title {
+      font-family: var(--font-h); font-size: 24px; font-weight: 500;
+      color: var(--brand-primary); margin-bottom: 14px; line-height: 32px;
+    }
+    .callout-lacardio__body {
+      font-size: 15px; line-height: 24px; color: var(--brand-primary);
+      opacity: 0.8;
+    }
+
+    /* ── CTA BANNER ──────────────────────────── */
+    .cta-banner {
+      background: var(--brand-primary);
+      padding: 60px 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cta-banner__left { max-width: 520px; }
+    .cta-banner__title {
+      font-family: var(--font-h); font-size: 36px; font-weight: 400;
+      color: #fff; line-height: 44px; margin-bottom: 10px;
+    }
+    .cta-banner__subtitle { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 24px; }
+    .cta-banner__btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-top: 28px;
+      border: 2px solid #fff; border-radius: 6px;
+      background: transparent; color: #fff;
+      font-family: var(--font-b); font-size: 18px; font-weight: 700;
+      padding: 12px 28px; text-decoration: none; letter-spacing: -0.36px;
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .cta-banner__btn:hover { background: #fff; color: var(--brand-primary); }
+    .cta-banner__icon { opacity: 0.25; }
+
+    /* ── FOOTER TOP ─────────────────────────── */
+    .footer-top {
+      background: linear-gradient(180deg, #e7edf1 0%, #fff 100%);
+      padding: 84px 0;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+    }
+    .ft-col { width: 376px; display: flex; flex-direction: column; gap: 29px; }
+    .ft-col__heading { font-family: var(--font-h); font-size: 24px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.24px; line-height: 32px; }
+    .ft-col__body { display: flex; flex-direction: column; gap: 18px; font-size: 18px; line-height: 24px; color: var(--text-secondary); letter-spacing: 0.27px; }
+    .ft-col__body strong { font-weight: 700; color: var(--text-secondary); letter-spacing: -0.36px; font-size: 18px; }
+    .ft-col__body a { color: var(--text-secondary); text-decoration: underline; }
+
+    /* ── FOOTER BOTTOM ──────────────────────── */
+    .footer-bottom {
+      background: var(--brand-primary);
+      padding: 54px 0;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+    }
+    .fb-col { width: 273px; display: flex; flex-direction: column; gap: 25px; }
+    .fb-col__title { font-family: var(--font-h); font-size: 14px; font-weight: 400; color: var(--jordy-blue); letter-spacing: 3.64px; text-transform: uppercase; line-height: 14px; }
+    .fb-col__links { display: flex; flex-direction: column; gap: 12px; }
+    .fb-col__link { font-size: 14px; font-weight: 400; color: #fff; text-decoration: none; letter-spacing: 0.21px; line-height: 20px; }
+    .fb-col__link:hover { text-decoration: underline; }
+    .fb-social-icons { display: flex; gap: 23px; align-items: center; }
+    .fb-social-icon { width: 36px; height: 36px; display: block; }
+
+    /* ── COPYRIGHT ──────────────────────────── */
+    .footer-copy {
+      background: var(--gray-2); padding: 24px 10px; text-align: center;
+      font-size: 12px; color: var(--text-primary); letter-spacing: 0.06px; line-height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════════════ -->
+<header>
+  <div class="topbar">
+    <div class="topbar__links">
+      <a href="#" class="topbar__link topbar__link--active">Transparencia y acceso a la información</a>
+      <a href="#" class="topbar__link">Atención y servicios a la ciudadanía</a>
+      <a href="#" class="topbar__link">Participación ciudadana</a>
+    </div>
+    <div class="topbar__actions">
+      <a href="#" class="topbar__action">
+        Buscar
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="15.65" y2="15.65"/></svg>
+      </a>
+      <a href="#" class="topbar__action">
+        Contáctanos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar__logo">
+      <a href="glosario-home.html" class="logo-lc">
+        <img src="Logo Clinica.svg" alt="LaCardio" />
+      </a>
+    </div>
+    <div class="navbar__nav">
+      <a href="#" class="navbar__item navbar__item--active">
+        <span class="navbar__item-text">Atención<br>al paciente</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Especialidades<br>y servicios</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Para profesionales<br>médicos</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Investigación<br>y educación</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Conoce<br>LaCardio</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+    </div>
+    <div class="navbar__cta">
+      <a href="#" class="btn-agendar">Agendar cita</a>
+    </div>
+    <div class="navbar__fundacion">
+      <a href="#" class="logo-fc">
+        <img src="Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══ BREADCRUMB ════════════════════════════════════════════════════ -->
+<nav class="breadcrumb">
+  <a href="#">Inicio</a>
+  <span class="breadcrumb__sep">/</span>
+  <a href="glosario-home.html">Glosario</a>
+  <span class="breadcrumb__sep">/</span>
+  <span class="breadcrumb__current">Cateterismo Cardíaco</span>
+</nav>
+
+<!-- ═══ PAGE CONTENT ══════════════════════════════════════════════════ -->
+<div class="page-content">
+
+  <!-- Sidebar TOC -->
+  <aside class="sidebar">
+    <p class="sidebar__heading">Acá podrás encontrar:</p>
+    <div class="sidebar__links">
+      <a href="#que-es" class="sidebar__link active">¿Qué es cateterismo cardíaco?</a>
+      <a href="#sintomas" class="sidebar__link">¿Cuáles son los síntomas o manifestaciones?</a>
+      <a href="#tipos" class="sidebar__link">¿Qué tipos existen?</a>
+      <a href="#factores" class="sidebar__link">¿Cuáles son los factores de riesgo?</a>
+      <a href="#prevencion" class="sidebar__link">¿Cómo se puede prevenir?</a>
+      <a href="#diagnostico" class="sidebar__link">¿Cómo se diagnostica o detecta?</a>
+      <a href="#tratamiento" class="sidebar__link">¿Cuál es el tratamiento disponible?</a>
+      <a href="#lacardio" class="sidebar__link">¿Cómo lo tratamos en LaCardio?</a>
+    </div>
+  </aside>
+
+  <!-- Article -->
+  <article class="article">
+
+    <!-- Meta row: badge + share -->
+    <div class="article__meta">
+      <span class="badge-specialty">Cardiología</span>
+      <div class="share-row">
+        <span class="share-label">Compartir en:</span>
+        <!-- LinkedIn -->
+        <a href="#" class="share-btn" aria-label="Compartir en LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" class="share-btn" aria-label="Compartir en Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <!-- X/Twitter -->
+        <a href="#" class="share-btn" aria-label="Compartir en X">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.2 3h3.1l-6.7 7.6L23 21h-5.8l-4.3-5.6L7.7 21H4.6l7.2-8.2L4 3h6l3.9 5.1L18.2 3zm-1 16.2h1.7L7.6 4.8H5.8l11.4 14.4z"/></svg>
+        </a>
+        <!-- Email -->
+        <a href="mailto:?subject=Cateterismo Cardíaco — LaCardio" class="share-btn share-btn--email" aria-label="Compartir por correo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Article body -->
+    <div class="article__body">
+      <h1 class="article__title" id="que-es">¿Qué es Cateterismo Cardíaco?</h1>
+
+      <p>El cateterismo cardíaco es un procedimiento médico que permite visualizar directamente el interior del corazón y sus arterias utilizando un tubo delgado y flexible llamado catéter, que se introduce a través de una arteria (generalmente en la ingle o la muñeca) y se dirige hasta el corazón.</p>
+      <p>Este procedimiento puede ser diagnóstico (para saber si hay obstrucciones o problemas estructurales) o terapéutico (por ejemplo, colocar un stent y desatapar una arteria).</p>
+
+      <h2 id="sintomas">¿Cuáles son los síntomas o motivos para realizarlo?</h2>
+      <p>Se recomienda cuando hay dolor de pecho, dificultad para respirar, latidos irregulares o sospecha de enfermedad coronaria.</p>
+
+      <h2 id="tipos">¿Qué tipos de cateterismo existen?</h2>
+      <ul>
+        <li>Cateterismo diagnóstico (evalúa válvulas, arterias, presión).</li>
+        <li>Cateterismo terapéutico (ej. angioplastia, colocación de stent).</li>
+      </ul>
+
+      <h2 id="factores">¿Cuáles son los factores de riesgo?</h2>
+      <p>Edad avanzada, hipertensión, diabetes, tabaquismo, colesterol alto y antecedentes familiares de enfermedad cardíaca.</p>
+
+      <h2 id="prevencion">¿Cómo se previene la necesidad de este procedimiento?</h2>
+      <p>Mantener hábitos saludables: dieta balanceada, ejercicio regular, control de presión arterial y colesterol, evitar el tabaco.</p>
+
+      <h2 id="diagnostico">¿Cuál es el tratamiento o procedimiento en sí?</h2>
+      <p>El catéter se introduce por la ingle, brazo o cuello, guiado por rayos X. Permite medir presiones, tomar muestras o abrir arterias bloqueadas.</p>
+
+      <!-- LaCardio callout -->
+      <div class="callout-lacardio" id="lacardio">
+        <h2 class="callout-lacardio__title">¿Cómo lo tratamos en LaCardio?</h2>
+        <p class="callout-lacardio__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- ═══ CTA BANNER ════════════════════════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="cta-banner__left">
+    <h2 class="cta-banner__title">Agenda tu cita ahora</h2>
+    <p class="cta-banner__subtitle">Da el siguiente paso hacia tu bienestar. Nuestro equipo está listo para acompañarte en cada paso de tu cuidado.</p>
+    <a href="#" class="cta-banner__btn">Agendar cita</a>
+  </div>
+  <div class="cta-banner__icon">
+    <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
+      <circle cx="80" cy="80" r="70" stroke="white" stroke-width="3" opacity="0.3"/>
+      <path d="M80 40c-22 0-40 18-40 40s18 40 40 40 40-18 40-40-18-40-40-40z" stroke="white" stroke-width="3"/>
+      <path d="M65 80c0-8.3 6.7-15 15-15s15 6.7 15 15-6.7 15-15 15" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <path d="M80 55v10M80 95v10M55 80h10M95 80h10" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <path d="M65 68l6 6M89 89l6 6M65 92l6-6M89 71l6-6" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="ft-col">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+        <path d="M21 4C14.37 4 9 9.37 9 16c0 9 12 22 12 22s12-13 12-22C33 9.37 27.63 4 21 4zm0 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" stroke="#002D72" stroke-width="1.5" fill="none"/>
+      </svg>
+      <div>
+        <p class="ft-col__heading">Visítanos</p>
+        <div class="ft-col__body" style="margin-top:12px;">
+          <p><strong>Sede principal:</strong><br>LaCardio, Calle 163A # 13B-60</p>
+          <p><strong>Sede ambulatorio:</strong><br>LaCardio 102, Av. Carrera 19 # 102-31</p>
+        </div>
+      </div>
+    </div>
+    <div class="ft-col">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+        <rect x="5" y="10" width="32" height="22" rx="3" stroke="#002D72" stroke-width="1.5"/>
+        <path d="M5 13l16 10 16-10" stroke="#002D72" stroke-width="1.5"/>
+      </svg>
+      <div>
+        <p class="ft-col__heading">Escríbenos</p>
+        <div class="ft-col__body" style="margin-top:12px;">
+          <p><strong>PQRS:</strong><br><a href="mailto:fciquejas@lacardio.org">fciquejas@lacardio.org</a></p>
+          <p><strong>Solicitud de historia clínica:</strong><br>resultados@lacardio.org</p>
+          <p><strong>Notificaciones judiciales:</strong><br>notificacionesjudiciales@lacardio.org</p>
+          <p><strong>Radicación de factura electrónica:</strong><br>recepcionfacturaelectronica@lacardio.org</p>
+        </div>
+      </div>
+    </div>
+    <div class="ft-col">
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+        <path d="M8 8h7l3 7-4 2.5a18 18 0 0 0 7.5 7.5L24 21l7 3v7a2 2 0 0 1-2 2C14 33 8 27 8 10a2 2 0 0 1 0 0z" stroke="#002D72" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <p class="ft-col__heading">Comunícate con nosotros</p>
+        <div class="ft-col__body" style="margin-top:12px;">
+          <p><strong>Teléfono:</strong><br>+57 601 6672720</p>
+          <p><strong>Línea gratuita nacional:</strong><br>01 8000 128 818</p>
+          <p><strong>WhatsApp:</strong><br>+601 3173727840</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="fb-col">
+      <p class="fb-col__title">Pacientes</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Resultados e Historia clínica</a>
+        <a href="#" class="fb-col__link">Directorio médico</a>
+        <a href="#" class="fb-col__link">PQRS Pacientes</a>
+        <a href="#" class="fb-col__link">Ubicación de instalaciones</a>
+        <a href="#" class="fb-col__link">Derechos y deberes</a>
+        <a href="#" class="fb-col__link">Pagos en línea</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Funcionarios</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Intranet</a>
+        <a href="#" class="fb-col__link">Correo institucional</a>
+        <a href="#" class="fb-col__link">Sistema de gestión Almera</a>
+        <a href="#" class="fb-col__link">Línea de integridad</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Sobre Nosotros</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Filosofía corporativa</a>
+        <a href="#" class="fb-col__link">Convenios de atención</a>
+        <a href="#" class="fb-col__link">Nuestro modelo</a>
+        <a href="#" class="fb-col__link">Gobierno corporativo</a>
+        <a href="#" class="fb-col__link">Términos y condiciones</a>
+        <a href="#" class="fb-col__link">Fundación Cardio Infantil</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Síguenos</p>
+      <div class="fb-social-icons">
+        <a href="#" aria-label="Twitter">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M20.5 9h3.1l-6.7 7.6L25 27h-5.8l-4.3-5.6L9.7 27H6.6l7.2-8.2L7 9h6l3.9 5.1L20.5 9zm-1 16.2h1.7L11.6 10.8H9.8l9.7 14.4z" fill="white"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M19.5 9.5h-2a4 4 0 0 0-4 4v2H12v3h1.5V27H17v-8.5h2.3l.7-3H17v-2a1 1 0 0 1 1-1h1.5V9.5z" fill="white"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M26.5 13.2a2.5 2.5 0 0 0-1.7-1.7C23.2 11 18 11 18 11s-5.2 0-6.8.5a2.5 2.5 0 0 0-1.7 1.7A26 26 0 0 0 9 18a26 26 0 0 0 .5 4.8 2.5 2.5 0 0 0 1.7 1.7c1.6.5 6.8.5 6.8.5s5.2 0 6.8-.5a2.5 2.5 0 0 0 1.7-1.7A26 26 0 0 0 27 18a26 26 0 0 0-.5-4.8z" stroke="white" stroke-width="1.2"/>
+            <polygon points="15.5,21 21.5,18 15.5,15" fill="white"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <rect x="10" y="10" width="16" height="16" rx="5" stroke="white" stroke-width="1.4"/>
+            <circle cx="18" cy="18" r="4" stroke="white" stroke-width="1.4"/>
+            <circle cx="22.5" cy="13.5" r="1" fill="white"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M11 14h3v12h-3V14zm1.5-4.5a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM16 14h3v1.6c.7-1 1.9-1.8 3.3-1.8 2.7 0 4 1.6 4 4.6V26h-3v-7c0-1.5-.6-2.5-2-2.5-1.3 0-2.3 1-2.3 2.5v7H16V14z" fill="white"/>
+          </svg>
+        </a>
+      </div>
+      <div style="margin-top: 24px; display: flex; align-items: center; gap: 10px;">
+        <div style="border: 1.5px solid rgba(255,255,255,0.4); border-radius: 4px; padding: 4px 10px;">
+          <span style="font-family: var(--font-b); font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 1px;">VIGILADO</span>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-family: var(--font-b); font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 600;">Super</span>
+          <span style="font-family: var(--font-b); font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 600;">salud</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    Copyright © 2023 - Todos los derechos, Fundación Cardioinfantil Instituto de Cardiología, Calle 163A # 13B - 60 Bogotá, Colombia
+  </div>
+</footer>
+
+<!-- Sidebar active link on scroll -->
+<script>
+  const sections = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.sidebar__link');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar__link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

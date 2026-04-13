@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stat Card — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans:             'Inter', sans-serif;
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --text-primary:          #1a1a1a;
+      --text-secondary:        #5F5E5A;
+      --text-tertiary:         #888780;
+      --bg-page:               #F4F3F0;
+      --bg-surface:            #ffffff;
+      --border-default:        rgba(0,0,0,0.10);
+      --radius-lg:             12px;
+      --radius-md:             8px;
+      --radius-full:           9999px;
+      --success:               #3B6D11;
+      --success-subtle:        #EAF3DE;
+      --error:                 #E40046;
+      --error-subtle:          #FEE5EB;
+      --warning:               #854F07;
+      --warning-subtle:        #FAEEDA;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; }
+
+    .section-label {
+      font-size: 11px; font-weight: 500; color: var(--text-tertiary);
+      letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .demo-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 3rem; }
+    .demo-divider { height: 0.5px; background: var(--border-default); margin: 2.5rem 0; }
+
+    /* ─── STAT CARD BASE ─────────────────────────────────────── */
+    .stat-card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+    }
+
+    .stat-card__label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .stat-card__value {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-card__value--primary   { color: var(--brand-primary); }
+    .stat-card__value--secondary { color: var(--brand-secondary); }
+
+    .stat-card__sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Trend badge */
+    .stat-card__trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      width: fit-content;
+    }
+
+    .stat-card__trend svg { width: 12px; height: 12px; }
+
+    .stat-card__trend--up   { background: var(--success-subtle); color: var(--success); }
+    .stat-card__trend--down { background: var(--error-subtle);   color: var(--error); }
+    .stat-card__trend--flat { background: var(--warning-subtle); color: var(--warning); }
+
+    /* Variante con ícono */
+    .stat-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stat-card__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--brand-primary-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card__icon--secondary { background: #FEE5EB; }
+    .stat-card__icon--success   { background: var(--success-subtle); }
+    .stat-card__icon--warning   { background: var(--warning-subtle); }
+
+    /* Variante con barra de progreso */
+    .stat-card__progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .stat-card__progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .stat-card__progress-bar {
+      height: 5px;
+      background: var(--bg-page);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .stat-card__progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: var(--brand-primary);
+    }
+
+    /* Variante oscura */
+    .stat-card--dark {
+      background: var(--brand-primary);
+      border-color: transparent;
+    }
+
+    .stat-card--dark .stat-card__label { color: rgba(255,255,255,0.55); }
+    .stat-card--dark .stat-card__value { color: #fff; }
+    .stat-card--dark .stat-card__sub   { color: rgba(255,255,255,0.65); }
+    .stat-card--dark .stat-card__icon  { background: rgba(255,255,255,0.12); }
+    .stat-card--dark .stat-card__progress-bar { background: rgba(255,255,255,0.15); }
+    .stat-card--dark .stat-card__progress-fill { background: #fff; }
+    .stat-card--dark .stat-card__progress-meta { color: rgba(255,255,255,0.45); }
+
+    /* Grid de stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ─── BÁSICA ───────────────────────────────────────────── -->
+  <p class="section-label">Básica — valor + label + descripción</p>
+  <div class="demo-row">
+
+    <div class="stat-card">
+      <span class="stat-card__label">Pacientes atendidos</span>
+      <span class="stat-card__value">24,830</span>
+      <span class="stat-card__sub">En lo que va del año 2026</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-card__label">Cirugías realizadas</span>
+      <span class="stat-card__value stat-card__value--primary">1,204</span>
+      <span class="stat-card__sub">Con 98.2% de éxito</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-card__label">Urgencias</span>
+      <span class="stat-card__value stat-card__value--secondary">347</span>
+      <span class="stat-card__sub">Este mes</span>
+    </div>
+
+  </div>
+
+  <div class="demo-divider"></div>
+
+  <!-- ─── CON TREND ────────────────────────────────────────── -->
+  <p class="section-label">Con tendencia — variación respecto al período anterior</p>
+  <div class="demo-row">
+
+    <div class="stat-card">
+      <span class="stat-card__label">Consultas</span>
+      <span class="stat-card__value">8,412</span>
+      <div class="stat-card__trend stat-card__trend--up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        +12.4% vs mes anterior
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-card__label">Tiempo de espera</span>
+      <span class="stat-card__value">18 min</span>
+      <div class="stat-card__trend stat-card__trend--down">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        −5 min vs mes anterior
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-card__label">Satisfacción</span>
+      <span class="stat-card__value">94%</span>
+      <div class="stat-card__trend stat-card__trend--flat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Sin cambio
+      </div>
+    </div>
+
+  </div>
+
+  <div class="demo-divider"></div>
+
+  <!-- ─── CON ÍCONO ────────────────────────────────────────── -->
+  <p class="section-label">Con ícono — header con métrica e ícono decorativo</p>
+  <div class="demo-row">
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Especialistas</span>
+        <div class="stat-card__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#002D72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+      </div>
+      <span class="stat-card__value">214</span>
+      <div class="stat-card__trend stat-card__trend--up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        +8 este trimestre
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Urgencias activas</span>
+        <div class="stat-card__icon stat-card__icon--secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A002A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+      </div>
+      <span class="stat-card__value stat-card__value--secondary">23</span>
+      <span class="stat-card__sub">En atención ahora</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Camas disponibles</span>
+        <div class="stat-card__icon stat-card__icon--success">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+      </div>
+      <span class="stat-card__value">48</span>
+      <div class="stat-card__trend stat-card__trend--up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        +6 vs ayer
+      </div>
+    </div>
+
+  </div>
+
+  <div class="demo-divider"></div>
+
+  <!-- ─── CON PROGRESO ─────────────────────────────────────── -->
+  <p class="section-label">Con barra de progreso — para métricas con meta</p>
+  <div class="demo-row">
+
+    <div class="stat-card" style="min-width:240px;">
+      <span class="stat-card__label">Meta de consultas</span>
+      <span class="stat-card__value">8,412</span>
+      <div class="stat-card__progress-wrap">
+        <div class="stat-card__progress-meta">
+          <span>Progreso</span><span>84%</span>
+        </div>
+        <div class="stat-card__progress-bar">
+          <div class="stat-card__progress-fill" style="width:84%;"></div>
+        </div>
+        <span class="stat-card__sub">Meta: 10,000 consultas</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-card--dark" style="min-width:240px;">
+      <span class="stat-card__label">Cirugías completadas</span>
+      <span class="stat-card__value">1,204</span>
+      <div class="stat-card__progress-wrap">
+        <div class="stat-card__progress-meta">
+          <span>Progreso</span><span>60%</span>
+        </div>
+        <div class="stat-card__progress-bar">
+          <div class="stat-card__progress-fill" style="width:60%;"></div>
+        </div>
+        <span class="stat-card__sub">Meta anual: 2,000</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="demo-divider"></div>
+
+  <!-- ─── GRID DE STATS ─────────────────────────────────────── -->
+  <p class="section-label">Grid de 4 columnas — uso típico en dashboard o sección de impacto</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Años de experiencia</span>
+        <div class="stat-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#002D72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+      </div>
+      <span class="stat-card__value">35+</span>
+      <span class="stat-card__sub">Liderando la salud cardiovascular</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Pacientes al año</span>
+        <div class="stat-card__icon stat-card__icon--success"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+      </div>
+      <span class="stat-card__value">50K+</span>
+      <span class="stat-card__sub">En todas las especialidades</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Especialistas</span>
+        <div class="stat-card__icon stat-card__icon--warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#633806" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      </div>
+      <span class="stat-card__value">214</span>
+      <span class="stat-card__sub">En 28 especialidades médicas</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__header">
+        <span class="stat-card__label">Satisfacción</span>
+        <div class="stat-card__icon stat-card__icon--secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A002A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      </div>
+      <span class="stat-card__value">94%</span>
+      <span class="stat-card__sub">Índice de satisfacción 2026</span>
+    </div>
+  </div>
+
+</body>
+</html>

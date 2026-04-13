@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Footer — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans:             'Inter', sans-serif;
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --text-primary:          #1a1a1a;
+      --text-secondary:        #5F5E5A;
+      --text-tertiary:         #888780;
+      --bg-page:               #F4F3F0;
+      --bg-surface:            #ffffff;
+      --bg-dark:               #1E1D1B;
+      --bg-dark-surface:       #31302E;
+      --border-default:        rgba(0,0,0,0.10);
+      --border-dark:           rgba(255,255,255,0.10);
+      --radius-full:           9999px;
+      --radius-md:             8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-page); }
+    .max-w { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ─── DEMO LABELS ────────────────────────────────────────── */
+    .demo-block { padding: 28px 24px 16px; max-width: 1200px; margin: 0 auto; }
+    .demo-label { font-size: 11px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; }
+    .demo-spacer { height: 32px; background: var(--bg-page); }
+
+    /* ══════════════════════════════════════════════════════════
+       VARIANTE A — Footer claro
+    ══════════════════════════════════════════════════════════ */
+    .footer {
+      background: var(--bg-surface);
+      border-top: 0.5px solid var(--border-default);
+    }
+
+    .footer__main {
+      padding: 56px 0 40px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    /* Columna marca */
+    .footer__brand { display: flex; flex-direction: column; gap: 16px; }
+
+    .footer__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer__logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .footer__logo-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--brand-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .footer__tagline {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .footer__social {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .footer__social-link {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border-default);
+      background: var(--bg-page);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .footer__social-link:hover {
+      background: var(--brand-primary-subtle);
+      color: var(--brand-primary);
+      border-color: var(--brand-primary);
+    }
+
+    /* Columnas de links */
+    .footer__col { display: flex; flex-direction: column; gap: 12px; }
+
+    .footer__col-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .footer__link {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+      line-height: 1;
+    }
+
+    .footer__link:hover { color: var(--brand-primary); }
+
+    /* Newsletter */
+    .footer__newsletter {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__newsletter-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    .footer__newsletter-form {
+      display: flex;
+      gap: 6px;
+    }
+
+    .footer__newsletter-input {
+      flex: 1;
+      height: 36px;
+      padding: 0 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      background: var(--bg-page);
+      border: 0.5px solid var(--border-default);
+      border-radius: var(--radius-full);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      min-width: 0;
+    }
+
+    .footer__newsletter-input::placeholder { color: var(--text-tertiary); }
+    .footer__newsletter-input:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(0,45,114,0.08); }
+
+    .footer__newsletter-btn {
+      height: 36px;
+      padding: 0 16px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      background: var(--brand-primary);
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .footer__newsletter-btn:hover { background: var(--brand-primary-hover); }
+
+    /* Barra inferior */
+    .footer__bottom {
+      padding: 16px 0;
+      border-top: 0.5px solid var(--border-default);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer__copy {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .footer__legal {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer__legal-link {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer__legal-link:hover { color: var(--brand-primary); }
+
+    .footer__legal-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border-default);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       VARIANTE B — Footer oscuro
+    ══════════════════════════════════════════════════════════ */
+    .footer--dark {
+      background: var(--bg-dark);
+      border-top: none;
+    }
+
+    .footer--dark .footer__logo-name { color: #fff; }
+    .footer--dark .footer__logo-mark { background: rgba(255,255,255,0.1); }
+    .footer--dark .footer__tagline { color: rgba(255,255,255,0.55); }
+
+    .footer--dark .footer__social-link {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.55);
+    }
+
+    .footer--dark .footer__social-link:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .footer--dark .footer__col-title { color: #fff; }
+    .footer--dark .footer__link { color: rgba(255,255,255,0.55); }
+    .footer--dark .footer__link:hover { color: #fff; }
+
+    .footer--dark .footer__newsletter-desc { color: rgba(255,255,255,0.4); }
+
+    .footer--dark .footer__newsletter-input {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    .footer--dark .footer__newsletter-input::placeholder { color: rgba(255,255,255,0.3); }
+    .footer--dark .footer__newsletter-input:focus { border-color: rgba(255,255,255,0.4); box-shadow: 0 0 0 3px rgba(255,255,255,0.06); }
+
+    .footer--dark .footer__newsletter-btn { background: var(--brand-secondary); }
+    .footer--dark .footer__newsletter-btn:hover { background: #B70038; }
+
+    .footer--dark .footer__bottom { border-top-color: rgba(255,255,255,0.08); }
+    .footer--dark .footer__copy { color: rgba(255,255,255,0.35); }
+    .footer--dark .footer__legal-link { color: rgba(255,255,255,0.35); }
+    .footer--dark .footer__legal-link:hover { color: #fff; }
+    .footer--dark .footer__legal-sep { background: rgba(255,255,255,0.12); }
+  </style>
+</head>
+<body>
+
+  <!-- ══ VARIANTE A — Footer claro ══ -->
+  <div class="demo-block"><p class="demo-label">Variante A — footer claro</p></div>
+
+  <footer class="footer">
+    <div class="max-w">
+      <div class="footer__main">
+
+        <!-- Marca -->
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">
+            <div class="footer__logo-mark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="footer__logo-name">Marca</span>
+          </a>
+          <p class="footer__tagline">Descripción breve de la organización. Misión o propuesta de valor en dos líneas máximo.</p>
+          <div class="footer__social">
+            <a href="#" class="footer__social-link" aria-label="Facebook">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col Servicios -->
+        <div class="footer__col">
+          <p class="footer__col-title">Servicios</p>
+          <a href="#" class="footer__link">Consulta general</a>
+          <a href="#" class="footer__link">Especialidades</a>
+          <a href="#" class="footer__link">Urgencias</a>
+          <a href="#" class="footer__link">Laboratorio</a>
+          <a href="#" class="footer__link">Telemedicina</a>
+        </div>
+
+        <!-- Col Institución -->
+        <div class="footer__col">
+          <p class="footer__col-title">Institución</p>
+          <a href="#" class="footer__link">Quiénes somos</a>
+          <a href="#" class="footer__link">Nuestro equipo</a>
+          <a href="#" class="footer__link">Noticias</a>
+          <a href="#" class="footer__link">Trabaja con nosotros</a>
+          <a href="#" class="footer__link">Contacto</a>
+        </div>
+
+        <!-- Col Newsletter -->
+        <div class="footer__col">
+          <p class="footer__col-title">Boletín</p>
+          <div class="footer__newsletter">
+            <p class="footer__newsletter-desc">Recibe novedades, artículos y eventos directamente en tu correo.</p>
+            <div class="footer__newsletter-form">
+              <input class="footer__newsletter-input" type="email" placeholder="Tu correo" />
+              <button class="footer__newsletter-btn">Suscribir</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Marca. Todos los derechos reservados.</p>
+        <div class="footer__legal">
+          <a href="#" class="footer__legal-link">Política de privacidad</a>
+          <div class="footer__legal-sep"></div>
+          <a href="#" class="footer__legal-link">Términos de uso</a>
+          <div class="footer__legal-sep"></div>
+          <a href="#" class="footer__legal-link">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="demo-spacer"></div>
+  <div class="demo-block"><p class="demo-label">Variante B — footer oscuro</p></div>
+
+  <!-- ══ VARIANTE B — Footer oscuro ══ -->
+  <footer class="footer footer--dark">
+    <div class="max-w">
+      <div class="footer__main">
+
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">
+            <div class="footer__logo-mark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="footer__logo-name">Marca</span>
+          </a>
+          <p class="footer__tagline">Descripción breve de la organización. Misión o propuesta de valor en dos líneas máximo.</p>
+          <div class="footer__social">
+            <a href="#" class="footer__social-link" aria-label="Facebook">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" class="footer__social-link" aria-label="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__col-title">Servicios</p>
+          <a href="#" class="footer__link">Consulta general</a>
+          <a href="#" class="footer__link">Especialidades</a>
+          <a href="#" class="footer__link">Urgencias</a>
+          <a href="#" class="footer__link">Laboratorio</a>
+          <a href="#" class="footer__link">Telemedicina</a>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__col-title">Institución</p>
+          <a href="#" class="footer__link">Quiénes somos</a>
+          <a href="#" class="footer__link">Nuestro equipo</a>
+          <a href="#" class="footer__link">Noticias</a>
+          <a href="#" class="footer__link">Trabaja con nosotros</a>
+          <a href="#" class="footer__link">Contacto</a>
+        </div>
+
+        <div class="footer__col">
+          <p class="footer__col-title">Boletín</p>
+          <div class="footer__newsletter">
+            <p class="footer__newsletter-desc">Recibe novedades, artículos y eventos directamente en tu correo.</p>
+            <div class="footer__newsletter-form">
+              <input class="footer__newsletter-input" type="email" placeholder="Tu correo" />
+              <button class="footer__newsletter-btn">Suscribir</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Marca. Todos los derechos reservados.</p>
+        <div class="footer__legal">
+          <a href="#" class="footer__legal-link">Política de privacidad</a>
+          <div class="footer__legal-sep"></div>
+          <a href="#" class="footer__legal-link">Términos de uso</a>
+          <div class="footer__legal-sep"></div>
+          <a href="#" class="footer__legal-link">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

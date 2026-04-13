@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form de registro — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans:             'Inter', sans-serif;
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --text-primary:          #1a1a1a;
+      --text-secondary:        #5F5E5A;
+      --text-tertiary:         #888780;
+      --bg-page:               #F4F3F0;
+      --bg-surface:            #ffffff;
+      --border-default:        rgba(0,0,0,0.12);
+      --border-hover:          rgba(0,0,0,0.25);
+      --error:                 #E40046;
+      --success:               #3B6D11;
+      --success-subtle:        #EAF3DE;
+      --radius-lg:             12px;
+      --radius-md:             8px;
+      --radius-full:           9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; }
+
+    .section-label {
+      font-size: 11px; font-weight: 500; color: var(--text-tertiary);
+      letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .demo-row { display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 3rem; }
+    .demo-divider { height: 0.5px; background: var(--border-default); margin: 2.5rem 0; }
+
+    /* ─── CARD ───────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    /* ─── FORM ATOMS ─────────────────────────────────────────── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field__label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+    .field__label span { color: var(--error); margin-left: 2px; }
+
+    .field__input, .field__select {
+      width: 100%; height: 40px; padding: 0 12px;
+      font-family: var(--font-sans); font-size: 14px;
+      color: var(--text-primary); background: var(--bg-surface);
+      border: 1px solid var(--border-default); border-radius: var(--radius-md);
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field__input::placeholder { color: var(--text-tertiary); }
+    .field__input:hover, .field__select:hover { border-color: var(--border-hover); }
+    .field__input:focus, .field__select:focus {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(0,45,114,0.08);
+    }
+    .field__input--error { border-color: var(--error); }
+    .field__input--error:focus { box-shadow: 0 0 0 3px rgba(228,0,70,0.08); }
+    .field__input--icon-r { padding-right: 40px; }
+
+    .field__wrap { position: relative; }
+    .field__icon-r {
+      position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+      color: var(--text-tertiary); cursor: pointer; display: flex;
+      background: none; border: none; padding: 0;
+    }
+    .field__error  { font-size: 12px; color: var(--error); }
+    .field__helper { font-size: 12px; color: var(--text-tertiary); }
+
+    .select-wrap { position: relative; }
+    .field__select { appearance: none; padding-right: 36px; cursor: pointer; }
+    .select-arrow {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: var(--text-tertiary);
+    }
+
+    /* ─── GRID ───────────────────────────────────────────────── */
+    .form-grid { display: grid; gap: 16px; }
+    .form-grid--2 { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 560px) { .form-grid--2 { grid-template-columns: 1fr; } }
+
+    /* ─── PASSWORD STRENGTH ──────────────────────────────────── */
+    .pw-strength { display: flex; flex-direction: column; gap: 6px; }
+    .pw-strength__bars { display: flex; gap: 4px; }
+    .pw-strength__bar {
+      flex: 1; height: 4px; border-radius: 99px;
+      background: var(--border-default);
+      transition: background 0.3s;
+    }
+    .pw-strength__bar--weak   { background: var(--error); }
+    .pw-strength__bar--fair   { background: #EF9F27; }
+    .pw-strength__bar--good   { background: #3B6D11; }
+    .pw-strength__label { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ─── STEPS ──────────────────────────────────────────────── */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .step__circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500;
+      flex-shrink: 0;
+      border: 1.5px solid var(--border-default);
+      color: var(--text-tertiary);
+      background: var(--bg-surface);
+      transition: all 0.2s;
+    }
+
+    .step__circle--active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #fff;
+    }
+
+    .step__circle--done {
+      background: var(--success-subtle);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .step__label { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+    .step__label--active { color: var(--brand-primary); font-weight: 500; }
+    .step__label--done   { color: var(--success); }
+
+    .step__line {
+      flex: 1; height: 1px;
+      background: var(--border-default);
+      margin: 0 8px;
+    }
+
+    .step__line--done { background: var(--success); }
+
+    /* ─── BTN ────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-sans); font-weight: 500;
+      cursor: pointer; border-radius: var(--radius-full);
+      transition: background 0.15s, transform 0.1s;
+      text-decoration: none; white-space: nowrap; border: none;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn--md   { font-size: 14px; padding: 9px 22px; }
+    .btn--full { width: 100%; justify-content: center; }
+    .btn--primary { background: var(--brand-primary); color: #fff; }
+    .btn--primary:hover { background: var(--brand-primary-hover); }
+    .btn--ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-default); }
+    .btn--ghost:hover { background: var(--bg-page); }
+
+    /* ─── CHECKBOX ───────────────────────────────────────────── */
+    .checkbox { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+    .checkbox__input {
+      appearance: none; width: 18px; height: 18px;
+      border: 1.5px solid var(--border-default); border-radius: 4px;
+      background: var(--bg-surface); cursor: pointer; flex-shrink: 0;
+      margin-top: 1px; position: relative;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .checkbox__input:checked { background: var(--brand-primary); border-color: var(--brand-primary); }
+    .checkbox__input:checked::after {
+      content: ''; position: absolute; width: 10px; height: 10px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='2,6 5,9 10,3' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: center;
+    }
+    .checkbox__label { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .checkbox__label a { color: var(--brand-primary); text-decoration: underline; }
+
+    /* ─── FORM HEADER ────────────────────────────────────────── */
+    .form-header { margin-bottom: 24px; }
+    .form-title  { font-size: 20px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+    .form-sub    { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+    .form-link   { color: var(--brand-primary); text-decoration: none; font-weight: 500; }
+    .form-link:hover { text-decoration: underline; }
+
+    /* ─── DIVIDER CON TEXTO ──────────────────────────────────── */
+    .divider-text {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 12px; color: var(--text-tertiary);
+    }
+    .divider-text::before, .divider-text::after {
+      content: ''; flex: 1; height: 0.5px;
+      background: var(--border-default);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── REGISTRO PASO A PASO ──────────────────────────────── -->
+  <p class="section-label">Registro en pasos — stepper con validaciones</p>
+  <div class="demo-row">
+    <div class="card" style="width: 480px;">
+      <div class="form-header">
+        <h2 class="form-title">Crear cuenta</h2>
+        <p class="form-sub">¿Ya tienes cuenta? <a href="#" class="form-link">Inicia sesión</a></p>
+      </div>
+
+      <!-- Stepper -->
+      <div class="steps">
+        <div class="step">
+          <div class="step__circle step__circle--done">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="step__label step__label--done">Datos</span>
+        </div>
+        <div class="step__line step__line--done"></div>
+        <div class="step">
+          <div class="step__circle step__circle--active">2</div>
+          <span class="step__label step__label--active">Seguridad</span>
+        </div>
+        <div class="step__line"></div>
+        <div class="step">
+          <div class="step__circle">3</div>
+          <span class="step__label">Verificación</span>
+        </div>
+      </div>
+
+      <!-- Paso 2: seguridad -->
+      <div class="form-grid" style="gap: 16px;">
+        <div class="field">
+          <label class="field__label">Correo electrónico<span>*</span></label>
+          <input class="field__input" type="email" value="sergio@ejemplo.com" />
+        </div>
+
+        <div class="field">
+          <label class="field__label">Contraseña<span>*</span></label>
+          <div class="field__wrap">
+            <input class="field__input field__input--icon-r" type="password" id="pw" placeholder="Mínimo 8 caracteres" oninput="checkStrength(this.value)" />
+            <button class="field__icon-r" onclick="togglePw()" type="button">
+              <svg id="eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-strength__bars">
+              <div class="pw-strength__bar" id="bar1"></div>
+              <div class="pw-strength__bar" id="bar2"></div>
+              <div class="pw-strength__bar" id="bar3"></div>
+              <div class="pw-strength__bar" id="bar4"></div>
+            </div>
+            <span class="pw-strength__label" id="pwLabel">Ingresa una contraseña</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Confirmar contraseña<span>*</span></label>
+          <div class="field__wrap">
+            <input class="field__input field__input--icon-r" type="password" placeholder="Repite tu contraseña" />
+          </div>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" class="checkbox__input" />
+          <span class="checkbox__label">Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>.</span>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" class="checkbox__input" />
+          <span class="checkbox__label">Quiero recibir novedades, noticias y ofertas por correo electrónico.</span>
+        </label>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn--ghost btn--md" style="flex: 1; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Atrás
+          </button>
+          <button class="btn btn--primary btn--md" style="flex: 2; justify-content: center;">
+            Continuar
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1 (referencia) -->
+    <div class="card" style="width: 400px;">
+      <div class="form-header">
+        <h2 class="form-title">Crear cuenta</h2>
+        <p class="form-sub">Paso 1 de 3 — datos personales</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step__circle step__circle--active">1</div>
+          <span class="step__label step__label--active">Datos</span>
+        </div>
+        <div class="step__line"></div>
+        <div class="step">
+          <div class="step__circle">2</div>
+          <span class="step__label">Seguridad</span>
+        </div>
+        <div class="step__line"></div>
+        <div class="step">
+          <div class="step__circle">3</div>
+          <span class="step__label">Verificación</span>
+        </div>
+      </div>
+
+      <div class="form-grid" style="gap: 16px;">
+        <div class="form-grid form-grid--2">
+          <div class="field">
+            <label class="field__label">Nombre<span>*</span></label>
+            <input class="field__input" type="text" placeholder="Tu nombre" />
+          </div>
+          <div class="field">
+            <label class="field__label">Apellido<span>*</span></label>
+            <input class="field__input" type="text" placeholder="Tu apellido" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Tipo de documento<span>*</span></label>
+          <div class="select-wrap">
+            <select class="field__select">
+              <option value="" disabled selected>Selecciona</option>
+              <option>Cédula de ciudadanía</option>
+              <option>Cédula de extranjería</option>
+              <option>Pasaporte</option>
+            </select>
+            <span class="select-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Número de documento<span>*</span></label>
+          <input class="field__input" type="text" placeholder="Ej. 1234567890" />
+        </div>
+
+        <div class="field">
+          <label class="field__label">Fecha de nacimiento<span>*</span></label>
+          <input class="field__input" type="date" />
+        </div>
+
+        <div class="field">
+          <label class="field__label">Teléfono celular<span>*</span></label>
+          <input class="field__input" type="tel" placeholder="+57 300 000 0000" />
+        </div>
+
+        <button class="btn btn--primary btn--md btn--full">
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="divider-text">o regístrate con</div>
+
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn--ghost btn--md" style="flex: 1; justify-content: center; font-size: 13px;">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </button>
+          <button class="btn btn--ghost btn--md" style="flex: 1; justify-content: center; font-size: 13px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePw() {
+      const input = document.getElementById('pw');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function checkStrength(val) {
+      const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+      const label = document.getElementById('pwLabel');
+      bars.forEach(b => { b.className = 'pw-strength__bar'; });
+
+      if (!val) { label.textContent = 'Ingresa una contraseña'; return; }
+
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const levels = ['', 'weak', 'fair', 'good', 'good'];
+      const labels = ['', 'Débil', 'Regular', 'Buena', 'Muy segura'];
+      for (let i = 0; i < score; i++) bars[i].classList.add('pw-strength__bar--' + levels[score]);
+      label.textContent = labels[score];
+    }
+  </script>
+
+</body>
+</html>

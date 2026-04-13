@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glosario — LaCardio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary:        #002D72;
+      --brand-primary-hover:  #00245C;
+      --brand-primary-active: #001B45;
+      --brand-secondary:      #E40046;
+      --text-primary:         #080808;
+      --text-secondary:       #616161;
+      --text-tertiary:        #83827F;
+      --border-default:       #C5C4C1;
+      --bg-topbar:            #EEF5FF;
+      --jordy-blue:           #AACCFF;
+      --gray-2:               #C9C9C9;
+      --font-h:               'Fira Sans', sans-serif;
+      --font-b:               'Open Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-b); color: var(--text-primary); background: #fff; min-width: 1440px; }
+
+    /* ── TOPBAR ─────────────────────────────── */
+    .topbar {
+      background: var(--bg-topbar);
+      padding: 9px 60px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .topbar__links { display: flex; gap: 30px; align-items: flex-start; }
+    .topbar__link {
+      font-size: 12px;
+      color: var(--brand-primary);
+      text-decoration: none;
+      padding-bottom: 9px;
+      letter-spacing: 0.06px;
+      white-space: nowrap;
+    }
+    .topbar__link--active { font-weight: 600; border-bottom: 2px solid var(--brand-primary); }
+    .topbar__actions { display: flex; gap: 30px; align-items: center; padding-bottom: 9px; }
+    .topbar__action {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* ── NAVBAR ─────────────────────────────── */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 9px 20.6px 0 rgba(196,210,216,0.4);
+      padding: 0 61px;
+      display: flex;
+      align-items: flex-end;
+      gap: 36px;
+      height: 90px;
+    }
+    .navbar__logo { padding-bottom: 18px; flex-shrink: 0; }
+
+    /* LaCardio logo */
+    .logo-lc { display: flex; align-items: center; text-decoration: none; }
+    .logo-lc img { height: 42px; width: auto; display: block; }
+
+    .navbar__nav { display: flex; gap: 36px; align-items: flex-end; flex: 1; }
+    .navbar__item {
+      display: flex; gap: 12px; align-items: center;
+      padding-bottom: 24px; text-decoration: none; cursor: pointer;
+    }
+    .navbar__item--active { border-bottom: 2px solid var(--brand-primary); }
+    .navbar__item-text {
+      font-size: 14px; line-height: 20px; letter-spacing: 0.21px; white-space: nowrap;
+    }
+    .navbar__item--active .navbar__item-text { color: var(--brand-primary); }
+    .navbar__item:not(.navbar__item--active) .navbar__item-text { color: var(--text-primary); }
+    .navbar__chevron { width: 24px; height: 24px; flex-shrink: 0; transform: rotate(-90deg); }
+
+    .navbar__cta { padding-bottom: 18px; flex-shrink: 0; }
+    .btn-agendar {
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; border: 1px solid var(--brand-primary); border-radius: 6px;
+      height: 42px; padding: 11px 16px;
+      font-family: var(--font-b); font-size: 18px; font-weight: 700;
+      color: var(--brand-primary); text-decoration: none; cursor: pointer;
+      letter-spacing: -0.36px; white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-agendar:hover { background: var(--bg-topbar); }
+
+    /* Fundación logo */
+    .navbar__fundacion { padding-bottom: 18px; flex-shrink: 0; }
+    .logo-fc { display: flex; align-items: center; text-decoration: none; }
+    .logo-fc img { height: 42px; width: auto; display: block; }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      background: linear-gradient(180.5deg, #E5EBF6 1.95%, #fff 97.93%);
+      padding: 44px 120px 36px;
+      position: relative;
+    }
+    .breadcrumb {
+      position: absolute; top: 12px; left: 0;
+      padding: 2px 60px;
+      display: flex; align-items: center; gap: 3px;
+      font-size: 12px; letter-spacing: 0.06px;
+    }
+    .breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+    .breadcrumb__sep { color: var(--text-tertiary); }
+    .breadcrumb__current { color: var(--brand-primary); }
+
+    .hero__title-group { text-align: center; display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+    .hero__title { font-family: var(--font-h); font-size: 46px; font-weight: 400; line-height: 56px; }
+    .hero__subtitle { font-size: 18px; font-weight: 400; line-height: 24px; letter-spacing: 0.27px; }
+
+    .hero__controls { display: flex; gap: 36px; align-items: flex-start; }
+
+    /* Search */
+    .search-group { display: flex; flex-direction: column; gap: 12px; width: 583px; flex-shrink: 0; }
+    .search-input-wrap {
+      background: #fff; border: 1px solid var(--border-default); border-radius: 6px;
+      height: 54px; display: flex; align-items: center; gap: 10px; padding: 0 24px;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .search-input-wrap:focus-within { border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(0,45,114,0.08); }
+    .search-input-wrap svg { flex-shrink: 0; color: #474644; }
+    .search-input-wrap input {
+      border: none; outline: none; font-family: var(--font-b);
+      font-size: 18px; color: var(--text-secondary);
+      width: 100%; background: transparent; letter-spacing: 0.27px;
+    }
+    .search-input-wrap input::placeholder { color: #474644; }
+
+    .search-tags { display: flex; flex-direction: column; gap: 6px; font-size: 18px; line-height: 24px; }
+    .search-tags__label { font-weight: 400; color: var(--text-primary); letter-spacing: 0.27px; }
+    .search-tags__links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .search-tag {
+      font-weight: 700; color: var(--brand-primary); text-decoration: none;
+      letter-spacing: -0.36px; cursor: pointer;
+    }
+    .search-tag:hover { text-decoration: underline; }
+
+    /* Letter filter */
+    .letter-filter { display: flex; flex-wrap: wrap; gap: 12px 6px; flex: 1; align-content: flex-start; }
+    .letter-btn {
+      width: 42px; height: 42px; border-radius: 27px;
+      border: 1px solid var(--border-default); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-b); font-size: 18px; font-weight: 700;
+      color: var(--brand-primary); cursor: pointer;
+      letter-spacing: -0.36px; transition: all 0.15s; flex-shrink: 0;
+    }
+    .letter-btn:hover:not(.letter-btn--active) { background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
+    .letter-btn--active { background: var(--brand-primary-active); color: #fff; border-color: var(--brand-primary-active); }
+
+    /* ── GLOSSARY SECTION ───────────────────── */
+    .glossary { padding: 36px 120px 48px; }
+
+    .letter-section { display: none; }
+    .letter-section.is-active { display: block; }
+
+    .letter-section__header {
+      border-bottom: 1px solid var(--brand-secondary); margin-bottom: 18px;
+    }
+    .letter-section__title {
+      font-family: var(--font-h); font-size: 24px; font-weight: 500;
+      line-height: 32px; color: var(--brand-secondary); letter-spacing: -0.24px;
+    }
+
+    .glossary-grid { display: flex; gap: 36px; }
+    .glossary-col { display: flex; flex-direction: column; gap: 12px; flex: 1; padding-right: 12px; }
+    .glossary-item {
+      display: flex; align-items: center; gap: 6px;
+      padding-bottom: 6px; border-bottom: 1px solid var(--border-default);
+      text-decoration: none; cursor: pointer;
+    }
+    .glossary-item__text {
+      font-size: 14px; font-weight: 700; line-height: 20px;
+      color: var(--brand-primary); letter-spacing: -0.14px; flex: 1;
+    }
+    .glossary-item:hover .glossary-item__text { text-decoration: underline; }
+    .glossary-item__icon { width: 24px; height: 24px; flex-shrink: 0; color: var(--brand-primary); display: flex; align-items: center; justify-content: center; }
+
+    /* ── FOOTER TOP ─────────────────────────── */
+    .footer-top {
+      background: linear-gradient(180deg, #e7edf1 0%, #fff 100%);
+      padding: 84px 0;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+    }
+    .ft-col { width: 376px; display: flex; flex-direction: column; gap: 29px; }
+    .ft-col__icon { width: 42px; height: 42px; }
+    .ft-col__texts { display: flex; flex-direction: column; gap: 18px; }
+    .ft-col__heading {
+      font-family: var(--font-h); font-size: 24px; font-weight: 500;
+      color: var(--text-primary); letter-spacing: -0.24px; line-height: 32px;
+    }
+    .ft-col__body { display: flex; flex-direction: column; gap: 18px; font-size: 18px; line-height: 24px; color: var(--text-secondary); letter-spacing: 0.27px; }
+    .ft-col__body strong { font-weight: 700; color: var(--text-secondary); letter-spacing: -0.36px; font-size: 18px; }
+    .ft-col__body a { color: var(--text-secondary); text-decoration: underline; }
+
+    /* ── FOOTER BOTTOM ──────────────────────── */
+    .footer-bottom {
+      background: var(--brand-primary);
+      padding: 54px 0;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+    }
+    .fb-col { width: 273px; display: flex; flex-direction: column; gap: 25px; }
+    .fb-col__title {
+      font-family: var(--font-h); font-size: 14px; font-weight: 400;
+      color: var(--jordy-blue); letter-spacing: 3.64px; text-transform: uppercase; line-height: 14px;
+    }
+    .fb-col__links { display: flex; flex-direction: column; gap: 12px; }
+    .fb-col__link {
+      font-size: 14px; font-weight: 400; color: #fff;
+      text-decoration: none; letter-spacing: 0.21px; line-height: 20px;
+    }
+    .fb-col__link:hover { text-decoration: underline; }
+    .fb-social-icons { display: flex; gap: 23px; align-items: center; }
+    .fb-social-icon { width: 36px; height: 36px; display: block; }
+    .fb-vigilado { width: 220px; height: 44px; display: block; margin-top: 20px; }
+
+    /* ── COPYRIGHT ──────────────────────────── */
+    .footer-copy {
+      background: var(--gray-2); padding: 24px 10px; text-align: center;
+      font-size: 12px; color: var(--text-primary); letter-spacing: 0.06px; line-height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════════════ -->
+<header>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar__links">
+      <a href="#" class="topbar__link topbar__link--active">Transparencia y acceso a la información</a>
+      <a href="#" class="topbar__link">Atención y servicios a la ciudadanía</a>
+      <a href="#" class="topbar__link">Participación ciudadana</a>
+    </div>
+    <div class="topbar__actions">
+      <a href="#" class="topbar__action">
+        Buscar
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="15.65" y2="15.65"/>
+        </svg>
+      </a>
+      <a href="#" class="topbar__action">
+        Contáctanos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <!-- LaCardio Logo -->
+    <div class="navbar__logo">
+      <a href="#" class="logo-lc">
+        <img src="Logo Clinica.svg" alt="LaCardio" />
+      </a>
+    </div>
+
+    <!-- Nav items -->
+    <div class="navbar__nav">
+      <a href="#" class="navbar__item navbar__item--active">
+        <span class="navbar__item-text">Atención<br>al paciente</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Especialidades<br>y servicios</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Para profesionales<br>médicos</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Investigación<br>y educación</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <a href="#" class="navbar__item">
+        <span class="navbar__item-text">Conoce<br>LaCardio</span>
+        <svg class="navbar__chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Agendar cita button -->
+    <div class="navbar__cta">
+      <a href="#" class="btn-agendar">Agendar cita</a>
+    </div>
+
+    <!-- Fundación logo -->
+    <div class="navbar__fundacion">
+      <a href="#" class="logo-fc">
+        <img src="Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <nav class="breadcrumb">
+    <a href="#">Inicio</a>
+    <span class="breadcrumb__sep">/</span>
+    <span class="breadcrumb__current">Glosario</span>
+  </nav>
+
+  <div class="hero__title-group">
+    <h1 class="hero__title">Glosario</h1>
+    <p class="hero__subtitle">Filtra por letra o utiliza la barra de búsqueda.</p>
+  </div>
+
+  <div class="hero__controls">
+    <!-- Search -->
+    <div class="search-group">
+      <div class="search-input-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="15.65" y2="15.65"/>
+        </svg>
+        <input type="text" placeholder="Escribe el término que estás buscando" id="search-input" />
+      </div>
+      <div class="search-tags">
+        <span class="search-tags__label">Búsquedas frecuentes:</span>
+        <div class="search-tags__links">
+          <a class="search-tag" onclick="filterBySearch('Hemodinamia')">Hemodinamia</a>
+          <a class="search-tag" onclick="filterBySearch('Cáncer de páncreas')">Cáncer de páncreas</a>
+          <a class="search-tag" onclick="filterBySearch('Cirrosis')">Cirrosis</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Letter filter -->
+    <div class="letter-filter" id="letter-filter">
+      <button class="letter-btn" data-letter="A" onclick="selectLetter('A')">A</button>
+      <button class="letter-btn" data-letter="B" onclick="selectLetter('B')">B</button>
+      <button class="letter-btn letter-btn--active" data-letter="C" onclick="selectLetter('C')">C</button>
+      <button class="letter-btn" data-letter="D" onclick="selectLetter('D')">D</button>
+      <button class="letter-btn" data-letter="E" onclick="selectLetter('E')">E</button>
+      <button class="letter-btn" data-letter="F" onclick="selectLetter('F')">F</button>
+      <button class="letter-btn" data-letter="G" onclick="selectLetter('G')">G</button>
+      <button class="letter-btn" data-letter="H" onclick="selectLetter('H')">H</button>
+      <button class="letter-btn" data-letter="I" onclick="selectLetter('I')">I</button>
+      <button class="letter-btn" data-letter="J" onclick="selectLetter('J')">J</button>
+      <button class="letter-btn" data-letter="K" onclick="selectLetter('K')">K</button>
+      <button class="letter-btn" data-letter="L" onclick="selectLetter('L')">L</button>
+      <button class="letter-btn" data-letter="M" onclick="selectLetter('M')">M</button>
+      <button class="letter-btn" data-letter="N" onclick="selectLetter('N')">N</button>
+      <button class="letter-btn" data-letter="O" onclick="selectLetter('O')">O</button>
+      <button class="letter-btn" data-letter="P" onclick="selectLetter('P')">P</button>
+      <button class="letter-btn" data-letter="Q" onclick="selectLetter('Q')">Q</button>
+      <button class="letter-btn" data-letter="R" onclick="selectLetter('R')">R</button>
+      <button class="letter-btn" data-letter="S" onclick="selectLetter('S')">S</button>
+      <button class="letter-btn" data-letter="T" onclick="selectLetter('T')">T</button>
+      <button class="letter-btn" data-letter="U" onclick="selectLetter('U')">U</button>
+      <button class="letter-btn" data-letter="V" onclick="selectLetter('V')">V</button>
+      <button class="letter-btn" data-letter="W" onclick="selectLetter('W')">W</button>
+      <button class="letter-btn" data-letter="X" onclick="selectLetter('X')">X</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GLOSSARY ═══════════════════════════════════════════════════════ -->
+<main class="glossary" id="glossary">
+  <!-- Built by JS -->
+</main>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer>
+  <!-- Contact section -->
+  <div class="footer-top">
+    <div class="ft-col">
+      <div class="ft-col__icon">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+          <path d="M21 4C14.37 4 9 9.37 9 16c0 9 12 22 12 22s12-13 12-22C33 9.37 27.63 4 21 4zm0 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" stroke="#002D72" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="ft-col__texts">
+        <p class="ft-col__heading">Visítanos</p>
+        <div class="ft-col__body">
+          <p><strong>Sede principal:</strong><br>LaCardio, Calle 163A # 13B-60</p>
+          <p><strong>Sede ambulatorio:</strong><br>LaCardio 102, Av. Carrera 19 # 102-31</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft-col">
+      <div class="ft-col__icon">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+          <rect x="5" y="10" width="32" height="22" rx="3" stroke="#002D72" stroke-width="1.5"/>
+          <path d="M5 13l16 10 16-10" stroke="#002D72" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="ft-col__texts">
+        <p class="ft-col__heading">Escríbenos</p>
+        <div class="ft-col__body">
+          <p><strong>PQRS:</strong><br><a href="mailto:fciquejas@lacardio.org">fciquejas@lacardio.org</a></p>
+          <p><strong>Solicitud de historia clínica:</strong><br>resultados@lacardio.org</p>
+          <p><strong>Notificaciones judiciales:</strong><br>notificacionesjudiciales@lacardio.org</p>
+          <p><strong>Radicación de factura electrónica:</strong><br>recepcionfacturaelectronica@lacardio.org</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft-col">
+      <div class="ft-col__icon">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+          <path d="M8 8h7l3 7-4 2.5a18 18 0 0 0 7.5 7.5L24 21l7 3v7a2 2 0 0 1-2 2C14 33 8 27 8 10a2 2 0 0 1 0 0z" stroke="#002D72" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="ft-col__texts">
+        <p class="ft-col__heading">Comunícate con nosotros</p>
+        <div class="ft-col__body">
+          <p><strong>Teléfono:</strong><br>+57 601 6672720</p>
+          <p><strong>Línea gratuita nacional:</strong><br>01 8000 128 818</p>
+          <p><strong>WhatsApp:</strong><br>+601 3173727840</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Links section -->
+  <div class="footer-bottom">
+    <div class="fb-col">
+      <p class="fb-col__title">Pacientes</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Resultados e Historia clínica</a>
+        <a href="#" class="fb-col__link">Directorio médico</a>
+        <a href="#" class="fb-col__link">PQRS Pacientes</a>
+        <a href="#" class="fb-col__link">Ubicación de instalaciones</a>
+        <a href="#" class="fb-col__link">Derechos y deberes</a>
+        <a href="#" class="fb-col__link">Pagos en línea</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Funcionarios</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Intranet</a>
+        <a href="#" class="fb-col__link">Correo institucional</a>
+        <a href="#" class="fb-col__link">Sistema de gestión Almera</a>
+        <a href="#" class="fb-col__link">Línea de integridad</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Sobre Nosotros</p>
+      <div class="fb-col__links">
+        <a href="#" class="fb-col__link">Filosofía corporativa</a>
+        <a href="#" class="fb-col__link">Convenios de atención</a>
+        <a href="#" class="fb-col__link">Nuestro modelo</a>
+        <a href="#" class="fb-col__link">Gobierno corporativo</a>
+        <a href="#" class="fb-col__link">Términos y condiciones</a>
+        <a href="#" class="fb-col__link">Fundación Cardio Infantil</a>
+      </div>
+    </div>
+    <div class="fb-col">
+      <p class="fb-col__title">Síguenos</p>
+      <div class="fb-social-icons">
+        <!-- Twitter/X -->
+        <a href="#" aria-label="Twitter">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M20.5 9h3.1l-6.7 7.6L25 27h-5.8l-4.3-5.6L9.7 27H6.6l7.2-8.2L7 9h6l3.9 5.1L20.5 9zm-1 16.2h1.7L11.6 10.8H9.8l9.7 14.4z" fill="white"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" aria-label="Facebook">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M19.5 9.5h-2a4 4 0 0 0-4 4v2H12v3h1.5V27H17v-8.5h2.3l.7-3H17v-2a1 1 0 0 1 1-1h1.5V9.5z" fill="white"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" aria-label="YouTube">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M26.5 13.2a2.5 2.5 0 0 0-1.7-1.7C23.2 11 18 11 18 11s-5.2 0-6.8.5a2.5 2.5 0 0 0-1.7 1.7A26 26 0 0 0 9 18a26 26 0 0 0 .5 4.8 2.5 2.5 0 0 0 1.7 1.7c1.6.5 6.8.5 6.8.5s5.2 0 6.8-.5a2.5 2.5 0 0 0 1.7-1.7A26 26 0 0 0 27 18a26 26 0 0 0-.5-4.8z" stroke="white" stroke-width="1.2"/>
+            <polygon points="15.5,21 21.5,18 15.5,15" fill="white"/>
+          </svg>
+        </a>
+        <!-- Instagram -->
+        <a href="#" aria-label="Instagram">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <rect x="10" y="10" width="16" height="16" rx="5" stroke="white" stroke-width="1.4"/>
+            <circle cx="18" cy="18" r="4" stroke="white" stroke-width="1.4"/>
+            <circle cx="22.5" cy="13.5" r="1" fill="white"/>
+          </svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="#" aria-label="LinkedIn">
+          <svg class="fb-social-icon" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.12)"/>
+            <path d="M11 14h3v12h-3V14zm1.5-4.5a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM16 14h3v1.6c.7-1 1.9-1.8 3.3-1.8 2.7 0 4 1.6 4 4.6V26h-3v-7c0-1.5-.6-2.5-2-2.5-1.3 0-2.3 1-2.3 2.5v7H16V14z" fill="white"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Vigilado Supersalud -->
+      <div style="margin-top: 24px; display: flex; align-items: center; gap: 10px;">
+        <div style="border: 1.5px solid rgba(255,255,255,0.4); border-radius: 4px; padding: 4px 10px;">
+          <span style="font-family: var(--font-b); font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 1px;">VIGILADO</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+          <span style="font-family: var(--font-b); font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 600;">Super</span>
+          <span style="font-family: var(--font-b); font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 600;">salud</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    Copyright © 2023 - Todos los derechos, Fundación Cardioinfantil Instituto de Cardiología, Calle 163A # 13B - 60 Bogotá, Colombia
+  </div>
+</footer>
+
+<!-- ═══ JS ════════════════════════════════════════════════════════════ -->
+<script>
+  // ── Glossary data ──────────────────────────────────────────────────
+  const glossaryData = {
+    A: ["Ablación cardíaca", "Angina de pecho", "Angiografía coronaria", "Angioplastia", "Angiosarcoma", "Arritmia cardíaca", "Artritis reumatoide", "Aterosclerosis"],
+    B: ["Bloqueadores beta", "Bradicardia", "Bypass coronario"],
+    C: [
+      "Cateterismo Cardíaco", "Cáncer de Ano", "Cáncer de Cuello Uterino", "Cáncer de Estómago", "Cáncer de Hipófisis",
+      "Cáncer de Páncreas", "Cáncer de Próstata", "Cáncer de Pulmón", "Cáncer de Riñón", "Cáncer de Vejiga",
+      "Cáncer Colorrectal", "Cáncer de Cerebro", "Cáncer de Esófago", "Cáncer de Hígado", "Cáncer de Intestino Delgado",
+      "Cuidado del Recién Nacido", "Cuidado de la madre en el puerperio", "Cirrosis Hepática", "Colelitiasis", "Colesterol y riesgo cardiovascular"
+    ],
+    D: ["Diabetes mellitus tipo 1", "Diabetes mellitus tipo 2", "Disección aórtica", "Dislipidemia"],
+    E: ["Ecocardiografía", "Edema pulmonar", "Endocarditis infecciosa", "Estenosis aórtica", "Estenosis mitral"],
+    F: ["Fibrilación auricular", "Flutter auricular", "Falla cardíaca"],
+    G: ["Gota", "Guía de práctica clínica cardiovascular"],
+    H: ["Hemodinámica", "Hipertensión arterial", "Hipertensión pulmonar", "Holter de arritmias"],
+    I: ["Infarto agudo de miocardio", "Insuficiencia cardíaca", "Insuficiencia mitral"],
+    J: ["Jeringa de insulina"],
+    K: ["Kaplan-Meier (análisis de supervivencia)"],
+    L: ["Lípidos sanguíneos", "Lupus eritematoso sistémico"],
+    M: ["Marcapasos cardíaco", "Miocardiopatía dilatada", "Miocardiopatía hipertrófica", "Miocarditis"],
+    N: ["Nefrología clínica", "Nódulo sinusal"],
+    O: ["Obesidad mórbida", "Ondas Q patológicas"],
+    P: ["Pericarditis", "Presión arterial sistólica", "Prueba de esfuerzo"],
+    Q: ["QRS complejo eléctrico", "QT prolongado"],
+    R: ["Resonancia magnética cardíaca", "Revascularización coronaria"],
+    S: ["Síncope vasovagal", "Stent coronario"],
+    T: ["Taquicardia supraventricular", "Taquicardia ventricular", "Trasplante cardíaco", "Trombosis venosa profunda"],
+    U: ["Ultrasonido cardíaco", "Uremia cardíaca"],
+    V: ["Válvula aórtica bicúspide", "Ventrículo izquierdo", "Vasculitis"],
+    W: ["Warfarina anticoagulante"],
+    X: ["Xantoma tendinoso"]
+  };
+
+  // ── Split items into columns ───────────────────────────────────────
+  function splitColumns(items, ncols) {
+    const cols = Array.from({ length: ncols }, () => []);
+    items.forEach((item, i) => cols[i % ncols].push(item));
+    return cols;
+  }
+
+  // ── Chevron SVG ───────────────────────────────────────────────────
+  const chevronSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+
+  // ── Render glossary ───────────────────────────────────────────────
+  function renderGlossary(letter) {
+    const container = document.getElementById('glossary');
+    const items = glossaryData[letter];
+    if (!items || items.length === 0) {
+      container.innerHTML = `<div style="color:var(--text-tertiary);font-size:16px;padding:24px 0;">No hay términos para la letra <strong>${letter}</strong>.</div>`;
+      return;
+    }
+
+    const ncols = 4;
+    const cols = splitColumns(items, ncols);
+
+    const colsHTML = cols.map(col => {
+      const rows = col.map(item => {
+        const href = (item === 'Cateterismo Cardíaco') ? 'glosario-interna.html' : '#';
+        return `
+          <a class="glossary-item" href="${href}">
+            <span class="glossary-item__text">${item}</span>
+            <span class="glossary-item__icon">${chevronSVG}</span>
+          </a>`;
+      }).join('');
+      return `<div class="glossary-col">${rows}</div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="letter-section is-active">
+        <div class="letter-section__header">
+          <h2 class="letter-section__title">${letter}</h2>
+        </div>
+        <div class="glossary-grid">${colsHTML}</div>
+      </div>`;
+  }
+
+  // ── Select letter ─────────────────────────────────────────────────
+  let activeLetter = 'C';
+
+  function selectLetter(letter) {
+    if (!glossaryData[letter] || glossaryData[letter].length === 0) return;
+
+    document.querySelectorAll('.letter-btn').forEach(btn => {
+      btn.classList.toggle('letter-btn--active', btn.dataset.letter === letter);
+    });
+    activeLetter = letter;
+    renderGlossary(letter);
+  }
+
+  // ── Search ────────────────────────────────────────────────────────
+  function filterBySearch(term) {
+    document.getElementById('search-input').value = term;
+    // Find first letter that has matching items
+    for (const [letter, items] of Object.entries(glossaryData)) {
+      if (items.some(i => i.toLowerCase().includes(term.toLowerCase()))) {
+        selectLetter(letter);
+        return;
+      }
+    }
+  }
+
+  document.getElementById('search-input').addEventListener('input', function() {
+    const val = this.value.trim().toLowerCase();
+    if (!val) { renderGlossary(activeLetter); return; }
+
+    const allItems = Object.entries(glossaryData).flatMap(([l, items]) =>
+      items.filter(i => i.toLowerCase().includes(val))
+    );
+
+    const container = document.getElementById('glossary');
+    if (allItems.length === 0) {
+      container.innerHTML = `<p style="color:var(--text-tertiary);font-size:16px;">No se encontraron resultados para "<strong>${val}</strong>".</p>`;
+      return;
+    }
+
+    const ncols = 4;
+    const cols = splitColumns(allItems, ncols);
+    const colsHTML = cols.map(col => {
+      const rows = col.map(item => {
+        const href = (item === 'Cateterismo Cardíaco') ? 'glosario-interna.html' : '#';
+        return `<a class="glossary-item" href="${href}"><span class="glossary-item__text">${item}</span><span class="glossary-item__icon">${chevronSVG}</span></a>`;
+      }).join('');
+      return `<div class="glossary-col">${rows}</div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="letter-section is-active">
+        <div class="letter-section__header">
+          <h2 class="letter-section__title" style="color:var(--brand-primary);">Resultados de búsqueda</h2>
+        </div>
+        <div class="glossary-grid">${colsHTML}</div>
+      </div>`;
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────
+  renderGlossary('C');
+</script>
+</body>
+</html>
