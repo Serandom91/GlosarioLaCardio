@@ -630,7 +630,7 @@
     document.getElementById('search-input').value = term;
     // Find first letter that has matching items
     for (const [letter, items] of Object.entries(glossaryData)) {
-      if (items.some(i => i.toLowerCase().includes(term.toLowerCase()))) {
+      if (items.some(i => i.toLowerCase().startsWith(term.toLowerCase()))) {
         selectLetter(letter);
         return;
       }
@@ -642,7 +642,7 @@
     if (!val) { renderGlossary(activeLetter); return; }
 
     const allItems = Object.entries(glossaryData).flatMap(([l, items]) =>
-      items.filter(i => i.toLowerCase().includes(val))
+      items.filter(i => i.toLowerCase().startsWith(val))
     );
 
     const container = document.getElementById('glossary');
