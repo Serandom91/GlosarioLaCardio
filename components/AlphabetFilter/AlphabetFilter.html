@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alphabet Filter — LaCardio Component Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!--
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  ALPHABET FILTER COMPONENT — LaCardio Design System                  │
+  │                                                                      │
+  │  Variants:                                                           │
+  │    1. lc-alphabet--desktop   Flex-wrap row, 42×42px pills           │
+  │    2. lc-alphabet--mobile    5-col grid,  54×54px circles           │
+  │                                                                      │
+  │  States per button:  default · hover · active                        │
+  │                                                                      │
+  │  Used in: Glosario Home (desktop + mobile)                           │
+  │                                                                      │
+  │  Future React props:                                                 │
+  │    interface AlphabetFilterProps {                                   │
+  │      variant: "desktop" | "mobile";                                  │
+  │      activeLetter?: string;      // e.g. "C"                        │
+  │      availableLetters?: string[]; // letters that have content       │
+  │      onSelect: (letter: string) => void;                             │
+  │    }                                                                 │
+  └──────────────────────────────────────────────────────────────────────┘
+  -->
+
+  <style>
+    /* ── DESIGN TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --lc-brand-primary:       #002D72;
+      --lc-brand-primary-dark:  #001B45;
+      --lc-brand-secondary:     #E40046;
+      --lc-text-primary:        #080808;
+      --lc-text-secondary:      #616161;
+      --lc-bg-topbar:           #EEF5FF;   /* Jordy light — hover fill */
+      --lc-jordy-blue:          #AACCFF;
+      --lc-border-default:      #C5C4C1;
+      --lc-font-heading:        'Fira Sans', sans-serif;
+      --lc-font-body:           'Open Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       DESKTOP VARIANT
+       Source: glosario-home.html hero section
+       42×42px pills, flex-wrap row, 8px gap
+    ══════════════════════════════════════════════════════════════════ */
+
+    .lc-alphabet--desktop {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .lc-letter-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--lc-border-default);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--lc-font-body);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--lc-brand-primary);
+      letter-spacing: -0.36px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .lc-letter-btn:hover:not(.lc-letter-btn--active) {
+      background: var(--lc-brand-primary);
+      color: #fff;
+      border-color: var(--lc-brand-primary);
+    }
+
+    .lc-letter-btn--active {
+      background: var(--lc-brand-primary-dark);
+      color: #fff;
+      border-color: var(--lc-brand-primary-dark);
+    }
+
+    /* Letters with no content — visually dimmed, not interactive */
+    .lc-letter-btn--empty {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       MOBILE VARIANT
+       Figma: yadyonABl38RqhuxJearbT / node 6-3100
+       54×54px circles, 5-col flex-wrap, gap 12px col / 18px row
+    ══════════════════════════════════════════════════════════════════ */
+
+    .lc-alphabet--mobile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 12px;
+    }
+
+    .lc-letter-btn--mobile {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--lc-font-body);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--lc-brand-primary);
+      letter-spacing: -0.36px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .lc-letter-btn--mobile:hover:not(.lc-letter-btn--active) {
+      background: var(--lc-bg-topbar); /* #EEF5FF Jordy light */
+      box-shadow: 0 2px 8px rgba(0, 45, 114, 0.12);
+    }
+
+    .lc-letter-btn--mobile.lc-letter-btn--active {
+      border-color: var(--lc-brand-primary);
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(0, 45, 114, 0.15);
+    }
+
+    .lc-letter-btn--mobile.lc-letter-btn--empty {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       DEMO PAGE STYLES
+    ══════════════════════════════════════════════════════════════════ */
+    body {
+      font-family: var(--lc-font-body);
+      background: #f0f2f5;
+      padding-bottom: 80px;
+    }
+
+    .demo-header {
+      background: var(--lc-brand-primary);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .demo-header__title {
+      font-family: var(--lc-font-heading);
+      font-size: 18px; font-weight: 500; color: #fff;
+    }
+    .demo-header__back {
+      font-size: 13px; color: rgba(255,255,255,0.7);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+    }
+    .demo-header__back:hover { color: #fff; }
+
+    .demo-section { padding: 40px 40px 0; }
+    .demo-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: #888; margin-bottom: 6px;
+    }
+    .demo-description {
+      font-size: 13px; color: #555; margin-bottom: 20px; line-height: 1.6;
+    }
+
+    .demo-canvas {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .demo-canvas--mobile { width: 375px; }
+    .demo-canvas__inner { padding: 24px; }
+    .demo-canvas__label {
+      background: #f8f8f8;
+      border-top: 1px solid #eee;
+      padding: 8px 16px;
+      font-size: 11px; color: #888;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .demo-canvas__size { font-family: monospace; font-size: 10px; color: #aaa; }
+
+    .demo-specs {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .demo-spec { display: flex; flex-direction: column; gap: 3px; }
+    .demo-spec__key { font-size: 11px; color: #999; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .demo-spec__val { font-size: 13px; color: #333; font-family: monospace; }
+
+    .demo-states {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 20px 24px;
+      background: #f8f9fb;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .demo-state-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .demo-state-label-sm { font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .demo-props {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-top: 12px;
+      margin-bottom: 40px;
+    }
+    .demo-props__title {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #888; margin-bottom: 12px;
+    }
+    .demo-props pre {
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 12.5px; color: #cdd6f4;
+      line-height: 1.7; white-space: pre-wrap;
+    }
+    .token   { color: #cba6f7; }
+    .string  { color: #a6e3a1; }
+    .type    { color: #89dceb; }
+    .comment { color: #6c7086; }
+
+    /* Selected letter feedback in demo */
+    .demo-feedback {
+      font-size: 13px;
+      color: var(--lc-brand-primary);
+      font-weight: 600;
+      padding: 8px 14px;
+      background: #f0f4ff;
+      border-radius: 6px;
+      display: inline-block;
+      margin-top: 12px;
+      min-height: 36px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Demo shell -->
+<div class="demo-header">
+  <div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">LaCardio / Components</p>
+    <p class="demo-header__title">Alphabet Filter</p>
+  </div>
+  <a href="../../index.html" class="demo-header__back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to library
+  </a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 1 — DESKTOP
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 1 — Desktop</p>
+  <p class="demo-description">
+    Flex-wrap row of pill buttons. Used in the Glosario hero section alongside the search bar.
+    Active letter is highlighted with a dark navy fill. Letters with no content are dimmed.
+  </p>
+</div>
+
+<div style="padding: 0 40px;">
+
+  <!-- States reference -->
+  <div class="demo-states">
+    <div class="demo-state-item">
+      <button class="lc-letter-btn">A</button>
+      <span class="demo-state-label-sm">Default</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn" style="background:var(--lc-brand-primary);color:#fff;border-color:var(--lc-brand-primary);">B</button>
+      <span class="demo-state-label-sm">Hover</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn lc-letter-btn--active">C</button>
+      <span class="demo-state-label-sm">Active</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn lc-letter-btn--empty">Y</button>
+      <span class="demo-state-label-sm">Empty</span>
+    </div>
+  </div>
+
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  ALPHABET FILTER / DESKTOP  — copy from here            ║
+       ╚══════════════════════════════════════════════════════════╝ -->
+  <div class="demo-canvas">
+    <div class="demo-canvas__inner">
+      <div class="lc-alphabet--desktop" id="alpha-desktop" role="group" aria-label="Filtrar por letra">
+        <!-- Letters rendered by JS below -->
+      </div>
+      <div class="demo-feedback" id="feedback-desktop">Letra activa: C</div>
+    </div>
+    <div class="demo-canvas__label">
+      <span>Alphabet Filter / Desktop</span>
+      <span class="demo-canvas__size">42 × 42px · gap 8px</span>
+    </div>
+  </div>
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  END ALPHABET FILTER / DESKTOP                           ║
+       ╚══════════════════════════════════════════════════════════╝ -->
+
+  <div class="demo-specs">
+    <div class="demo-spec"><span class="demo-spec__key">Button size</span><span class="demo-spec__val">42 × 42px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Border radius</span><span class="demo-spec__val">50% (full circle)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Border</span><span class="demo-spec__val">1px solid #C5C4C1</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Gap</span><span class="demo-spec__val">8px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Font</span><span class="demo-spec__val">Open Sans Bold 18px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Letter spacing</span><span class="demo-spec__val">-0.36px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Default bg</span><span class="demo-spec__val">#FFFFFF</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Default text</span><span class="demo-spec__val">#002D72</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Hover bg</span><span class="demo-spec__val">#002D72</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Active bg</span><span class="demo-spec__val">#001B45</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Empty opacity</span><span class="demo-spec__val">0.3, pointer-events none</span></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 2 — MOBILE
+     Figma: yadyonABl38RqhuxJearbT / node 6-3100
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 2 — Mobile</p>
+  <p class="demo-description">
+    5-column grid of larger circles. Active letter gets a <strong>#002D72</strong> border ring.
+    Hover tints the background with <strong>#EEF5FF</strong> (Jordy light).
+    Fits a 375px screen with 24px side padding.<br><br>
+    Figma source: <code>yadyonABl38RqhuxJearbT / node 6-3100</code>
+  </p>
+</div>
+
+<div style="padding: 0 40px;">
+
+  <!-- States reference -->
+  <div class="demo-states" style="max-width:375px;">
+    <div class="demo-state-item">
+      <button class="lc-letter-btn--mobile">A</button>
+      <span class="demo-state-label-sm">Default</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn--mobile" style="background:var(--lc-bg-topbar);">B</button>
+      <span class="demo-state-label-sm">Hover</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn--mobile lc-letter-btn--active">C</button>
+      <span class="demo-state-label-sm">Active</span>
+    </div>
+    <div class="demo-state-item">
+      <button class="lc-letter-btn--mobile lc-letter-btn--empty">Y</button>
+      <span class="demo-state-label-sm">Empty</span>
+    </div>
+  </div>
+
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  ALPHABET FILTER / MOBILE  — copy from here             ║
+       ╚══════════════════════════════════════════════════════════╝ -->
+  <div class="demo-canvas demo-canvas--mobile">
+    <div class="demo-canvas__inner">
+      <div class="lc-alphabet--mobile" id="alpha-mobile" role="group" aria-label="Filtrar por letra">
+        <!-- Letters rendered by JS below -->
+      </div>
+      <div class="demo-feedback" id="feedback-mobile">Letra activa: C</div>
+    </div>
+    <div class="demo-canvas__label">
+      <span>Alphabet Filter / Mobile</span>
+      <span class="demo-canvas__size">54 × 54px · gap 12/18px</span>
+    </div>
+  </div>
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  END ALPHABET FILTER / MOBILE                            ║
+       ╚══════════════════════════════════════════════════════════╝ -->
+
+  <div class="demo-specs" style="max-width:375px;">
+    <div class="demo-spec"><span class="demo-spec__key">Button size</span><span class="demo-spec__val">54 × 54px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Border radius</span><span class="demo-spec__val">50% (full circle)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Column gap</span><span class="demo-spec__val">12px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Row gap</span><span class="demo-spec__val">18px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Font</span><span class="demo-spec__val">Open Sans Bold 18px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Default bg</span><span class="demo-spec__val">#FFFFFF + shadow</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Hover bg</span><span class="demo-spec__val">#EEF5FF (Jordy light)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Active border</span><span class="demo-spec__val">2px solid #002D72</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Columns</span><span class="demo-spec__val">5 (flex-wrap fills naturally)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Side padding</span><span class="demo-spec__val">24px (on page, not component)</span></div>
+  </div>
+
+  <!-- React props -->
+  <div class="demo-props">
+    <p class="demo-props__title">Future React props</p>
+    <pre><span class="token">interface</span> <span class="type">AlphabetFilterProps</span> {
+  <span class="token">variant</span>:          <span class="string">"desktop"</span> | <span class="string">"mobile"</span>;
+  <span class="token">activeLetter</span>?:    <span class="type">string</span>;       <span class="comment">// e.g. "C" — defaults to first available</span>
+  <span class="token">availableLetters</span>: <span class="type">string[]</span>;    <span class="comment">// letters that have glossary content</span>
+  <span class="token">onSelect</span>:         (letter: <span class="type">string</span>) => <span class="type">void</span>;
+}
+
+<span class="comment">// Desktop usage:</span>
+<span class="comment">// &lt;AlphabetFilter variant="desktop" activeLetter="C"</span>
+<span class="comment">//   availableLetters={Object.keys(glossaryData)}</span>
+<span class="comment">//   onSelect={setActiveLetter} /&gt;</span>
+
+<span class="comment">// Mobile usage:</span>
+<span class="comment">// &lt;AlphabetFilter variant="mobile" activeLetter="C"</span>
+<span class="comment">//   availableLetters={Object.keys(glossaryData)}</span>
+<span class="comment">//   onSelect={setActiveLetter} /&gt;</span></pre>
+  </div>
+</div>
+
+
+<script>
+  const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+                   'N','O','P','Q','R','S','T','U','V','W','X'];
+
+  // Letters that have content in the glosario
+  const available = new Set(['A','B','C','D','E','F','G','H','I','J','K',
+                              'L','M','N','O','P','Q','R','S','T','U','V','W','X']);
+
+  // ── Render desktop ───────────────────────────────────────────────
+  let activeDesktop = 'C';
+  const desktopContainer = document.getElementById('alpha-desktop');
+  const feedbackDesktop  = document.getElementById('feedback-desktop');
+
+  function renderDesktop() {
+    desktopContainer.innerHTML = letters.map(l => {
+      const isActive  = l === activeDesktop;
+      const isEmpty   = !available.has(l);
+      const classes   = ['lc-letter-btn',
+        isActive ? 'lc-letter-btn--active' : '',
+        isEmpty  ? 'lc-letter-btn--empty'  : ''
+      ].filter(Boolean).join(' ');
+      return `<button class="${classes}" data-letter="${l}"
+                aria-pressed="${isActive}" aria-label="Letra ${l}">${l}</button>`;
+    }).join('');
+
+    desktopContainer.querySelectorAll('.lc-letter-btn:not(.lc-letter-btn--empty)')
+      .forEach(btn => btn.addEventListener('click', () => {
+        activeDesktop = btn.dataset.letter;
+        feedbackDesktop.textContent = `Letra activa: ${activeDesktop}`;
+        renderDesktop();
+      }));
+  }
+
+  // ── Render mobile ────────────────────────────────────────────────
+  let activeMobile = 'C';
+  const mobileContainer = document.getElementById('alpha-mobile');
+  const feedbackMobile  = document.getElementById('feedback-mobile');
+
+  function renderMobile() {
+    mobileContainer.innerHTML = letters.map(l => {
+      const isActive  = l === activeMobile;
+      const isEmpty   = !available.has(l);
+      const classes   = ['lc-letter-btn--mobile',
+        isActive ? 'lc-letter-btn--active' : '',
+        isEmpty  ? 'lc-letter-btn--empty'  : ''
+      ].filter(Boolean).join(' ');
+      return `<button class="${classes}" data-letter="${l}"
+                aria-pressed="${isActive}" aria-label="Letra ${l}">${l}</button>`;
+    }).join('');
+
+    mobileContainer.querySelectorAll('.lc-letter-btn--mobile:not(.lc-letter-btn--empty)')
+      .forEach(btn => btn.addEventListener('click', () => {
+        activeMobile = btn.dataset.letter;
+        feedbackMobile.textContent = `Letra activa: ${activeMobile}`;
+        renderMobile();
+      }));
+  }
+
+  renderDesktop();
+  renderMobile();
+</script>
+
+</body>
+</html>
