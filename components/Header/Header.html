@@ -7,20 +7,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!--
-  ┌─────────────────────────────────────────────────────────────────┐
-  │  HEADER COMPONENT — LaCardio Design System                      │
-  │                                                                 │
-  │  Variants:  desktop | mobile                                    │
-  │  Props (future React):                                          │
-  │    - variant: "desktop" | "mobile"                              │
-  │    - activeItem: string  (nav item key, desktop only)           │
-  │    - logoClinicaSrc: string                                     │
-  │    - logoFundacionSrc: string                                   │
-  │                                                                 │
-  │  Usage in page:                                                 │
-  │    Desktop → <header class="lc-header lc-header--desktop">      │
-  │    Mobile  → <header class="lc-header lc-header--mobile">       │
-  └─────────────────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  HEADER COMPONENT — LaCardio Design System                          │
+  │                                                                     │
+  │  Sub-components:                                                    │
+  │    1. lc-header--desktop    Topbar + Navbar (≥1024px)              │
+  │    2. lc-header--mobile     Branding bar, logos only (≤768px)      │
+  │    3. lc-mobile-bottom-nav  Floating bottom nav + slide-up drawer  │
+  │                                                                     │
+  │  Future React props:                                                │
+  │    See bottom of file for full TypeScript interface                 │
+  └─────────────────────────────────────────────────────────────────────┘
   -->
 
   <style>
@@ -34,6 +31,7 @@
       --lc-bg-topbar:           #EEF5FF;
       --lc-border-default:      #C5C4C1;
       --lc-shadow-header:       0px 9px 20.6px 0px rgba(196, 210, 216, 0.4);
+      --lc-shadow-bottom-nav:   0px 6px 12px 0px rgba(3, 14, 37, 0.35);
       --lc-font-heading:        'Fira Sans', sans-serif;
       --lc-font-body:           'Open Sans', sans-serif;
     }
@@ -190,6 +188,21 @@
       color: var(--lc-brand-primary);
     }
 
+    /* Full-width filled variant (used inside mobile drawer) */
+    .lc-btn-agendar--filled {
+      background: var(--lc-brand-primary);
+      color: #fff;
+      width: 100%;
+      justify-content: center;
+      height: 48px;
+      font-size: 16px;
+    }
+
+    .lc-btn-agendar--filled:hover {
+      background: var(--lc-brand-primary-hover);
+      color: #fff;
+    }
+
     .lc-navbar__fundacion {
       padding-bottom: 18px;
       flex-shrink: 0;
@@ -202,7 +215,7 @@
     }
 
     /* ══════════════════════════════════════════════════════════════════
-       MOBILE HEADER
+       MOBILE TOP HEADER
        Figma: yadyonABl38RqhuxJearbT / node 2-133
        Height: 70px | Padding: 24px | Shadow: same as desktop
     ══════════════════════════════════════════════════════════════════ */
@@ -229,13 +242,213 @@
       display: block;
     }
 
-    .lc-mobile-menu-btn {
-      display: none; /* shown via JS when hamburger is needed */
+    /* ══════════════════════════════════════════════════════════════════
+       MOBILE BOTTOM NAV BAR
+       Figma: AD9iaXqVd33jsmJaFERDQb / node 6591-2977
+       Floating pill — 327×60px — #002D72 — shadow
+    ══════════════════════════════════════════════════════════════════ */
+
+    .lc-mobile-bottom-nav {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px); /* 24px margin each side */
+      max-width: 327px;
+      height: 60px;
+      background: var(--lc-brand-primary);
+      border-radius: 6px;
+      box-shadow: var(--lc-shadow-bottom-nav);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 54px;
+      z-index: 200;
+    }
+
+    .lc-mobile-bottom-nav__btn {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: none;
       border: none;
       cursor: pointer;
+      color: #fff;
+      padding: 0;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+
+    .lc-mobile-bottom-nav__btn:hover {
+      opacity: 0.75;
+    }
+
+    .lc-mobile-bottom-nav__btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ── OVERLAY ─────────────────────────────────────────────────── */
+
+    .lc-mobile-nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 198;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lc-mobile-nav-overlay--visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── SLIDE-UP NAV DRAWER ─────────────────────────────────────── */
+
+    .lc-mobile-nav-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      z-index: 199;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 16px 24px 96px; /* 96px bottom = 60px nav + 16px gap + 20px breathe */
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .lc-mobile-nav-drawer--open {
+      transform: translateY(0);
+    }
+
+    /* Handle / drag pill at top */
+    .lc-mobile-nav-drawer__handle {
+      width: 40px;
+      height: 4px;
+      background: #D9D9D9;
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    /* Drawer header row */
+    .lc-mobile-nav-drawer__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .lc-mobile-nav-drawer__title {
+      font-family: var(--lc-font-heading);
+      font-size: 20px;
+      font-weight: 500;
       color: var(--lc-brand-primary);
-      padding: 4px;
+    }
+
+    .lc-mobile-nav-drawer__close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f0f2f5;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lc-text-secondary);
+      transition: background 0.15s;
+    }
+
+    .lc-mobile-nav-drawer__close:hover {
+      background: #e2e4e8;
+    }
+
+    /* Nav links inside drawer */
+    .lc-mobile-nav-drawer__nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 28px;
+    }
+
+    .lc-mobile-nav-drawer__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #F0F2F5;
+      text-decoration: none;
+      color: var(--lc-text-primary);
+      font-family: var(--lc-font-body);
+      font-size: 15px;
+      font-weight: 400;
+      transition: color 0.15s;
+    }
+
+    .lc-mobile-nav-drawer__item:last-child {
+      border-bottom: none;
+    }
+
+    .lc-mobile-nav-drawer__item:hover {
+      color: var(--lc-brand-primary);
+    }
+
+    .lc-mobile-nav-drawer__item--active {
+      color: var(--lc-brand-primary);
+      font-weight: 600;
+    }
+
+    .lc-mobile-nav-drawer__item svg {
+      flex-shrink: 0;
+      color: #C5C4C1;
+    }
+
+    .lc-mobile-nav-drawer__item--active svg {
+      color: var(--lc-brand-primary);
+    }
+
+    /* Quick links row (Citas / Tarifas / WhatsApp shortcut labels) */
+    .lc-mobile-nav-drawer__quick {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .lc-mobile-nav-drawer__quick-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      background: #f0f4ff;
+      border: 1px solid #d8e2ff;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--lc-brand-primary);
+      font-family: var(--lc-font-body);
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .lc-mobile-nav-drawer__quick-btn:hover {
+      background: #e0ebff;
+    }
+
+    .lc-mobile-nav-drawer__quick-btn svg {
+      width: 22px;
+      height: 22px;
+      color: var(--lc-brand-primary);
     }
 
     /* ══════════════════════════════════════════════════════════════════
@@ -272,13 +485,6 @@
     }
 
     .demo-header__back:hover { color: #fff; }
-
-    .demo-breadcrumb {
-      background: rgba(0,0,0,0.06);
-      padding: 8px 40px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-    }
 
     .demo-section {
       padding: 40px 40px 0;
@@ -373,12 +579,93 @@
     .token  { color: #cba6f7; }
     .string { color: #a6e3a1; }
     .type   { color: #89dceb; }
+    .comment { color: #6c7086; }
+
+    /* ── DEMO PHONE FRAME ───────────────────────────────────────── */
+
+    .demo-phone {
+      width: 375px;
+      height: 580px;
+      background: #f0f2f5;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Simulated page content inside the phone frame */
+    .demo-phone__page {
+      flex: 1;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .demo-phone__page-title {
+      font-family: var(--lc-font-heading);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--lc-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .demo-phone__page-body {
+      font-size: 13px;
+      color: var(--lc-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Inside the demo phone, overlay + drawer are absolute (not fixed) */
+    .demo-phone .lc-mobile-nav-overlay {
+      position: absolute;
+    }
+
+    .demo-phone .lc-mobile-nav-drawer {
+      position: absolute;
+    }
+
+    .demo-phone .lc-mobile-bottom-nav {
+      position: absolute;
+      bottom: 16px;
+    }
+
+    /* Toggle button for demo */
+    .demo-toggle-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #f0f4ff;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--lc-brand-primary);
+      margin-bottom: 20px;
+    }
+
+    .demo-toggle-hint svg { flex-shrink: 0; }
+
+    /* State row */
+    .demo-states {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      align-items: flex-start;
+    }
+
+    .demo-state-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
 <!-- Demo shell -->
-<div class="demo-header" style="background: var(--lc-brand-primary);">
+<div class="demo-header">
   <div>
     <p style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">LaCardio / Components</p>
     <p class="demo-header__title">Header</p>
@@ -389,9 +676,11 @@
   </a>
 </div>
 
-<!-- ── VARIANT: DESKTOP ─────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 1: DESKTOP HEADER
+══════════════════════════════════════════════════════════════════ -->
 <div class="demo-section">
-  <p class="demo-label">Variant — Desktop</p>
+  <p class="demo-label">Variant 1 — Desktop</p>
   <p class="demo-description">Full header with topbar + navbar. Used on all desktop pages (≥1024px). The active nav item is controlled via the <code>--active</code> modifier.</p>
 </div>
 
@@ -485,30 +774,21 @@
     <div class="demo-spec"><span class="demo-spec__key">Nav font</span><span class="demo-spec__val">Open Sans 14px</span></div>
     <div class="demo-spec"><span class="demo-spec__key">Active indicator</span><span class="demo-spec__val">2px solid #002D72 (bottom)</span></div>
   </div>
-
-  <div class="demo-props">
-    <p class="demo-props__title">Future React props</p>
-    <pre><span class="token">interface</span> <span class="type">HeaderProps</span> {
-  <span class="token">variant</span>:    <span class="string">"desktop"</span> | <span class="string">"mobile"</span>;
-  <span class="token">activeItem</span>?: <span class="string">"atencion"</span> | <span class="string">"especialidades"</span> | <span class="string">"profesionales"</span>
-              | <span class="string">"investigacion"</span> | <span class="string">"conoce"</span>;
-  <span class="token">logoClinicaSrc</span>?:   <span class="type">string</span>;   <span class="token">// default: Logo Clinica.svg</span>
-  <span class="token">logoFundacionSrc</span>?: <span class="type">string</span>;   <span class="token">// default: Logo Fundacion.svg</span>
-}</pre>
-  </div>
 </div>
 
-<!-- ── VARIANT: MOBILE ──────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 2: MOBILE TOP HEADER
+══════════════════════════════════════════════════════════════════ -->
 <div class="demo-section">
-  <p class="demo-label">Variant — Mobile</p>
-  <p class="demo-description">Simplified header for mobile (≤768px). No topbar, no nav items. Just the two logos. Hamburger menu can be layered on top when navigation is needed.</p>
+  <p class="demo-label">Variant 2 — Mobile Top Bar</p>
+  <p class="demo-description">Simplified header for mobile (≤768px). No topbar, no nav items — just the two logos. Navigation is handled by the Bottom Nav Bar below.</p>
 </div>
 
 <div style="padding: 0 40px;">
   <div class="demo-canvas demo-canvas--mobile">
 
     <!-- ╔══════════════════════════════════════════════════════════╗
-         ║  HEADER / MOBILE  — copy from here for new pages        ║
+         ║  HEADER / MOBILE TOP  — copy from here for new pages    ║
          ╚══════════════════════════════════════════════════════════╝ -->
     <header class="lc-header--mobile">
       <a href="/" class="lc-mobile-logo-clinic">
@@ -519,11 +799,11 @@
       </a>
     </header>
     <!-- ╔══════════════════════════════════════════════════════════╗
-         ║  END HEADER / MOBILE                                     ║
+         ║  END HEADER / MOBILE TOP                                 ║
          ╚══════════════════════════════════════════════════════════╝ -->
 
     <div class="demo-canvas__label">
-      <span>Header / Mobile</span>
+      <span>Header / Mobile Top</span>
       <span class="demo-canvas__size">375 × 70px</span>
     </div>
   </div>
@@ -537,6 +817,251 @@
     <div class="demo-spec"><span class="demo-spec__key">Logo Fundacion height</span><span class="demo-spec__val">31px</span></div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 3: MOBILE BOTTOM NAV + DRAWER
+     Figma: AD9iaXqVd33jsmJaFERDQb / node 6591-2977
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 3 — Mobile Bottom Nav</p>
+  <p class="demo-description">
+    Floating pill fixed to the bottom of the screen. Contains 4 actions: <strong>Menu</strong> (opens the nav drawer), <strong>Citas</strong> (book appointment), <strong>Tarifas</strong> (billing), and <strong>WhatsApp</strong>.<br><br>
+    Tapping <strong>Menu</strong> slides up the full navigation drawer over the page content. The bar remains visible below the drawer at all times.
+  </p>
+</div>
+
+<div style="padding: 0 40px;">
+
+  <!-- Two states side by side -->
+  <div class="demo-states">
+
+    <!-- State: Closed -->
+    <div>
+      <p class="demo-state-label">State — Closed</p>
+      <div class="demo-canvas demo-canvas--mobile" style="margin-bottom:12px;">
+        <div class="demo-phone" id="demo-phone-closed">
+
+          <!-- Simulated page -->
+          <header class="lc-header--mobile" style="flex-shrink:0;">
+            <a href="/" class="lc-mobile-logo-clinic">
+              <img src="../../Logo Clinica.svg" alt="LaCardio" />
+            </a>
+            <a href="#" class="lc-mobile-logo-fundacion">
+              <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
+            </a>
+          </header>
+
+          <div class="demo-phone__page">
+            <p class="demo-phone__page-title">Hospital de alta complejidad</p>
+            <p class="demo-phone__page-body">Transformamos vidas con tecnología de punta. Más de 60 especialidades médicas, unidad de cuidados intensivos y urgencias 24/7 en el norte de la ciudad.</p>
+          </div>
+
+          <!-- ╔══════════════════════════════════════════════════════════╗
+               ║  MOBILE BOTTOM NAV  — copy from here for new pages      ║
+               ╚══════════════════════════════════════════════════════════╝ -->
+
+          <!-- Overlay (hidden by default) -->
+          <div class="lc-mobile-nav-overlay" id="nav-overlay-demo"></div>
+
+          <!-- Nav Drawer (hidden by default) -->
+          <div class="lc-mobile-nav-drawer" id="nav-drawer-demo" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+            <div class="lc-mobile-nav-drawer__handle"></div>
+            <div class="lc-mobile-nav-drawer__header">
+              <span class="lc-mobile-nav-drawer__title">Menú</span>
+              <button class="lc-mobile-nav-drawer__close" id="drawer-close-demo" aria-label="Cerrar menú">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+
+            <nav class="lc-mobile-nav-drawer__nav">
+              <a href="#" class="lc-mobile-nav-drawer__item lc-mobile-nav-drawer__item--active">
+                <span>Atención al paciente</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+              <a href="#" class="lc-mobile-nav-drawer__item">
+                <span>Especialidades y servicios</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+              <a href="#" class="lc-mobile-nav-drawer__item">
+                <span>Para profesionales médicos</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+              <a href="#" class="lc-mobile-nav-drawer__item">
+                <span>Investigación y educación</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+              <a href="#" class="lc-mobile-nav-drawer__item">
+                <span>Conoce LaCardio</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+            </nav>
+
+            <a href="#" class="lc-btn-agendar lc-btn-agendar--filled">Agendar cita</a>
+          </div>
+
+          <!-- Bottom Nav Bar -->
+          <nav class="lc-mobile-bottom-nav" id="bottom-nav-demo" aria-label="Navegación rápida">
+            <!-- Menu -->
+            <button class="lc-mobile-bottom-nav__btn" id="nav-menu-btn-demo" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-drawer-demo">
+              <!-- Hamburger icon (shown when drawer is closed) -->
+              <svg id="icon-hamburger-demo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="5.5" width="20" height="2" rx="1" fill="white"/>
+                <rect x="2" y="11" width="20" height="2" rx="1" fill="white"/>
+                <rect x="2" y="16.5" width="20" height="2" rx="1" fill="white"/>
+              </svg>
+              <!-- Close icon (shown when drawer is open) -->
+              <svg id="icon-close-demo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                <line x1="18" y1="6" x2="6" y2="18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="6" y1="6" x2="18" y2="18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <!-- Citas -->
+            <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="Agendar cita">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="4" width="18" height="18" rx="2" stroke="white" stroke-width="1.6"/>
+                <line x1="16" y1="2" x2="16" y2="6" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+                <line x1="8" y1="2" x2="8" y2="6" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+                <line x1="3" y1="10" x2="21" y2="10" stroke="white" stroke-width="1.6"/>
+                <path d="M12 17.5C12 17.5 8.5 15.2 8.5 13.3C8.5 12.1 9.4 11.5 10.2 11.5C10.9 11.5 11.5 11.9 12 12.4C12.5 11.9 13.1 11.5 13.8 11.5C14.6 11.5 15.5 12.1 15.5 13.3C15.5 15.2 12 17.5 12 17.5Z" fill="white"/>
+              </svg>
+            </a>
+
+            <!-- Tarifas / Dollar -->
+            <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="Tarifas">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="12" y1="2" x2="12" y2="22" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+
+            <!-- WhatsApp -->
+            <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </nav>
+
+          <!-- ╔══════════════════════════════════════════════════════════╗
+               ║  END MOBILE BOTTOM NAV                                   ║
+               ╚══════════════════════════════════════════════════════════╝ -->
+
+        </div><!-- /demo-phone -->
+        <div class="demo-canvas__label">
+          <span>Bottom Nav / Closed</span>
+          <span class="demo-canvas__size">375 × 60px bar</span>
+        </div>
+      </div><!-- /demo-canvas -->
+
+      <div class="demo-toggle-hint" style="max-width:375px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Tap the <strong>&nbsp;☰ Menu&nbsp;</strong> icon in the bar above to see the drawer open state.
+      </div>
+    </div>
+
+  </div><!-- /demo-states -->
+
+  <!-- Specs -->
+  <div class="demo-specs">
+    <div class="demo-spec"><span class="demo-spec__key">Bar height</span><span class="demo-spec__val">60px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bar width</span><span class="demo-spec__val">calc(100% − 48px), max 327px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bar background</span><span class="demo-spec__val">#002D72</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Border radius</span><span class="demo-spec__val">6px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Shadow</span><span class="demo-spec__val">0 6px 12px rgba(3,14,37,.35)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bottom offset</span><span class="demo-spec__val">16px from screen edge</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Icon size</span><span class="demo-spec__val">24 × 24px, white</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Icon gap</span><span class="demo-spec__val">54px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Drawer border-radius</span><span class="demo-spec__val">20px 20px 0 0</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Drawer transition</span><span class="demo-spec__val">translateY, 350ms ease</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Overlay bg</span><span class="demo-spec__val">rgba(0,0,0,0.5)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">z-index nav bar</span><span class="demo-spec__val">200</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">z-index drawer</span><span class="demo-spec__val">199</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">z-index overlay</span><span class="demo-spec__val">198</span></div>
+  </div>
+
+  <!-- React props -->
+  <div class="demo-props">
+    <p class="demo-props__title">Future React props — Full Header system</p>
+    <pre><span class="comment">// ── Top bar (desktop) ─────────────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">DesktopHeaderProps</span> {
+  <span class="token">activeItem</span>?: <span class="string">"atencion"</span> | <span class="string">"especialidades"</span> | <span class="string">"profesionales"</span>
+              | <span class="string">"investigacion"</span> | <span class="string">"conoce"</span>;
+  <span class="token">logoClinicaSrc</span>?:   <span class="type">string</span>;
+  <span class="token">logoFundacionSrc</span>?: <span class="type">string</span>;
+}
+
+<span class="comment">// ── Mobile top bar ────────────────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">MobileTopBarProps</span> {
+  <span class="token">logoClinicaSrc</span>?:   <span class="type">string</span>;
+  <span class="token">logoFundacionSrc</span>?: <span class="type">string</span>;
+}
+
+<span class="comment">// ── Mobile bottom nav ─────────────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">MobileBottomNavProps</span> {
+  <span class="token">activeNavItem</span>?: <span class="string">"atencion"</span> | <span class="string">"especialidades"</span> | <span class="string">"profesionales"</span>
+                 | <span class="string">"investigacion"</span> | <span class="string">"conoce"</span>;
+  <span class="token">citasHref</span>?:    <span class="type">string</span>;   <span class="comment">// defaults to "/agendar"</span>
+  <span class="token">tarifasHref</span>?:  <span class="type">string</span>;   <span class="comment">// defaults to "/tarifas"</span>
+  <span class="token">whatsappHref</span>?: <span class="type">string</span>;   <span class="comment">// defaults to "https://wa.me/57..."</span>
+}
+
+<span class="comment">// ── Composed mobile header (top + bottom) ─────────────────────</span>
+<span class="token">interface</span> <span class="type">MobileHeaderProps</span> <span class="token">extends</span> <span class="type">MobileTopBarProps</span>, <span class="type">MobileBottomNavProps</span> {}
+
+<span class="comment">// ── Page-level usage ──────────────────────────────────────────</span>
+<span class="comment">// Desktop: &lt;DesktopHeader activeItem="atencion" /&gt;</span>
+<span class="comment">// Mobile:  &lt;MobileHeader activeNavItem="atencion" /&gt;</span>
+<span class="comment">//   → renders MobileTopBar + MobileBottomNav as a unit</span></pre>
+  </div>
+
+</div><!-- /padding -->
+
+<script>
+  // ── Bottom Nav Drawer Toggle ─────────────────────────────────────
+  // Works inside the demo phone frame (absolute positioning)
+  // In production these elements are fixed to the viewport.
+
+  const menuBtn      = document.getElementById('nav-menu-btn-demo');
+  const overlay      = document.getElementById('nav-overlay-demo');
+  const drawer       = document.getElementById('nav-drawer-demo');
+  const closeBtn     = document.getElementById('drawer-close-demo');
+  const iconHamburger = document.getElementById('icon-hamburger-demo');
+  const iconClose    = document.getElementById('icon-close-demo');
+
+  function openDrawer() {
+    drawer.classList.add('lc-mobile-nav-drawer--open');
+    overlay.classList.add('lc-mobile-nav-overlay--visible');
+    iconHamburger.style.display = 'none';
+    iconClose.style.display = 'block';
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Cerrar menú');
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('lc-mobile-nav-drawer--open');
+    overlay.classList.remove('lc-mobile-nav-overlay--visible');
+    iconHamburger.style.display = 'block';
+    iconClose.style.display = 'none';
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Abrir menú');
+  }
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = drawer.classList.contains('lc-mobile-nav-drawer--open');
+    isOpen ? closeDrawer() : openDrawer();
+  });
+
+  overlay.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
+</script>
 
 </body>
 </html>
