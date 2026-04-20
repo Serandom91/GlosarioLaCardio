@@ -155,7 +155,7 @@
       top: calc(28px + var(--lc-mobile-header-h)); /* banner + header */
       left: 0; right: 0; bottom: 0;
       z-index: 200;
-      background: #fff;
+      background: transparent; /* let each section control its own bg */
       display: flex;
       flex-direction: column;
       max-height: 0;
@@ -168,7 +168,11 @@
       overflow-y: auto;
     }
 
-    .lc-mobile-menu__content { flex: 1; overflow-y: auto; }
+    .lc-mobile-menu__content {
+      flex: 1;
+      overflow-y: auto;
+      background: #fff; /* white only on the nav area */
+    }
 
     .lc-mobile-menu__nav { padding: 0 24px; }
 
@@ -210,9 +214,7 @@
       background: var(--lc-brand-primary);
       display: flex;
       flex-shrink: 0;
-      /* Container padding clears the nav bar (60px height + 16px offset = 76px).
-         The 18px of button bottom padding then adds a visible 18px gap above the ✕. */
-      padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      /* No extra padding — the gap below is handled by __gap */
     }
     .lc-mobile-menu__action-btn {
       flex: 1;
@@ -229,6 +231,13 @@
       font-weight: 600;
       text-align: center;
       border-right: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* 85% black overlay below the nav buttons — page content shows through */
+    .lc-mobile-menu__gap {
+      flex-shrink: 0;
+      height: calc(76px + env(safe-area-inset-bottom, 0px));
+      background: rgba(0, 0, 0, 0.85);
     }
     .lc-mobile-menu__action-btn:last-child { border-right: none; }
     .lc-mobile-menu__action-btn img { width: 24px; height: 24px; display: block; }
@@ -395,6 +404,9 @@
         Contacto
       </a>
     </div>
+
+    <!-- Transparent gap — shows page content behind, clears the ✕ button -->
+    <div class="lc-mobile-menu__gap" aria-hidden="true"></div>
   </div>
 
   <!-- ╔═══════════════════════════════════════════════════╗
