@@ -225,6 +225,9 @@
       background: var(--lc-brand-primary);
       display: flex;
       flex-shrink: 0;
+      /* push content above the collapsed nav bar:
+         60px bar height + 16px bottom offset + 8px breathing room = 84px */
+      padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
     }
 
     .lc-mobile-menu__action-btn {
@@ -234,7 +237,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 18px 8px;
+      padding: 18px 8px 0;
       text-decoration: none;
       color: #fff;
       font-family: var(--lc-font-body);
