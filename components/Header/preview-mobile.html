@@ -210,9 +210,9 @@
       background: var(--lc-brand-primary);
       display: flex;
       flex-shrink: 0;
-      /* push content above the collapsed nav bar:
-         60px bar height + 16px bottom offset + 8px breathing room = 84px */
-      padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+      /* Container padding clears the nav bar (60px height + 16px offset = 76px).
+         The 18px of button bottom padding then adds a visible 18px gap above the ✕. */
+      padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
     }
     .lc-mobile-menu__action-btn {
       flex: 1;
@@ -221,7 +221,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 18px 8px 0;
+      padding: 18px 8px 18px; /* equal top and bottom */
       text-decoration: none;
       color: #fff;
       font-family: var(--lc-font-body);
@@ -281,7 +281,7 @@
     .lc-mobile-bottom-nav--collapsed {
       max-width: 72px;
       width: 72px;
-      border-radius: 36px;
+      border-radius: 6px;
     }
     .lc-mobile-bottom-nav--collapsed .lc-mobile-bottom-nav__icons { display: none; }
     .lc-mobile-bottom-nav--collapsed .lc-mobile-bottom-nav__close { display: flex; }
