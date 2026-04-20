@@ -111,9 +111,8 @@
       width: 54px;
       height: 54px;
       border-radius: 50%;
-      border: 2px solid transparent;
+      border: 1px solid var(--lc-border-default);
       background: #fff;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -124,18 +123,15 @@
       letter-spacing: -0.36px;
       cursor: pointer;
       flex-shrink: 0;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
 
-    .lc-letter-btn--mobile:hover:not(.lc-letter-btn--active) {
-      background: var(--lc-bg-topbar); /* #EEF5FF Jordy light */
-      box-shadow: 0 2px 8px rgba(0, 45, 114, 0.12);
-    }
+    /* No hover rule — hover state not applicable on touch devices */
 
     .lc-letter-btn--mobile.lc-letter-btn--active {
-      border-color: var(--lc-brand-primary);
-      background: #fff;
-      box-shadow: 0 0 0 2px rgba(0, 45, 114, 0.15);
+      background: var(--lc-brand-primary-dark);
+      color: #fff;
+      border-color: var(--lc-brand-primary-dark);
     }
 
     .lc-letter-btn--mobile.lc-letter-btn--empty {
@@ -366,10 +362,6 @@
       <span class="demo-state-label-sm">Default</span>
     </div>
     <div class="demo-state-item">
-      <button class="lc-letter-btn--mobile" style="background:var(--lc-bg-topbar);">B</button>
-      <span class="demo-state-label-sm">Hover</span>
-    </div>
-    <div class="demo-state-item">
       <button class="lc-letter-btn--mobile lc-letter-btn--active">C</button>
       <span class="demo-state-label-sm">Active</span>
     </div>
@@ -404,9 +396,9 @@
     <div class="demo-spec"><span class="demo-spec__key">Column gap</span><span class="demo-spec__val">12px</span></div>
     <div class="demo-spec"><span class="demo-spec__key">Row gap</span><span class="demo-spec__val">18px</span></div>
     <div class="demo-spec"><span class="demo-spec__key">Font</span><span class="demo-spec__val">Open Sans Bold 18px</span></div>
-    <div class="demo-spec"><span class="demo-spec__key">Default bg</span><span class="demo-spec__val">#FFFFFF + shadow</span></div>
-    <div class="demo-spec"><span class="demo-spec__key">Hover bg</span><span class="demo-spec__val">#EEF5FF (Jordy light)</span></div>
-    <div class="demo-spec"><span class="demo-spec__key">Active border</span><span class="demo-spec__val">2px solid #002D72</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Default bg</span><span class="demo-spec__val">#FFFFFF, border #C5C4C1</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Hover</span><span class="demo-spec__val">N/A (touch device)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Active bg</span><span class="demo-spec__val">#001B45, text #FFFFFF</span></div>
     <div class="demo-spec"><span class="demo-spec__key">Columns</span><span class="demo-spec__val">5 (flex-wrap fills naturally)</span></div>
     <div class="demo-spec"><span class="demo-spec__key">Side padding</span><span class="demo-spec__val">24px (on page, not component)</span></div>
   </div>
