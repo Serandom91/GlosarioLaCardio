@@ -1,0 +1,371 @@
+/*
+ * ============================================================
+ *  DESIGN SYSTEM — TOKENS
+ *  Generado desde Figma › "Insumo IA"
+ *  Colecciones: 01 Primitivos · 02 Semánticos · 03 Componentes
+ *
+ *  Estructura de capas:
+ *    Layer 1 — Primitivos   (valores crudos, sin semántica)
+ *    Layer 2 — Semánticos   (aliases con intención de uso)
+ *    Layer 3 — Componentes  (tokens específicos por UI)
+ * ============================================================
+ */
+
+:root {
+
+  /* ══════════════════════════════════════════════════════════
+     LAYER 1 · PRIMITIVOS
+     Paleta base, escala tipográfica, espaciado, radios.
+     No usar directamente en componentes — usar semánticos.
+  ══════════════════════════════════════════════════════════ */
+
+  /* — Color · Gray —————————————————————————————————————————— */
+  --prim-gray-50:  #f4f3f0;
+  --prim-gray-100: #e6e5e2;
+  --prim-gray-200: #c5c4c1;
+  --prim-gray-300: #a4a3a0;
+  --prim-gray-400: #83827f;
+  --prim-gray-500: #62615e;
+  --prim-gray-600: #474644;
+  --prim-gray-700: #31302e;
+  --prim-gray-800: #1e1d1b;
+  --prim-gray-900: #080808;
+
+  /* — Color · Blue (Brand) ——————————————————————————————————— */
+  --prim-blue-50:  #e5ebf6;
+  --prim-blue-100: #c3d0ea;
+  --prim-blue-200: #94a9db;
+  --prim-blue-300: #6582cb;
+  --prim-blue-400: #365bbb;
+  --prim-blue-500: #002d72;
+  --prim-blue-600: #00245c;
+  --prim-blue-700: #001b45;
+  --prim-blue-800: #00122e;
+  --prim-blue-900: #000917;
+
+  /* — Color · Red ———————————————————————————————————————————— */
+  --prim-red-50:  #fee5eb;
+  --prim-red-100: #fdc4d4;
+  --prim-red-200: #fa94ae;
+  --prim-red-300: #f56183;
+  --prim-red-400: #ee335a;
+  --prim-red-500: #e40046;
+  --prim-red-600: #b70038;
+  --prim-red-700: #8a002a;
+  --prim-red-800: #5c001c;
+  --prim-red-900: #2e000e;
+
+  /* — Color · Green ——————————————————————————————————————————— */
+  --prim-green-50:  #eaf3de;
+  --prim-green-100: #c0dd97;
+  --prim-green-200: #97c459;
+  --prim-green-300: #6ea52b;
+  --prim-green-400: #649922;
+  --prim-green-500: #3b6d11;
+  --prim-green-600: #27500a;
+  --prim-green-700: #173404;
+  --prim-green-800: #0c1c02;
+  --prim-green-900: #040c00;
+
+  /* — Color · Amber ——————————————————————————————————————————— */
+  --prim-amber-50:  #faeeda;
+  --prim-amber-100: #fac775;
+  --prim-amber-200: #ef9f27;
+  --prim-amber-300: #cc8011;
+  --prim-amber-400: #ba750b;
+  --prim-amber-500: #854f07;
+  --prim-amber-600: #633806;
+  --prim-amber-700: #412402;
+  --prim-amber-800: #241300;
+  --prim-amber-900: #100800;
+
+  /* — Color · Base ———————————————————————————————————————————— */
+  --prim-white: #ffffff;
+  --prim-black: #000000;
+
+  /* — Typography · Size ——————————————————————————————————————— */
+  --prim-size-xs:   10px;
+  --prim-size-sm:   13px;
+  --prim-size-base: 16px;
+  --prim-size-md:   18px;
+  --prim-size-lg:   20px;
+  --prim-size-xl:   24px;
+  --prim-size-2xl:  32px;
+  --prim-size-3xl:  40px;
+  --prim-size-4xl:  48px;
+
+  /* — Typography · Line Height ————————————————————————————————— */
+  --prim-leading-tight:   1.2;
+  --prim-leading-snug:    1.4;
+  --prim-leading-normal:  1.6;
+  --prim-leading-relaxed: 1.75;
+
+  /* — Typography · Weight ————————————————————————————————————— */
+  --prim-weight-regular: 400;
+  --prim-weight-medium:  500;
+  --prim-weight-bold:    700;
+
+  /* — Typography · Letter Spacing ————————————————————————————— */
+  --prim-tracking-tight:  -0.5px;
+  --prim-tracking-normal:  0px;
+  --prim-tracking-wide:    0.5px;
+  --prim-tracking-wider:   1px;
+
+  /* — Spacing ————————————————————————————————————————————————— */
+  --prim-space-0:  0px;
+  --prim-space-1:  4px;
+  --prim-space-2:  8px;
+  --prim-space-3:  12px;
+  --prim-space-4:  16px;
+  --prim-space-5:  20px;
+  --prim-space-6:  24px;
+  --prim-space-8:  32px;
+  --prim-space-10: 40px;
+  --prim-space-12: 48px;
+  --prim-space-16: 64px;
+  --prim-space-20: 80px;
+  --prim-space-24: 96px;
+
+  /* — Radius ——————————————————————————————————————————————————— */
+  --prim-radius-none: 0px;
+  --prim-radius-sm:   4px;
+  --prim-radius-md:   8px;
+  --prim-radius-lg:   12px;
+  --prim-radius-xl:   16px;
+  --prim-radius-2xl:  24px;
+  --prim-radius-full: 9999px;
+
+
+  /* ══════════════════════════════════════════════════════════
+     LAYER 2 · SEMÁNTICOS
+     Significado de uso — aliases a primitivos.
+     Estos son los tokens que deben sobreescribirse
+     por cliente (tema claro/oscuro, marca diferente).
+  ══════════════════════════════════════════════════════════ */
+
+  /* — Brand ——————————————————————————————————————————————————— */
+  --color-brand-primary:        var(--prim-blue-500);   /* #002d72 */
+  --color-brand-primary-hover:  var(--prim-blue-600);   /* #00245c */
+  --color-brand-primary-active: var(--prim-blue-700);   /* #001b45 */
+  --color-brand-primary-subtle: var(--prim-blue-50);    /* #e5ebf6 */
+  --color-brand-primary-on:     var(--prim-white);
+
+  /* — Background ——————————————————————————————————————————————— */
+  --color-bg-page:     var(--prim-gray-50);   /* #f4f3f0 */
+  --color-bg-surface:  var(--prim-white);
+  --color-bg-raised:   var(--prim-white);
+  --color-bg-overlay:  var(--prim-gray-100);  /* #e6e5e2 */
+  --color-bg-disabled: var(--prim-gray-100);
+
+  /* — Text ————————————————————————————————————————————————————— */
+  --color-text-primary:    var(--prim-gray-900);  /* #080808 */
+  --color-text-secondary:  var(--prim-gray-600);  /* #474644 */
+  --color-text-tertiary:   var(--prim-gray-400);  /* #83827f */
+  --color-text-disabled:   var(--prim-gray-300);  /* #a4a3a0 */
+  --color-text-on-primary: var(--prim-white);
+  --color-text-link:       var(--prim-blue-500);
+  --color-text-link-hover: var(--prim-blue-600);
+
+  /* — Border ——————————————————————————————————————————————————— */
+  --color-border-default:  var(--prim-gray-200);  /* #c5c4c1 */
+  --color-border-strong:   var(--prim-gray-400);  /* #83827f */
+  --color-border-focus:    var(--prim-blue-500);
+  --color-border-disabled: var(--prim-gray-100);
+
+  /* — Feedback · Success ——————————————————————————————————————— */
+  --color-success-bg:     var(--prim-green-50);   /* #eaf3de */
+  --color-success-border: var(--prim-green-300);  /* #6ea52b */
+  --color-success-text:   var(--prim-green-700);  /* #173404 */
+  --color-success-icon:   var(--prim-green-500);  /* #3b6d11 */
+
+  /* — Feedback · Error ————————————————————————————————————————— */
+  --color-error-bg:     var(--prim-red-50);   /* #fee5eb */
+  --color-error-border: var(--prim-red-300);  /* #f56183 */
+  --color-error-text:   var(--prim-red-700);  /* #8a002a */
+  --color-error-icon:   var(--prim-red-500);  /* #e40046 */
+
+  /* — Feedback · Warning ——————————————————————————————————————— */
+  --color-warning-bg:     var(--prim-amber-50);   /* #faeeda */
+  --color-warning-border: var(--prim-amber-300);  /* #cc8011 */
+  --color-warning-text:   var(--prim-amber-700);  /* #412402 */
+  --color-warning-icon:   var(--prim-amber-400);  /* #ba750b */
+
+  /* — Feedback · Info ————————————————————————————————————————— */
+  --color-info-bg:     var(--prim-blue-50);   /* #e5ebf6 */
+  --color-info-border: var(--prim-blue-200);  /* #94a9db */
+  --color-info-text:   var(--prim-blue-600);  /* #00245c */
+  --color-info-icon:   var(--prim-blue-400);  /* #365bbb */
+
+  /* — Typography · Semantic ——————————————————————————————————— */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+
+  --font-size-xs:   var(--prim-size-xs);    /* 10px */
+  --font-size-sm:   var(--prim-size-sm);    /* 13px */
+  --font-size-base: var(--prim-size-base);  /* 16px */
+  --font-size-md:   var(--prim-size-md);    /* 18px */
+  --font-size-lg:   var(--prim-size-lg);    /* 20px */
+  --font-size-xl:   var(--prim-size-xl);    /* 24px */
+  --font-size-2xl:  var(--prim-size-2xl);   /* 32px */
+  --font-size-3xl:  var(--prim-size-3xl);   /* 40px */
+
+  --font-weight-regular: var(--prim-weight-regular); /* 400 */
+  --font-weight-medium:  var(--prim-weight-medium);  /* 500 */
+  --font-weight-bold:    var(--prim-weight-bold);    /* 700 */
+
+  --leading-tight:  var(--prim-leading-tight);   /* 1.2 */
+  --leading-normal: var(--prim-leading-normal);  /* 1.6 */
+
+  /* — Spacing · Semantic ——————————————————————————————————————— */
+  --space-xs:  var(--prim-space-1);   /* 4px  */
+  --space-sm:  var(--prim-space-2);   /* 8px  */
+  --space-md:  var(--prim-space-4);   /* 16px */
+  --space-lg:  var(--prim-space-6);   /* 24px */
+  --space-xl:  var(--prim-space-8);   /* 32px */
+  --space-2xl: var(--prim-space-12);  /* 48px */
+  --space-3xl: var(--prim-space-16);  /* 64px */
+
+  /* — Radius · Semantic ———————————————————————————————————————— */
+  --radius-sm:   var(--prim-radius-sm);    /* 4px   */
+  --radius-md:   var(--prim-radius-md);    /* 8px   */
+  --radius-lg:   var(--prim-radius-lg);    /* 12px  */
+  --radius-xl:   var(--prim-radius-xl);    /* 16px  */
+  --radius-full: var(--prim-radius-full);  /* 9999px */
+
+  /* — Shadow ——————————————————————————————————————————————————— */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+
+  /* ══════════════════════════════════════════════════════════
+     LAYER 3 · COMPONENTES
+     Tokens específicos por componente.
+     Apuntan a semánticos — no a primitivos directamente.
+  ══════════════════════════════════════════════════════════ */
+
+  /* — Button · Primary ————————————————————————————————————————— */
+  --btn-primary-bg:          var(--color-brand-primary);
+  --btn-primary-bg-hover:    var(--color-brand-primary-hover);
+  --btn-primary-bg-active:   var(--color-brand-primary-active);
+  --btn-primary-text:        var(--color-text-on-primary);
+  --btn-primary-border:      var(--color-brand-primary);
+  --btn-primary-radius:      var(--radius-md);
+  --btn-primary-px:          var(--space-md);
+  --btn-primary-py:          var(--space-sm);
+  --btn-primary-font-size:   var(--font-size-sm);
+  --btn-primary-font-weight: var(--font-weight-medium);
+
+  /* — Button · Ghost ——————————————————————————————————————————— */
+  --btn-ghost-bg:          var(--color-bg-surface);
+  --btn-ghost-bg-hover:    var(--color-brand-primary-subtle);
+  --btn-ghost-text:        var(--color-brand-primary);
+  --btn-ghost-border:      var(--color-brand-primary);
+  --btn-ghost-radius:      var(--radius-md);
+  --btn-ghost-px:          var(--space-md);
+  --btn-ghost-py:          var(--space-sm);
+  --btn-ghost-font-size:   var(--font-size-sm);
+  --btn-ghost-font-weight: var(--font-weight-medium);
+
+  /* — Button · Danger ——————————————————————————————————————————— */
+  --btn-danger-bg:        var(--color-error-icon);
+  --btn-danger-bg-hover:  var(--color-error-text);
+  --btn-danger-text:      var(--color-text-on-primary);
+  --btn-danger-border:    var(--color-error-icon);
+  --btn-danger-radius:    var(--radius-md);
+
+  /* — Input ———————————————————————————————————————————————————— */
+  --input-bg:              var(--color-bg-surface);
+  --input-bg-disabled:     var(--color-bg-disabled);
+  --input-border:          var(--color-border-default);
+  --input-border-hover:    var(--color-border-strong);
+  --input-border-focus:    var(--color-border-focus);
+  --input-border-error:    var(--color-error-icon);
+  --input-border-disabled: var(--color-border-disabled);
+  --input-text:            var(--color-text-primary);
+  --input-placeholder:     var(--color-text-tertiary);
+  --input-text-disabled:   var(--color-text-disabled);
+  --input-label:           var(--color-text-secondary);
+  --input-helper:          var(--color-text-tertiary);
+  --input-error-text:      var(--color-error-text);
+  --input-radius:          var(--radius-md);
+  --input-px:              var(--space-sm);
+  --input-py:              var(--space-sm);
+  --input-font-size:       var(--font-size-sm);
+
+  /* — Card ————————————————————————————————————————————————————— */
+  --card-bg:           var(--color-bg-surface);
+  --card-bg-raised:    var(--color-bg-raised);
+  --card-border:       var(--color-border-default);
+  --card-radius:       var(--radius-lg);
+  --card-px:           var(--space-md);
+  --card-py:           var(--space-md);
+  --card-title-color:  var(--color-text-primary);
+  --card-body-color:   var(--color-text-secondary);
+
+  /* — Navbar ——————————————————————————————————————————————————— */
+  --navbar-bg:          var(--color-bg-surface);
+  --navbar-border:      var(--color-border-default);
+  --navbar-text:        var(--color-text-primary);
+  --navbar-text-active: var(--color-brand-primary);
+  --navbar-text-hover:  var(--color-brand-primary-hover);
+  --navbar-height:      var(--space-3xl);  /* 64px */
+
+  /* — Badge ———————————————————————————————————————————————————— */
+  --badge-default-bg:   var(--color-bg-overlay);
+  --badge-default-text: var(--color-text-secondary);
+  --badge-primary-bg:   var(--color-brand-primary-subtle);
+  --badge-primary-text: var(--color-brand-primary);
+  --badge-success-bg:   var(--color-success-bg);
+  --badge-success-text: var(--color-success-text);
+  --badge-error-bg:     var(--color-error-bg);
+  --badge-error-text:   var(--color-error-text);
+  --badge-warning-bg:   var(--color-warning-bg);
+  --badge-warning-text: var(--color-warning-text);
+  --badge-radius:       var(--radius-full);
+  --badge-font-size:    var(--font-size-xs);
+  --badge-font-weight:  var(--font-weight-medium);
+
+  /* — Modal ———————————————————————————————————————————————————— */
+  --modal-bg:           var(--color-bg-surface);
+  --modal-border:       var(--color-border-default);
+  --modal-radius:       var(--radius-xl);
+  --modal-px:           var(--space-lg);
+  --modal-py:           var(--space-lg);
+  --modal-title-size:   var(--font-size-lg);
+  --modal-title-weight: var(--font-weight-medium);
+
+  /* — Toast ———————————————————————————————————————————————————— */
+  --toast-success-bg:     var(--color-success-bg);
+  --toast-success-border: var(--color-success-border);
+  --toast-success-text:   var(--color-success-text);
+  --toast-error-bg:       var(--color-error-bg);
+  --toast-error-border:   var(--color-error-border);
+  --toast-error-text:     var(--color-error-text);
+  --toast-warning-bg:     var(--color-warning-bg);
+  --toast-warning-border: var(--color-warning-border);
+  --toast-warning-text:   var(--color-warning-text);
+
+}
+
+/*
+ * ══════════════════════════════════════════════════════════
+ *  PERSONALIZACIÓN POR CLIENTE
+ *  Para adaptar a una marca nueva, sobreescribir los
+ *  tokens semánticos en una regla :root separada o en
+ *  un archivo cliente.css que importe este archivo.
+ *
+ *  Ejemplo — Cliente con marca verde:
+ *
+ *  :root {
+ *    --color-brand-primary:        #1a7a3c;
+ *    --color-brand-primary-hover:  #155f30;
+ *    --color-brand-primary-active: #0f4424;
+ *    --color-brand-primary-subtle: #e8f5ee;
+ *    --font-sans: 'Lato', sans-serif;
+ *  }
+ *
+ *  Los tokens de componentes heredan automáticamente
+ *  el cambio a través de la cadena de aliases.
+ * ══════════════════════════════════════════════════════════
+ */
