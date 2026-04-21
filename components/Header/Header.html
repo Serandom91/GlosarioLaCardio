@@ -93,21 +93,31 @@
     .lc-navbar__logo { padding-bottom: 18px; flex-shrink: 0; }
     .lc-navbar__logo img { height: 42px; width: auto; display: block; }
     .lc-navbar__nav { display: flex; gap: 36px; align-items: flex-end; flex: 1; }
+    /* ── Desktop nav item — 3 estados ─────────────────────────────── */
     .lc-navbar__item {
-      display: flex; gap: 12px; align-items: center;
+      display: flex; gap: 8px; align-items: center;
       padding-bottom: 24px; text-decoration: none; cursor: pointer;
-      border-bottom: 2px solid transparent; transition: border-color 0.15s;
+      border-bottom: 2px solid transparent;
+      color: var(--lc-text-primary);                 /* REST: negro */
+      transition: border-color 0.15s, color 0.15s;
     }
-    .lc-navbar__item--active { border-bottom-color: var(--lc-brand-primary); }
+    .lc-navbar__item:hover {
+      color: var(--lc-brand-primary);                /* HOVER: azul */
+      border-bottom-color: rgba(0, 45, 114, 0.2);
+    }
+    .lc-navbar__item--active {
+      color: var(--lc-brand-primary);                /* SELECTED: azul */
+      border-bottom-color: var(--lc-brand-primary);
+    }
     .lc-navbar__item-text {
       font-family: var(--lc-font-body); font-size: 14px;
       line-height: 20px; letter-spacing: 0.21px;
-      white-space: nowrap; color: var(--lc-text-primary);
+      white-space: nowrap;
+      color: inherit;                                /* hereda del item */
     }
-    .lc-navbar__item--active .lc-navbar__item-text { color: var(--lc-brand-primary); }
     .lc-navbar__chevron {
-      width: 24px; height: 24px; flex-shrink: 0;
-      transform: rotate(-90deg); color: currentColor;
+      width: 20px; height: 20px; flex-shrink: 0;
+      fill: currentColor;                            /* hereda color del item */
     }
     .lc-navbar__cta { padding-bottom: 18px; flex-shrink: 0; }
     .lc-btn-agendar {
@@ -195,7 +205,8 @@
     .lc-mobile-menu__item:first-child { border-top: 1px solid #F0F2F5; }
     .lc-mobile-menu__item:hover { color: var(--lc-brand-primary); }
     .lc-mobile-menu__item--active { color: var(--lc-brand-primary); font-weight: 600; }
-    .lc-mobile-menu__item svg { flex-shrink: 0; color: #C5C4C1; }
+    .lc-mobile-menu__item svg { flex-shrink: 0; color: #C5C4C1; transition: color 0.15s; }
+    .lc-mobile-menu__item:hover svg  { color: var(--lc-brand-primary); }
     .lc-mobile-menu__item--active svg { color: var(--lc-brand-primary); }
 
     /* ── Secondary links (smaller, below main nav) ─────────────── */
@@ -546,23 +557,23 @@
       <div class="lc-navbar__nav">
         <a href="#" class="lc-navbar__item lc-navbar__item--active">
           <span class="lc-navbar__item-text">Atención<br>al paciente</span>
-          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 12.71L8.45995 9.17C8.27259 8.98375 8.01914 8.8792 7.75495 8.8792C7.49076 8.8792 7.23731 8.98375 7.04995 9.17C6.95622 9.26296 6.88183 9.37356 6.83106 9.49542C6.78029 9.61728 6.75415 9.74798 6.75415 9.88C6.75415 10.012 6.78029 10.1427 6.83106 10.2646C6.88183 10.3864 6.95622 10.497 7.04995 10.59L11.2899 14.83C11.3829 14.9237 11.4935 14.9981 11.6154 15.0489C11.7372 15.0997 11.8679 15.1258 11.9999 15.1258C12.132 15.1258 12.2627 15.0997 12.3845 15.0489C12.5064 14.9981 12.617 14.9237 12.7099 14.83L16.9999 10.59C17.0926 10.4966 17.166 10.3857 17.2157 10.2639C17.2655 10.1421 17.2907 10.0116 17.29 9.88C17.2907 9.74839 17.2655 9.61793 17.2157 9.49609C17.166 9.37425 17.0926 9.26344 16.9999 9.17C16.8126 8.98374 16.5591 8.8792 16.2949 8.8792C16.0308 8.8792 15.7773 8.98375 15.5899 9.17L11.9999 12.71Z" fill="currentColor"/></svg>
         </a>
         <a href="#" class="lc-navbar__item">
           <span class="lc-navbar__item-text">Especialidades<br>y servicios</span>
-          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 12.71L8.45995 9.17C8.27259 8.98375 8.01914 8.8792 7.75495 8.8792C7.49076 8.8792 7.23731 8.98375 7.04995 9.17C6.95622 9.26296 6.88183 9.37356 6.83106 9.49542C6.78029 9.61728 6.75415 9.74798 6.75415 9.88C6.75415 10.012 6.78029 10.1427 6.83106 10.2646C6.88183 10.3864 6.95622 10.497 7.04995 10.59L11.2899 14.83C11.3829 14.9237 11.4935 14.9981 11.6154 15.0489C11.7372 15.0997 11.8679 15.1258 11.9999 15.1258C12.132 15.1258 12.2627 15.0997 12.3845 15.0489C12.5064 14.9981 12.617 14.9237 12.7099 14.83L16.9999 10.59C17.0926 10.4966 17.166 10.3857 17.2157 10.2639C17.2655 10.1421 17.2907 10.0116 17.29 9.88C17.2907 9.74839 17.2655 9.61793 17.2157 9.49609C17.166 9.37425 17.0926 9.26344 16.9999 9.17C16.8126 8.98374 16.5591 8.8792 16.2949 8.8792C16.0308 8.8792 15.7773 8.98375 15.5899 9.17L11.9999 12.71Z" fill="currentColor"/></svg>
         </a>
         <a href="#" class="lc-navbar__item">
           <span class="lc-navbar__item-text">Para profesionales<br>médicos</span>
-          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 12.71L8.45995 9.17C8.27259 8.98375 8.01914 8.8792 7.75495 8.8792C7.49076 8.8792 7.23731 8.98375 7.04995 9.17C6.95622 9.26296 6.88183 9.37356 6.83106 9.49542C6.78029 9.61728 6.75415 9.74798 6.75415 9.88C6.75415 10.012 6.78029 10.1427 6.83106 10.2646C6.88183 10.3864 6.95622 10.497 7.04995 10.59L11.2899 14.83C11.3829 14.9237 11.4935 14.9981 11.6154 15.0489C11.7372 15.0997 11.8679 15.1258 11.9999 15.1258C12.132 15.1258 12.2627 15.0997 12.3845 15.0489C12.5064 14.9981 12.617 14.9237 12.7099 14.83L16.9999 10.59C17.0926 10.4966 17.166 10.3857 17.2157 10.2639C17.2655 10.1421 17.2907 10.0116 17.29 9.88C17.2907 9.74839 17.2655 9.61793 17.2157 9.49609C17.166 9.37425 17.0926 9.26344 16.9999 9.17C16.8126 8.98374 16.5591 8.8792 16.2949 8.8792C16.0308 8.8792 15.7773 8.98375 15.5899 9.17L11.9999 12.71Z" fill="currentColor"/></svg>
         </a>
         <a href="#" class="lc-navbar__item">
           <span class="lc-navbar__item-text">Investigación<br>y educación</span>
-          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 12.71L8.45995 9.17C8.27259 8.98375 8.01914 8.8792 7.75495 8.8792C7.49076 8.8792 7.23731 8.98375 7.04995 9.17C6.95622 9.26296 6.88183 9.37356 6.83106 9.49542C6.78029 9.61728 6.75415 9.74798 6.75415 9.88C6.75415 10.012 6.78029 10.1427 6.83106 10.2646C6.88183 10.3864 6.95622 10.497 7.04995 10.59L11.2899 14.83C11.3829 14.9237 11.4935 14.9981 11.6154 15.0489C11.7372 15.0997 11.8679 15.1258 11.9999 15.1258C12.132 15.1258 12.2627 15.0997 12.3845 15.0489C12.5064 14.9981 12.617 14.9237 12.7099 14.83L16.9999 10.59C17.0926 10.4966 17.166 10.3857 17.2157 10.2639C17.2655 10.1421 17.2907 10.0116 17.29 9.88C17.2907 9.74839 17.2655 9.61793 17.2157 9.49609C17.166 9.37425 17.0926 9.26344 16.9999 9.17C16.8126 8.98374 16.5591 8.8792 16.2949 8.8792C16.0308 8.8792 15.7773 8.98375 15.5899 9.17L11.9999 12.71Z" fill="currentColor"/></svg>
         </a>
         <a href="#" class="lc-navbar__item">
           <span class="lc-navbar__item-text">Conoce<br>LaCardio</span>
-          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg class="lc-navbar__chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 12.71L8.45995 9.17C8.27259 8.98375 8.01914 8.8792 7.75495 8.8792C7.49076 8.8792 7.23731 8.98375 7.04995 9.17C6.95622 9.26296 6.88183 9.37356 6.83106 9.49542C6.78029 9.61728 6.75415 9.74798 6.75415 9.88C6.75415 10.012 6.78029 10.1427 6.83106 10.2646C6.88183 10.3864 6.95622 10.497 7.04995 10.59L11.2899 14.83C11.3829 14.9237 11.4935 14.9981 11.6154 15.0489C11.7372 15.0997 11.8679 15.1258 11.9999 15.1258C12.132 15.1258 12.2627 15.0997 12.3845 15.0489C12.5064 14.9981 12.617 14.9237 12.7099 14.83L16.9999 10.59C17.0926 10.4966 17.166 10.3857 17.2157 10.2639C17.2655 10.1421 17.2907 10.0116 17.29 9.88C17.2907 9.74839 17.2655 9.61793 17.2157 9.49609C17.166 9.37425 17.0926 9.26344 16.9999 9.17C16.8126 8.98374 16.5591 8.8792 16.2949 8.8792C16.0308 8.8792 15.7773 8.98375 15.5899 9.17L11.9999 12.71Z" fill="currentColor"/></svg>
         </a>
       </div>
       <div class="lc-navbar__cta"><a href="#" class="lc-btn-agendar">Agendar cita</a></div>
