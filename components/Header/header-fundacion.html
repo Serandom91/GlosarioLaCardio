@@ -4,772 +4,721 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Header — Fundación Cardioinfantil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Open Sans (fuente del proyecto) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!--
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  HEADER COMPONENT — Fundación Cardioinfantil                        │
+  │  Based on: Header.html (LaCardio Clínica)                           │
+  │                                                                     │
+  │  Differences from Clínica variant:                                  │
+  │    • Bottom nav bar + action strip → RED (#E40046)                  │
+  │    • Logo Fundación = PRIMARY (left, larger)                        │
+  │    • Logo LaCardio  = SECONDARY (right, smaller)                    │
+  │    • Nav items → Fundación sections                                 │
+  │    • Mobile CTA → "Dona ahora"                                      │
+  │                                                                     │
+  │  Mobile behaviour (identical to Clínica):                           │
+  │    Closed → bar shows 4 icons (Menu, Citas, Dona, WhatsApp)        │
+  │    Open   → menu slides DOWN from below header; bar → ✕            │
+  │                                                                     │
+  │  Icon assets: ../../Iconos/{Menu,Citas,dollar,whatsapp-outline}.svg │
+  └─────────────────────────────────────────────────────────────────────┘
+  -->
 
   <style>
-    /* ─── Tokens ────────────────────────────────────────────── */
+    /* ── DESIGN TOKENS ─────────────────────────────────────────────── */
     :root {
-      --font-base:       'Open Sans', sans-serif;
-      --brand-primary:   #002D72;   /* Royal Blue */
-      --brand-secondary: #E40046;   /* Rojo LaCardio */
-      --topbar-bg:       #E5EBF6;   /* Blue/50 */
-      --gray-500:        #62615E;
-      --black:           #000000;
-      --white:           #FFFFFF;
-      --shadow-header:   0 9px 20.6px 0 rgba(196, 210, 216, 0.40);
-      --shadow-mob-bar:  0 6px 12px 0 rgba(3, 14, 37, 0.35);
+      --lc-brand-primary:       #002D72;
+      --lc-brand-primary-hover: #00245C;
+      --lc-brand-secondary:     #E40046;
+      --lc-brand-secondary-hover: #B70038;
+      --lc-text-primary:        #080808;
+      --lc-text-secondary:      #616161;
+      --lc-bg-topbar:           #E5EBF6;
+      --lc-border-default:      #C5C4C1;
+      --lc-shadow-header:       0px 9px 20.6px 0px rgba(196, 210, 216, 0.4);
+      --lc-shadow-bottom-nav:   0px 6px 12px 0px rgba(3, 14, 37, 0.35);
+      --lc-font-heading:        'Fira Sans', sans-serif;
+      --lc-font-body:           'Open Sans', sans-serif;
+
+      /* Mobile header height — used to offset the slide-down menu */
+      --lc-mobile-header-h: 70px;
+
+      /* Fundación variant: mobile nav bar + action strip use secondary red */
+      --lc-fn-bar: var(--lc-brand-secondary);
+      --lc-fn-bar-hover: var(--lc-brand-secondary-hover);
     }
 
+    /* ── RESET ─────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: var(--font-base);
-      background: #f4f3f0;
-      min-height: 100vh;
-    }
+    /* ══════════════════════════════════════════════════════════════════
+       DESKTOP HEADER
+    ══════════════════════════════════════════════════════════════════ */
 
-    /* ─── Demo scaffolding ──────────────────────────────────── */
-    .demo-block {
-      padding: 24px 32px 12px;
-    }
-    .demo-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #888;
-    }
-    .demo-spacer { height: 40px; }
-    .demo-note {
-      font-size: 12px;
-      color: #888;
-      padding: 8px 32px 0;
-      font-family: var(--font-base);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       DESKTOP HEADER — FUNDACIÓN CARDIOINFANTIL
-    ═══════════════════════════════════════════════════════════ */
-
-    /* ── Topbar ────────────────────────────────────────────── */
     .lc-topbar {
-      width: 100%;
-      background: var(--topbar-bg);
+      background: var(--lc-bg-topbar);
+      padding: 0 60px;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      padding: 9px 60px 0;
     }
-
-    .lc-topbar__links {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
+    .lc-topbar__links { display: flex; gap: 30px; align-items: flex-start; }
     .lc-topbar__link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 9px;
+      font-family: var(--lc-font-body);
       font-size: 12px;
-      line-height: 18px;
-      letter-spacing: 0.06px;
-      color: var(--brand-primary);
+      color: var(--lc-brand-primary);
       text-decoration: none;
+      padding: 9px 0;
+      letter-spacing: 0.06px;
       white-space: nowrap;
-      transition: opacity 0.15s;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s;
     }
-    .lc-topbar__link:hover { opacity: 0.75; }
-    .lc-topbar__link--active {
-      font-weight: 600;
-      border-bottom: 2px solid var(--brand-primary);
-    }
-    /* Active link is wider – matches the 234px width in Figma */
-    .lc-topbar__link--active span {
-      max-width: 234px;
-      white-space: normal;
-      line-height: 18px;
-    }
-
-    .lc-topbar__actions {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
+    .lc-topbar__link--active { font-weight: 600; border-bottom-color: var(--lc-brand-primary); }
+    .lc-topbar__actions { display: flex; gap: 30px; align-items: center; padding: 9px 0; }
     .lc-topbar__action {
+      font-family: var(--lc-font-body);
+      font-size: 12px;
+      color: var(--lc-text-secondary);
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 6px;
-      padding-bottom: 9px;
-      font-family: var(--font-base);
-      font-size: 12px;
-      line-height: 18px;
-      letter-spacing: 0.06px;
-      color: var(--gray-500);
-      background: none;
-      border: none;
       cursor: pointer;
-      white-space: nowrap;
-      text-decoration: none;
-      transition: color 0.15s;
     }
-    .lc-topbar__action:hover { color: var(--brand-primary); }
 
-    /* ── Menu bar ──────────────────────────────────────────── */
-    .lc-menu {
-      width: 100%;
-      height: 90px;
-      background: var(--white);
-      box-shadow: var(--shadow-header);
-      display: flex;
-      align-items: flex-end;     /* items sit at bottom of 90px bar */
-      justify-content: space-between;
+    .lc-navbar {
+      background: #fff;
+      box-shadow: var(--lc-shadow-header);
       padding: 0 61px;
+      display: flex;
+      align-items: flex-end;
+      gap: 36px;
+      height: 90px;
     }
 
-    /* Logo Fundación – izquierda */
-    .lc-menu__logo-fundacion {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding-bottom: 18px;
-      flex-shrink: 0;
-    }
-    .lc-menu__logo-fundacion a {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .lc-menu__logo-fundacion img { height: 44px; width: auto; display: block; }
+    /* Fundación: primary logo (left) is bigger */
+    .lc-navbar__logo { padding-bottom: 18px; flex-shrink: 0; }
+    .lc-navbar__logo img { height: 44px; width: auto; display: block; }
 
-    /* Nav items */
-    .lc-menu__nav {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      list-style: none;
+    .lc-navbar__nav { display: flex; gap: 36px; align-items: flex-end; flex: 1; }
+    .lc-navbar__item {
+      display: flex; gap: 12px; align-items: center;
+      padding-bottom: 24px; text-decoration: none; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: border-color 0.15s;
     }
-    .lc-menu__nav-item {
-      display: flex;
-      align-items: center;
-      padding-bottom: 24px;   /* aligns text baseline to menu bottom */
+    .lc-navbar__item--active { border-bottom-color: var(--lc-brand-primary); }
+    .lc-navbar__item-text {
+      font-family: var(--lc-font-body); font-size: 14px;
+      line-height: 20px; letter-spacing: 0.21px;
+      white-space: nowrap; color: var(--lc-text-primary);
     }
-    .lc-menu__nav-link {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
-      letter-spacing: 0.21px;
-      color: var(--black);
-      text-decoration: none;
-      white-space: nowrap;
-      position: relative;
-      transition: color 0.15s;
+    .lc-navbar__item--active .lc-navbar__item-text { color: var(--lc-brand-primary); }
+    .lc-navbar__cta { padding-bottom: 18px; flex-shrink: 0; }
+    .lc-btn-dona {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: #fff; border: 1px solid var(--lc-brand-secondary);
+      border-radius: 6px; height: 42px; padding: 0 16px;
+      font-family: var(--lc-font-body); font-size: 16px; font-weight: 700;
+      color: var(--lc-brand-secondary); text-decoration: none; cursor: pointer;
+      letter-spacing: -0.28px; white-space: nowrap; transition: background 0.15s;
     }
-    .lc-menu__nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0; right: 0;
-      height: 2px;
-      background: var(--brand-primary);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.2s;
-    }
-    .lc-menu__nav-link:hover { color: var(--brand-primary); }
-    .lc-menu__nav-link:hover::after { transform: scaleX(1); }
-    .lc-menu__nav-link--active {
-      color: var(--brand-primary);
-      font-weight: 600;
-    }
-    .lc-menu__nav-link--active::after { transform: scaleX(1); }
+    .lc-btn-dona:hover { background: #fef0f3; }
 
-    /* CTA Buttons */
-    .lc-menu__ctas {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-    .lc-cta-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding-bottom: 18px;
-    }
-    .lc-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 42px;
-      padding: 11px 16px;
-      font-family: var(--font-base);
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 24px;
-      letter-spacing: -0.28px;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.15s, color 0.15s;
-    }
-    .lc-btn--outline {
-      background: var(--white);
-      color: var(--brand-primary);
-      border: 1px solid var(--brand-primary);
-    }
-    .lc-btn--outline:hover {
-      background: var(--brand-primary);
-      color: var(--white);
-    }
-    .lc-btn--filled {
-      background: var(--brand-primary);
-      color: var(--white);
-      border: 1px solid var(--brand-primary);
-    }
-    .lc-btn--filled:hover { background: #00245C; border-color: #00245C; }
+    /* LaCardio: secondary logo (right) is smaller */
+    .lc-navbar__clinica { padding-bottom: 18px; flex-shrink: 0; }
+    .lc-navbar__clinica img { height: 36px; width: auto; display: block; }
 
-    /* Logo LaCardio – derecha */
-    .lc-menu__logo-clinica {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding-bottom: 18px;
-      flex-shrink: 0;
-    }
-    .lc-menu__logo-clinica a {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .lc-menu__logo-clinica img { height: 36px; width: auto; display: block; }
+    /* ══════════════════════════════════════════════════════════════════
+       MOBILE TOP BAR
+    ══════════════════════════════════════════════════════════════════ */
 
-    /* ── Desktop header wrapper ────────────────────────────── */
-    .lc-header-desktop {
-      width: 100%;
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       MOBILE HEADER — FUNDACIÓN CARDIOINFANTIL
-    ══════════════════════════════════════════════════════════ */
-
-    .lc-mobile-wrapper {
-      width: 375px;
-      min-height: 100vh;
-      background: #1a1a1a;  /* dark bg para simular pantalla */
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      margin: 0 auto;
-    }
-
-    /* ── Mobile header bar ─────────────────────────────────── */
-    .lc-mobile-header {
-      width: 100%;
-      height: 70px;
-      background: var(--white);
-      box-shadow: var(--shadow-header);
+    .lc-header--mobile {
+      background: #fff;
+      box-shadow: var(--lc-shadow-header);
+      height: var(--lc-mobile-header-h);
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
-      flex-shrink: 0;
       position: relative;
-      z-index: 10;
+      z-index: 201;
     }
+    /* Fundación primary = bigger in mobile too */
+    .lc-header--mobile .lc-mobile-logo-fundacion img { height: 42px; width: auto; display: block; }
+    .lc-header--mobile .lc-mobile-logo-clinica img   { height: 31px; width: auto; display: block; }
 
-    /* Logos en mobile */
-    .lc-mob-logo-fund {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .lc-mob-logo-fund img { height: 31px; width: auto; display: block; }
+    /* ══════════════════════════════════════════════════════════════════
+       MOBILE SLIDE-DOWN MENU  (identical behaviour to Clínica)
+    ══════════════════════════════════════════════════════════════════ */
 
-    .lc-mob-logo-clin {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .lc-mob-logo-clin img { height: 24px; width: auto; display: block; }
-
-    /* ── Mobile nav drawer ─────────────────────────────────── */
-    .lc-drawer {
+    .lc-mobile-menu {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      top: var(--lc-mobile-header-h);
+      left: 0; right: 0; bottom: 0;
       z-index: 200;
-      visibility: hidden;
-    }
-    .lc-drawer.is-open { visibility: visible; }
-
-    .lc-drawer__overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .lc-drawer.is-open .lc-drawer__overlay { opacity: 1; }
-
-    .lc-drawer__panel {
-      position: absolute;
-      top: 0; left: 0;
-      width: 85%;
-      max-width: 320px;
-      height: 100%;
-      background: var(--white);
-      transform: translateX(-100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
       display: flex;
       flex-direction: column;
+    }
+    .lc-mobile-menu--open {
+      max-height: calc(100vh - var(--lc-mobile-header-h));
       overflow-y: auto;
     }
-    .lc-drawer.is-open .lc-drawer__panel { transform: translateX(0); }
 
-    .lc-drawer__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    }
-    .lc-drawer__close {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: var(--gray-500);
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .lc-drawer__close:hover { background: #f4f3f0; color: var(--brand-primary); }
-
-    .lc-drawer__nav {
-      display: flex;
-      flex-direction: column;
-      padding: 16px 0;
+    .lc-mobile-menu__content {
       flex: 1;
+      overflow-y: auto;
+      background: #fff;
     }
-    .lc-drawer__nav-link {
+
+    /* ── Main nav items ────────────────────────────────────────── */
+    .lc-mobile-menu__nav { padding: 0 24px; }
+    .lc-mobile-menu__item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 24px;
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--black);
+      padding: 20px 0;
+      border-bottom: 1px solid #F0F2F5;
       text-decoration: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      transition: background 0.15s, color 0.15s;
+      color: var(--lc-text-primary);
+      font-family: var(--lc-font-body);
+      font-size: 16px;
+      font-weight: 400;
+      transition: color 0.15s;
     }
-    .lc-drawer__nav-link:hover {
-      background: var(--topbar-bg);
-      color: var(--brand-primary);
-    }
-    .lc-drawer__nav-link:last-child { border-bottom: none; }
-    .lc-drawer__nav-link svg { color: var(--gray-500); flex-shrink: 0; }
+    .lc-mobile-menu__item:first-child { border-top: 1px solid #F0F2F5; }
+    .lc-mobile-menu__item:hover { color: var(--lc-brand-secondary); }
+    .lc-mobile-menu__item--active { color: var(--lc-brand-secondary); font-weight: 600; }
+    .lc-mobile-menu__item svg { flex-shrink: 0; color: #C5C4C1; }
+    .lc-mobile-menu__item--active svg { color: var(--lc-brand-secondary); }
 
-    .lc-drawer__ctas {
-      padding: 20px 24px;
+    /* ── Secondary links ─────────────────────────────────────── */
+    .lc-mobile-menu__secondary {
+      background: #F7F9FC;
+      padding: 0 24px;
+      margin-top: 4px;
+    }
+    .lc-mobile-menu__secondary-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #EAEDF2;
+      text-decoration: none;
+      color: var(--lc-text-secondary);
+      font-family: var(--lc-font-body);
+      font-size: 13px;
+      font-weight: 400;
+      transition: color 0.15s;
+    }
+    .lc-mobile-menu__secondary-item:last-child { border-bottom: none; }
+    .lc-mobile-menu__secondary-item:hover { color: var(--lc-brand-secondary); }
+
+    /* ── Action buttons — Fundación RED strip ─────────────────── */
+    .lc-mobile-menu__actions {
+      background: var(--lc-fn-bar);   /* RED — Fundación */
+      display: flex;
+      flex-shrink: 0;
+    }
+    .lc-mobile-menu__gap {
+      flex-shrink: 0;
+      height: calc(76px + env(safe-area-inset-bottom, 0px));
+      background: rgba(0, 0, 0, 0.85);
+    }
+    .lc-mobile-menu__action-btn {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      border-top: 1px solid rgba(0, 0, 0, 0.08);
-    }
-    .lc-drawer__btn {
-      display: flex;
       align-items: center;
       justify-content: center;
-      height: 48px;
-      font-family: var(--font-base);
-      font-size: 15px;
-      font-weight: 700;
-      border-radius: 8px;
-      cursor: pointer;
+      gap: 8px;
+      padding: 18px 8px;
       text-decoration: none;
-      transition: background 0.15s, color 0.15s;
+      color: #fff;
+      font-family: var(--lc-font-body);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.15s;
+      cursor: pointer;
+      background: none;
+      border-top: none; border-bottom: none; border-left: none;
     }
-    .lc-drawer__btn--primary {
-      background: var(--brand-secondary);
-      color: var(--white);
-      border: none;
-    }
-    .lc-drawer__btn--primary:hover { background: #B70038; }
-    .lc-drawer__btn--outline {
-      background: var(--white);
-      color: var(--brand-primary);
-      border: 1.5px solid var(--brand-primary);
-    }
-    .lc-drawer__btn--outline:hover {
-      background: var(--brand-primary);
-      color: var(--white);
-    }
+    .lc-mobile-menu__action-btn:last-child { border-right: none; }
+    .lc-mobile-menu__action-btn:hover { background: rgba(255,255,255,0.1); }
+    .lc-mobile-menu__action-btn img { width: 24px; height: 24px; display: block; }
+    .lc-mobile-menu__action-btn svg { flex-shrink: 0; }
 
-    .lc-drawer__footer {
-      padding: 16px 24px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-    }
-    .lc-drawer__footer-logos {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    /* ══════════════════════════════════════════════════════════════════
+       MOBILE BOTTOM NAV BAR  — RED for Fundación
+    ══════════════════════════════════════════════════════════════════ */
 
-    /* ── Bottom floating tab bar ───────────────────────────── */
-    .lc-bottom-bar {
+    .lc-mobile-bottom-nav {
       position: fixed;
       bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
-      width: 327px;
-      background: var(--brand-secondary);
+      width: calc(100% - 48px);
+      max-width: 327px;
+      height: 60px;
+      background: var(--lc-fn-bar);  /* RED */
       border-radius: 6px;
-      padding: 18px 24px;
-      box-shadow: var(--shadow-mob-bar);
+      box-shadow: var(--lc-shadow-bottom-nav);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 54px;
-      z-index: 100;
+      z-index: 202;
+      transition: max-width 0.35s ease, width 0.35s ease;
     }
 
-    .lc-bottom-bar__btn {
+    .lc-mobile-bottom-nav__icons {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--white);
-      padding: 0;
-      flex-shrink: 0;
-      transition: opacity 0.15s, transform 0.15s;
+      gap: 54px;
+      transition: opacity 0.2s;
     }
-    .lc-bottom-bar__btn:hover { opacity: 0.8; }
-    .lc-bottom-bar__btn:active { transform: scale(0.9); }
-    .lc-bottom-bar__btn--active {
-      position: relative;
+    .lc-mobile-bottom-nav__btn {
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 0;
+      flex-shrink: 0; transition: opacity 0.15s;
     }
-    .lc-bottom-bar__btn--active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: var(--white);
-      border-radius: 50%;
+    .lc-mobile-bottom-nav__btn:hover { opacity: 0.75; }
+    .lc-mobile-bottom-nav__btn img { width: 24px; height: 24px; display: block; }
+
+    .lc-mobile-bottom-nav__close {
+      display: none;
+      width: 48px; height: 48px;
+      align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 0;
+      color: #fff; transition: opacity 0.15s;
     }
+    .lc-mobile-bottom-nav__close:hover { opacity: 0.75; }
+    .lc-mobile-bottom-nav__close svg { width: 28px; height: 28px; }
+
+    /* When menu open: collapse to ✕ */
+    .lc-mobile-bottom-nav--collapsed { max-width: 72px; width: 72px; border-radius: 6px; }
+    .lc-mobile-bottom-nav--collapsed .lc-mobile-bottom-nav__icons { display: none; }
+    .lc-mobile-bottom-nav--collapsed .lc-mobile-bottom-nav__close { display: flex; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       DEMO PAGE STYLES
+    ══════════════════════════════════════════════════════════════════ */
+    body {
+      font-family: var(--lc-font-body);
+      background: #f0f2f5;
+      padding-bottom: 80px;
+    }
+
+    .demo-header {
+      background: var(--lc-brand-secondary);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .demo-header__title { font-family: var(--lc-font-heading); font-size: 18px; font-weight: 500; color: #fff; }
+    .demo-header__back {
+      font-size: 13px; color: rgba(255,255,255,0.7);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+    }
+    .demo-header__back:hover { color: #fff; }
+
+    .demo-section { padding: 40px 40px 0; }
+    .demo-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+    .demo-description { font-size: 13px; color: #555; margin-bottom: 20px; line-height: 1.6; }
+    .demo-canvas { background: #fff; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; margin-bottom: 32px; }
+    .demo-canvas--mobile { width: 375px; }
+    .demo-canvas__label { background: #f8f8f8; border-top: 1px solid #eee; padding: 8px 16px; font-size: 11px; color: #888; display: flex; align-items: center; justify-content: space-between; }
+    .demo-canvas__size { font-family: monospace; font-size: 10px; color: #aaa; }
+    .demo-specs { margin-top: 12px; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .demo-spec { display: flex; flex-direction: column; gap: 3px; }
+    .demo-spec__key { font-size: 11px; color: #999; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .demo-spec__val { font-size: 13px; color: #333; font-family: monospace; }
+    .demo-phone-wrap { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+    .demo-phone { width: 375px; height: 620px; background: #f0f2f5; position: relative; overflow: hidden; display: flex; flex-direction: column; flex-shrink: 0; }
+    .demo-phone .lc-header--mobile { position: relative; z-index: 201; }
+    .demo-phone .lc-mobile-menu { position: absolute; top: var(--lc-mobile-header-h); }
+    .demo-phone .lc-mobile-bottom-nav { position: absolute; bottom: 16px; }
+    .demo-phone__page { padding: 24px; }
+    .demo-phone__page-title { font-family: var(--lc-font-heading); font-size: 20px; font-weight: 400; color: var(--lc-text-primary); margin-bottom: 10px; }
+    .demo-phone__page-body { font-size: 13px; color: var(--lc-text-secondary); line-height: 1.7; }
+    .demo-state-col { display: flex; flex-direction: column; }
+    .demo-state-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+    .demo-hint { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #fff0f3; border-radius: 8px; font-size: 12px; color: var(--lc-brand-secondary); margin-top: 10px; max-width: 375px; }
+    .demo-props { background: #1e1e2e; border-radius: 8px; padding: 20px 24px; margin-top: 12px; margin-bottom: 40px; }
+    .demo-props__title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+    .demo-props pre { font-family: 'Menlo', 'Monaco', monospace; font-size: 12.5px; color: #cdd6f4; line-height: 1.7; white-space: pre-wrap; }
+    .token { color: #cba6f7; } .string { color: #a6e3a1; } .type { color: #89dceb; } .comment { color: #6c7086; }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       DESKTOP — FUNDACIÓN CARDIOINFANTIL
-  ═══════════════════════════════════════════════════════════ -->
-  <div class="demo-block">
-    <p class="demo-label">Desktop — Fundación Cardioinfantil</p>
+<!-- ── Demo shell ──────────────────────────────────────────────────── -->
+<div class="demo-header">
+  <div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">LaCardio / Components</p>
+    <p class="demo-header__title">Header — Fundación Cardioinfantil</p>
   </div>
+  <a href="../../index.html" class="demo-header__back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to library
+  </a>
+</div>
 
-  <div class="lc-header-desktop">
 
-    <!-- TOP BAR -->
-    <div class="lc-topbar" role="navigation" aria-label="Navegación institucional">
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 1 — DESKTOP
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 1 — Desktop</p>
+  <p class="demo-description">Full header with topbar + navbar. Logo Fundación is the primary brand on the left; LaCardio appears as secondary on the right.</p>
+</div>
+
+<div class="demo-canvas">
+
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  HEADER FUNDACIÓN / DESKTOP                             ║
+       ╚══════════════════════════════════════════════════════════╝ -->
+  <header class="lc-header--desktop">
+    <div class="lc-topbar">
       <div class="lc-topbar__links">
-        <a href="#" class="lc-topbar__link lc-topbar__link--active" aria-current="page">
-          <span>Transparencia y acceso a la información</span>
-        </a>
+        <a href="#" class="lc-topbar__link lc-topbar__link--active">Transparencia y acceso a la información</a>
         <a href="#" class="lc-topbar__link">Atención y servicios a la ciudadanía</a>
         <a href="#" class="lc-topbar__link">Participación ciudadana</a>
       </div>
-
       <div class="lc-topbar__actions">
-        <button class="lc-topbar__action" type="button" aria-label="Abrir búsqueda">
+        <a href="#" class="lc-topbar__action">
           Buscar
-          <!-- Search icon -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7.5"/>
-            <line x1="16.5" y1="16.5" x2="21" y2="21"/>
-          </svg>
-        </button>
-        <button class="lc-topbar__action" type="button" aria-haspopup="true" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="15.65" y2="15.65"/></svg>
+        </a>
+        <a href="#" class="lc-topbar__action">
           Contáctanos
-          <!-- Chevron down icon -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- MENU BAR -->
-    <div class="lc-menu">
-
-      <!-- Logo Fundación Cardioinfantil (izquierda) -->
-      <div class="lc-menu__logo-fundacion">
-        <a href="#" aria-label="Fundación Cardioinfantil — Inicio">
-          <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </a>
       </div>
-
-      <!-- Nav items (sin flechas dropdown — diferencia vs. Clínica) -->
-      <nav aria-label="Menú principal">
-        <ul class="lc-menu__nav" role="list">
-          <li class="lc-menu__nav-item">
-            <a href="#" class="lc-menu__nav-link">Sostenibilidad</a>
-          </li>
-          <li class="lc-menu__nav-item">
-            <a href="#" class="lc-menu__nav-link">Nuestra causa</a>
-          </li>
-          <li class="lc-menu__nav-item">
-            <a href="#" class="lc-menu__nav-link">Voluntariados</a>
-          </li>
-          <li class="lc-menu__nav-item">
-            <a href="#" class="lc-menu__nav-link">Testamento solidario</a>
-          </li>
-          <li class="lc-menu__nav-item">
-            <a href="#" class="lc-menu__nav-link">Tienda Cardio</a>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- CTAs: Dona ahora + Agendar cita -->
-      <div class="lc-menu__ctas">
-        <div class="lc-cta-wrap">
-          <a href="#" class="lc-btn lc-btn--outline">Dona ahora</a>
-        </div>
-        <div class="lc-cta-wrap">
-          <a href="#" class="lc-btn lc-btn--outline">Agendar cita</a>
-        </div>
+    </div>
+    <nav class="lc-navbar">
+      <!-- Logo Fundación — PRIMARY (left, 44px) -->
+      <div class="lc-navbar__logo">
+        <a href="#"><img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" /></a>
       </div>
-
-      <!-- Logo LaCardio (derecha) -->
-      <div class="lc-menu__logo-clinica">
-        <a href="#" aria-label="LaCardio — Clínica">
-          <img src="../../Logo Clinica.svg" alt="LaCardio" />
+      <!-- Nav items — Fundación sections -->
+      <div class="lc-navbar__nav">
+        <a href="#" class="lc-navbar__item lc-navbar__item--active">
+          <span class="lc-navbar__item-text">Sostenibilidad</span>
+        </a>
+        <a href="#" class="lc-navbar__item">
+          <span class="lc-navbar__item-text">Nuestra causa</span>
+        </a>
+        <a href="#" class="lc-navbar__item">
+          <span class="lc-navbar__item-text">Voluntariados</span>
+        </a>
+        <a href="#" class="lc-navbar__item">
+          <span class="lc-navbar__item-text">Testamento<br>solidario</span>
+        </a>
+        <a href="#" class="lc-navbar__item">
+          <span class="lc-navbar__item-text">Tienda Cardio</span>
         </a>
       </div>
+      <!-- CTA — Fundación -->
+      <div class="lc-navbar__cta">
+        <a href="#" class="lc-btn-dona">
+          <svg width="14" height="14" viewBox="0 0 22 20" fill="none"><path d="M11 18.5C11 18.5 1.5 12.5 1.5 6.5C1.5 3.46 3.96 1 7 1C8.74 1 10.3 1.82 11 3C11.7 1.82 13.26 1 15 1C18.04 1 20.5 3.46 20.5 6.5C20.5 12.5 11 18.5 11 18.5Z" fill="#E40046"/></svg>
+          Dona ahora
+        </a>
+      </div>
+      <!-- Logo LaCardio — SECONDARY (right, 36px) -->
+      <div class="lc-navbar__clinica">
+        <a href="#"><img src="../../Logo Clinica.svg" alt="LaCardio" /></a>
+      </div>
+    </nav>
+  </header>
+  <!-- ╔══════════════════════════════════════════════════════════╗
+       ║  END HEADER FUNDACIÓN / DESKTOP                         ║
+       ╚══════════════════════════════════════════════════════════╝ -->
 
-    </div>
-  </div><!-- /lc-header-desktop -->
-
-  <div class="demo-spacer"></div>
-  <div class="demo-block">
-    <p class="demo-label">Mobile — Fundación Cardioinfantil</p>
-    <p class="demo-note">Fondo oscuro simula la pantalla del dispositivo. El menú abre con el ícono ☰.</p>
+  <div class="demo-canvas__label">
+    <span>Header Fundación / Desktop</span>
+    <span class="demo-canvas__size">1440 × 126px</span>
   </div>
-  <div class="demo-spacer" style="height:16px"></div>
+</div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       MOBILE — FUNDACIÓN CARDIOINFANTIL
-  ═══════════════════════════════════════════════════════════ -->
-  <div class="lc-mobile-wrapper" id="mobileRoot">
+<div style="padding: 0 40px;">
+  <div class="demo-specs">
+    <div class="demo-spec"><span class="demo-spec__key">Topbar height</span><span class="demo-spec__val">~36px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Navbar height</span><span class="demo-spec__val">90px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Topbar bg</span><span class="demo-spec__val">#E5EBF6</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Logo Fundación</span><span class="demo-spec__val">44px — PRIMARY left</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Logo LaCardio</span><span class="demo-spec__val">36px — secondary right</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">CTA color</span><span class="demo-spec__val">#E40046 outline</span></div>
+  </div>
+</div>
 
-    <!-- ── Header bar ── -->
-    <header class="lc-mobile-header" role="banner">
-      <!-- Logo Fundación (izquierda) -->
-      <a href="#" class="lc-mob-logo-fund" aria-label="Fundación Cardioinfantil — Inicio">
+
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 2 — MOBILE TOP BAR
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 2 — Mobile Top Bar</p>
+  <p class="demo-description">Logos-only bar (70px). Fundación is primary (left, larger). LaCardio is secondary (right, smaller). Always paired with Variant 3.</p>
+</div>
+
+<div style="padding: 0 40px;">
+  <div class="demo-canvas demo-canvas--mobile">
+    <!-- ╔══════════════════════════════════════════════════════════╗
+         ║  HEADER FUNDACIÓN / MOBILE TOP                          ║
+         ╚══════════════════════════════════════════════════════════╝ -->
+    <header class="lc-header--mobile">
+      <a href="/" class="lc-mobile-logo-fundacion">
         <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
       </a>
-
-      <!-- Logo LaCardio (derecha) -->
-      <a href="#" class="lc-mob-logo-clin" aria-label="LaCardio — Clínica">
+      <a href="#" class="lc-mobile-logo-clinica">
         <img src="../../Logo Clinica.svg" alt="LaCardio" />
       </a>
     </header>
+    <!-- ╔══════════════════════════════════════════════════════════╗
+         ║  END HEADER FUNDACIÓN / MOBILE TOP                      ║
+         ╚══════════════════════════════════════════════════════════╝ -->
+    <div class="demo-canvas__label">
+      <span>Header Fundación / Mobile Top</span>
+      <span class="demo-canvas__size">375 × 70px</span>
+    </div>
+  </div>
 
-    <!-- ── Nav drawer ── -->
-    <div class="lc-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Menú de navegación">
-      <div class="lc-drawer__overlay" id="drawerOverlay"></div>
-      <div class="lc-drawer__panel">
+  <div class="demo-specs" style="max-width:375px;">
+    <div class="demo-spec"><span class="demo-spec__key">Height</span><span class="demo-spec__val">70px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Logo Fundación</span><span class="demo-spec__val">42px — primary left</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Logo LaCardio</span><span class="demo-spec__val">31px — secondary right</span></div>
+  </div>
+</div>
 
-        <!-- Drawer header -->
-        <div class="lc-drawer__header">
-          <a href="#" class="lc-mob-logo-fund" aria-label="Inicio">
-            <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
-          </a>
-          <button class="lc-drawer__close" id="drawerClose" aria-label="Cerrar menú">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
-        </div>
 
-        <!-- Nav links -->
-        <nav class="lc-drawer__nav" aria-label="Menú principal">
-          <a href="#" class="lc-drawer__nav-link">
-            Sostenibilidad
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </a>
-          <a href="#" class="lc-drawer__nav-link">
-            Nuestra causa
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </a>
-          <a href="#" class="lc-drawer__nav-link">
-            Voluntariados
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </a>
-          <a href="#" class="lc-drawer__nav-link">
-            Testamento solidario
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </a>
-          <a href="#" class="lc-drawer__nav-link">
-            Tienda Cardio
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-          </a>
-        </nav>
+<!-- ══════════════════════════════════════════════════════════════════
+     VARIANT 3 — MOBILE BOTTOM NAV + SLIDE-DOWN MENU
+     Bar: RED (#E40046) — Fundación brand
+     Menu behaviour: identical to Clínica (slide-down from header)
+══════════════════════════════════════════════════════════════════ -->
+<div class="demo-section">
+  <p class="demo-label">Variant 3 — Mobile Bottom Nav</p>
+  <p class="demo-description">
+    Floating red pill fixed at the bottom.<br><br>
+    <strong>Closed:</strong> 4 icons — Menu ☰, Citas, Dona, Contacto.<br>
+    <strong>Open:</strong> Bar collapses to ✕. Full nav slides <em>down</em> from just below the top bar.
+  </p>
+</div>
 
-        <!-- CTA Buttons -->
-        <div class="lc-drawer__ctas">
-          <a href="#" class="lc-drawer__btn lc-drawer__btn--primary">
-            ❤ Dona ahora
-          </a>
-          <a href="#" class="lc-drawer__btn lc-drawer__btn--outline">
-            Agendar cita
-          </a>
-        </div>
+<div style="padding: 0 40px;">
+  <div class="demo-phone-wrap">
 
-        <!-- Footer logos -->
-        <div class="lc-drawer__footer">
-          <div class="lc-drawer__footer-logos">
-            <a href="#" class="lc-mob-logo-fund" aria-label="Fundación Cardioinfantil">
-              <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" style="height:22px;" />
+    <div class="demo-state-col">
+      <p class="demo-state-label">State — Closed / Open</p>
+      <div class="demo-canvas demo-canvas--mobile" style="margin-bottom: 0;">
+        <div class="demo-phone" id="phone-A">
+
+          <!-- Top bar -->
+          <header class="lc-header--mobile">
+            <a href="/" class="lc-mobile-logo-fundacion">
+              <img src="../../Logo Fundacion.svg" alt="Fundación Cardioinfantil" />
             </a>
-            <a href="#" class="lc-mob-logo-clin" aria-label="LaCardio">
-              <img src="../../Logo Clinica.svg" alt="LaCardio" style="height:18px;" />
+            <a href="#" class="lc-mobile-logo-clinica">
+              <img src="../../Logo Clinica.svg" alt="LaCardio" />
             </a>
+          </header>
+
+          <!-- Page content -->
+          <div class="demo-phone__page">
+            <p class="demo-phone__page-title">Transforma vidas con tu donación</p>
+            <p class="demo-phone__page-body">La Fundación Cardioinfantil trabaja por la atención y el bienestar de niños y adultos con patologías cardiovasculares.</p>
           </div>
+
+          <!-- ╔══════════════════════════════════════════════════╗
+               ║  MOBILE BOTTOM NAV FUNDACIÓN — copy from here   ║
+               ╚══════════════════════════════════════════════════╝ -->
+
+          <!-- Slide-down menu -->
+          <div class="lc-mobile-menu" id="mobile-menu-A" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+            <div class="lc-mobile-menu__content">
+              <nav class="lc-mobile-menu__nav">
+                <a href="#" class="lc-mobile-menu__item lc-mobile-menu__item--active">
+                  <span>Sostenibilidad</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__item">
+                  <span>Nuestra causa</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__item">
+                  <span>Voluntariados</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__item">
+                  <span>Testamento solidario</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__item">
+                  <span>Tienda Cardio</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+              </nav>
+
+              <div class="lc-mobile-menu__secondary">
+                <a href="#" class="lc-mobile-menu__secondary-item">
+                  <span>Transparencia y acceso a la información</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__secondary-item">
+                  <span>Atención y servicios a la ciudadanía</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+                <a href="#" class="lc-mobile-menu__secondary-item">
+                  <span>Participación ciudadana</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+              </div>
+            </div><!-- /content -->
+
+            <!-- Action buttons — RED strip (Fundación) -->
+            <div class="lc-mobile-menu__actions">
+              <a href="#" class="lc-mobile-menu__action-btn">
+                <!-- Heart / Donate icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Dona ahora
+              </a>
+              <a href="#" class="lc-mobile-menu__action-btn">
+                <img src="../../Iconos/Citas.svg" alt="" aria-hidden="true" />
+                Agendar cita
+              </a>
+              <a href="#" class="lc-mobile-menu__action-btn">
+                <img src="../../Iconos/whatsapp-outline.svg" alt="" aria-hidden="true" />
+                Contacto
+              </a>
+            </div>
+
+            <!-- Transparent gap — clears the ✕ button -->
+            <div class="lc-mobile-menu__gap" aria-hidden="true"></div>
+          </div><!-- /lc-mobile-menu -->
+
+          <!-- Bottom nav bar — RED -->
+          <nav class="lc-mobile-bottom-nav" id="bottom-nav-A" aria-label="Navegación rápida">
+
+            <div class="lc-mobile-bottom-nav__icons">
+              <button class="lc-mobile-bottom-nav__btn" id="menu-btn-A"
+                      aria-label="Abrir menú" aria-expanded="false"
+                      aria-controls="mobile-menu-A">
+                <img src="../../Iconos/Menu.svg" alt="" />
+              </button>
+              <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="Agendar cita">
+                <img src="../../Iconos/Citas.svg" alt="" />
+              </a>
+              <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="Donar">
+                <img src="../../Iconos/dollar.svg" alt="" />
+              </a>
+              <a href="#" class="lc-mobile-bottom-nav__btn" aria-label="Contacto por WhatsApp">
+                <img src="../../Iconos/whatsapp-outline.svg" alt="" />
+              </a>
+            </div>
+
+            <!-- Close button -->
+            <button class="lc-mobile-bottom-nav__close" id="close-btn-A" aria-label="Cerrar menú">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+
+          </nav>
+          <!-- ╔══════════════════════════════════════════════════╗
+               ║  END MOBILE BOTTOM NAV FUNDACIÓN                ║
+               ╚══════════════════════════════════════════════════╝ -->
+
+        </div><!-- /demo-phone -->
+        <div class="demo-canvas__label">
+          <span>Bottom Nav Fundación / Closed → Open</span>
+          <span class="demo-canvas__size">327 × 60px</span>
         </div>
+      </div><!-- /demo-canvas -->
 
-      </div><!-- /panel -->
-    </div><!-- /drawer -->
+      <div class="demo-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Tap <strong>&nbsp;☰&nbsp;</strong> to open · <strong>&nbsp;✕&nbsp;</strong> to close
+      </div>
+    </div>
 
-    <!-- ── Bottom floating tab bar ── -->
-    <div class="lc-bottom-bar" role="navigation" aria-label="Acciones rápidas">
+  </div><!-- /demo-phone-wrap -->
 
-      <!-- Hamburger — abre menú -->
-      <button class="lc-bottom-bar__btn lc-bottom-bar__btn--active"
-              id="menuToggle"
-              type="button"
-              aria-label="Abrir menú de navegación"
-              aria-expanded="false"
-              aria-controls="navDrawer">
-        <!-- Menu / Hamburger icon -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="3" y1="11" x2="21" y2="11"/>
-          <line x1="3" y1="6"  x2="21" y2="6"/>
-          <line x1="3" y1="16" x2="21" y2="16"/>
-        </svg>
-      </button>
+  <div class="demo-specs" style="margin-top:32px;">
+    <div class="demo-spec"><span class="demo-spec__key">Bar height</span><span class="demo-spec__val">60px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bar background</span><span class="demo-spec__val">#E40046 (Fundación red)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Action strip bg</span><span class="demo-spec__val">#E40046 (same red)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bar width (closed)</span><span class="demo-spec__val">calc(100% − 48px), max 327px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bar width (open)</span><span class="demo-spec__val">72px, border-radius 6px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Bottom offset</span><span class="demo-spec__val">16px</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Menu animation</span><span class="demo-spec__val">max-height expand, 380ms ease</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">Active state color</span><span class="demo-spec__val">#E40046 (secondary)</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">z-index bar</span><span class="demo-spec__val">202</span></div>
+    <div class="demo-spec"><span class="demo-spec__key">z-index menu</span><span class="demo-spec__val">200</span></div>
+  </div>
 
-      <!-- Calendario — agendar cita -->
-      <a href="#" class="lc-bottom-bar__btn" aria-label="Agendar cita">
-        <!-- Calendar icon -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8"  y1="2" x2="8"  y2="6"/>
-          <line x1="3"  y1="10" x2="21" y2="10"/>
-          <line x1="8"  y1="14" x2="8.01"  y2="14" stroke-width="2"/>
-          <line x1="12" y1="14" x2="12.01" y2="14" stroke-width="2"/>
-          <line x1="16" y1="14" x2="16.01" y2="14" stroke-width="2"/>
-        </svg>
-      </a>
+  <div class="demo-props">
+    <p class="demo-props__title">Future React props — Fundación Header</p>
+    <pre><span class="comment">// ── Mobile Top Bar ─────────────────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">FundacionMobileTopBarProps</span> {
+  <span class="token">logoFundacionSrc</span>?: <span class="type">string</span>; <span class="comment">// primary — left</span>
+  <span class="token">logoClinicaSrc</span>?:   <span class="type">string</span>; <span class="comment">// secondary — right</span>
+}
 
-      <!-- Donación — signo de peso -->
-      <a href="#" class="lc-bottom-bar__btn" aria-label="Donar">
-        <!-- Dollar / Peso icon -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="12" y1="1"  x2="12" y2="23"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      </a>
+<span class="comment">// ── Mobile Bottom Nav + Menu ───────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">FundacionMobileBottomNavProps</span> {
+  <span class="token">activeNavItem</span>?: <span class="string">"sostenibilidad"</span> | <span class="string">"causa"</span> | <span class="string">"voluntariados"</span>
+                 | <span class="string">"testamento"</span> | <span class="string">"tienda"</span>;
+  <span class="token">donaHref</span>?:      <span class="type">string</span>;
+  <span class="token">citasHref</span>?:     <span class="type">string</span>;
+  <span class="token">whatsappHref</span>?:  <span class="type">string</span>;
+}
 
-      <!-- Chat / WhatsApp — contacto -->
-      <a href="#" class="lc-bottom-bar__btn" aria-label="Contacto por chat">
-        <!-- Chat bubble icon -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-        </svg>
-      </a>
+<span class="comment">// ── Desktop header ─────────────────────────────────────────────</span>
+<span class="token">interface</span> <span class="type">FundacionDesktopHeaderProps</span> {
+  <span class="token">activeItem</span>?: <span class="string">"sostenibilidad"</span> | <span class="string">"causa"</span> | <span class="string">"voluntariados"</span>
+              | <span class="string">"testamento"</span> | <span class="string">"tienda"</span>;
+}</pre>
+  </div>
 
-    </div><!-- /bottom-bar -->
+</div><!-- /padding -->
 
-  </div><!-- /mobile-wrapper -->
 
-  <div style="height:120px;"></div>
+<script>
+  const menuBtn   = document.getElementById('menu-btn-A');
+  const closeBtn  = document.getElementById('close-btn-A');
+  const menu      = document.getElementById('mobile-menu-A');
+  const bottomNav = document.getElementById('bottom-nav-A');
 
-  <script>
-    /* ── Mobile drawer ─────────────────────────────────────── */
-    const drawer     = document.getElementById('navDrawer');
-    const overlay    = document.getElementById('drawerOverlay');
-    const closeBtn   = document.getElementById('drawerClose');
-    const menuToggle = document.getElementById('menuToggle');
+  function openMenu() {
+    menu.classList.add('lc-mobile-menu--open');
+    bottomNav.classList.add('lc-mobile-bottom-nav--collapsed');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menu.classList.remove('lc-mobile-menu--open');
+    bottomNav.classList.remove('lc-mobile-bottom-nav--collapsed');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
 
-    let focusTrapElements = [];
-    let lastFocused = null;
-
-    function openDrawer() {
-      drawer.classList.add('is-open');
-      menuToggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-      lastFocused = document.activeElement;
-
-      // Focus first focusable element in panel
-      const panel = drawer.querySelector('.lc-drawer__panel');
-      focusTrapElements = Array.from(
-        panel.querySelectorAll('a[href], button:not([disabled])')
-      );
-      if (focusTrapElements.length) focusTrapElements[0].focus();
-    }
-
-    function closeDrawer() {
-      drawer.classList.remove('is-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      if (lastFocused) lastFocused.focus();
-    }
-
-    menuToggle.addEventListener('click', () => {
-      drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
-    });
-
-    overlay.addEventListener('click', closeDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
-
-    // Esc key closes drawer
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
-    });
-
-    // Focus trap
-    drawer.addEventListener('keydown', e => {
-      if (!drawer.classList.contains('is-open') || e.key !== 'Tab') return;
-      const first = focusTrapElements[0];
-      const last  = focusTrapElements[focusTrapElements.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-      } else {
-        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
-      }
-    });
-  </script>
+  menuBtn.addEventListener('click', () => {
+    menu.classList.contains('lc-mobile-menu--open') ? closeMenu() : openMenu();
+  });
+  closeBtn.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+</script>
 
 </body>
 </html>
