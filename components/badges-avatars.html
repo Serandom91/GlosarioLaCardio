@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Badges y Avatares — Sistema genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', sans-serif;
+      --brand-primary: #002D72; --brand-primary-subtle: #E5EBEF;
+      --brand-secondary: #E40046; --brand-secondary-subtle: #FEE5EB;
+      --text-primary: #1a1a1a; --text-secondary: #5F5E5A; --text-tertiary: #888780;
+      --bg-page: #F4F3F0; --bg-surface: #ffffff; --border-default: rgba(0,0,0,0.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; max-width: 800px; margin: 0 auto; }
+    .section { margin-bottom: 2.5rem; }
+    .section-label { font-size: 11px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1rem; }
+    .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .row-label { font-size: 11px; color: var(--text-tertiary); min-width: 60px; }
+
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+    .badge--dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .badge--primary  { background: var(--brand-primary-subtle); color: #00245C; }
+    .badge--secondary { background: var(--brand-secondary-subtle); color: #8A002A; }
+    .badge--success  { background: #EAF3DE; color: #3B6D11; }
+    .badge--error    { background: #FEE5EB; color: #8A002A; }
+    .badge--warning  { background: #FAEEDA; color: #633806; }
+    .badge--neutral  { background: #E6E5E2; color: #474644; }
+    .badge--outline-primary { background: transparent; color: var(--brand-primary); border: 1px solid var(--brand-primary); }
+    .badge--outline-neutral { background: transparent; color: #474644; border: 1px solid #C5C4C1; }
+    .badge--lg { font-size: 13px; padding: 5px 14px; }
+    .badge--sm { font-size: 10px; padding: 2px 7px; }
+
+    /* Avatares */
+    .avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 500; flex-shrink: 0; overflow: hidden; }
+    .avatar--xs  { width: 24px; height: 24px; font-size: 9px; }
+    .avatar--sm  { width: 32px; height: 32px; font-size: 11px; }
+    .avatar--md  { width: 40px; height: 40px; font-size: 14px; }
+    .avatar--lg  { width: 52px; height: 52px; font-size: 18px; }
+    .avatar--xl  { width: 64px; height: 64px; font-size: 22px; }
+    .avatar--primary  { background: var(--brand-primary-subtle); color: #00245C; }
+    .avatar--secondary { background: var(--brand-secondary-subtle); color: #8A002A; }
+    .avatar--neutral  { background: #E6E5E2; color: #474644; }
+    .avatar--online { position: relative; }
+    .avatar--online::after { content: ''; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; background: #3B6D11; border-radius: 50%; border: 2px solid var(--bg-page); }
+    .avatar-group { display: flex; }
+    .avatar-group .avatar { border: 2px solid var(--bg-page); margin-left: -8px; }
+    .avatar-group .avatar:first-child { margin-left: 0; }
+
+    /* Divider */
+    .divider-h { width: 100%; height: 0.5px; background: var(--border-default); margin: 8px 0; }
+    .divider-v { width: 0.5px; height: 24px; background: var(--border-default); }
+    .divider-label { display: flex; align-items: center; gap: 12px; }
+    .divider-label span { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+    .divider-label::before, .divider-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border-default); }
+
+    /* Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { display: inline-block; border-radius: 50%; border-style: solid; border-color: var(--brand-primary-subtle); border-top-color: var(--brand-primary); animation: spin 0.7s linear infinite; }
+    .spinner--sm  { width: 16px; height: 16px; border-width: 2px; }
+    .spinner--md  { width: 24px; height: 24px; border-width: 2.5px; }
+    .spinner--lg  { width: 36px; height: 36px; border-width: 3px; }
+    .spinner--secondary { border-color: var(--brand-secondary-subtle); border-top-color: var(--brand-secondary); }
+
+    /* DS Nav Shell */
+    .ds-nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 24px; height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: -48px -32px 0; }
+    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
+    .ds-nav__back:hover { color: var(--brand-primary); }
+    .ds-nav__sep { width: 1px; height: 14px; background: rgba(0,0,0,0.12); }
+    .ds-nav__title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .ds-nav__react { margin-left: auto; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; }
+    .ds-props { margin-top: 3rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 2rem; }
+    .ds-props__title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
+    .ds-props__code { background: #1E1D1A; color: #E8E7E4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; padding: 20px 24px; border-radius: 10px; overflow-x: auto; white-space: pre; }
+  </style>
+</head>
+<body>
+
+<nav class="ds-nav">
+  <a href="../index.html" class="ds-nav__back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Design System
+  </a>
+  <span class="ds-nav__sep"></span>
+  <span class="ds-nav__title">Badges &amp; Avatars</span>
+  <span class="ds-nav__react">React Ready</span>
+</nav>
+
+  <!-- BADGES -->
+  <div class="section">
+    <p class="section-label">Badges — relleno</p>
+    <div class="row">
+      <span class="badge badge--primary">Primario</span>
+      <span class="badge badge--secondary">Secundario</span>
+      <span class="badge badge--success">Activo</span>
+      <span class="badge badge--error">Error</span>
+      <span class="badge badge--warning">Pendiente</span>
+      <span class="badge badge--neutral">Neutral</span>
+    </div>
+    <div class="row">
+      <span class="badge badge--primary badge--dot">En línea</span>
+      <span class="badge badge--success badge--dot">Completado</span>
+      <span class="badge badge--error badge--dot">Rechazado</span>
+      <span class="badge badge--warning badge--dot">En revisión</span>
+    </div>
+    <div class="row">
+      <span class="row-label">SM</span>
+      <span class="badge badge--primary badge--sm">Primario</span>
+      <span class="badge badge--success badge--sm">Activo</span>
+      <span class="badge badge--error badge--sm">Error</span>
+      <span class="badge badge--neutral badge--sm">Neutral</span>
+    </div>
+    <div class="row">
+      <span class="row-label">LG</span>
+      <span class="badge badge--primary badge--lg">Primario</span>
+      <span class="badge badge--success badge--lg">Activo</span>
+      <span class="badge badge--error badge--lg">Error</span>
+    </div>
+    <p class="section-label" style="margin-top: 1.5rem;">Badges — outline</p>
+    <div class="row">
+      <span class="badge badge--outline-primary">Primario</span>
+      <span class="badge badge--outline-neutral">Neutral</span>
+    </div>
+  </div>
+
+  <!-- AVATARES -->
+  <div class="section">
+    <p class="section-label">Avatares — iniciales</p>
+    <div class="row">
+      <span class="row-label">XS</span>
+      <div class="avatar avatar--xs avatar--primary">SR</div>
+      <div class="avatar avatar--xs avatar--secondary">MG</div>
+      <div class="avatar avatar--xs avatar--neutral">JR</div>
+    </div>
+    <div class="row">
+      <span class="row-label">SM</span>
+      <div class="avatar avatar--sm avatar--primary">SR</div>
+      <div class="avatar avatar--sm avatar--secondary">MG</div>
+      <div class="avatar avatar--sm avatar--neutral">JR</div>
+    </div>
+    <div class="row">
+      <span class="row-label">MD</span>
+      <div class="avatar avatar--md avatar--primary">SR</div>
+      <div class="avatar avatar--md avatar--secondary">MG</div>
+      <div class="avatar avatar--md avatar--neutral">JR</div>
+      <div class="avatar avatar--md avatar--primary avatar--online">SR</div>
+    </div>
+    <div class="row">
+      <span class="row-label">LG</span>
+      <div class="avatar avatar--lg avatar--primary">SR</div>
+      <div class="avatar avatar--lg avatar--secondary">MG</div>
+      <div class="avatar avatar--lg avatar--neutral">JR</div>
+    </div>
+    <div class="row" style="margin-top: 8px;">
+      <span class="row-label">Grupo</span>
+      <div class="avatar-group">
+        <div class="avatar avatar--sm avatar--primary">SR</div>
+        <div class="avatar avatar--sm avatar--secondary">MG</div>
+        <div class="avatar avatar--sm avatar--neutral">JR</div>
+        <div class="avatar avatar--sm avatar--neutral" style="background:#E6E5E2; color:#474644; font-size:10px;">+4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDERS -->
+  <div class="section">
+    <p class="section-label">Divider</p>
+    <p style="font-size:14px; color: var(--text-secondary); margin-bottom: 8px;">Contenido superior</p>
+    <div class="divider-h"></div>
+    <p style="font-size:14px; color: var(--text-secondary); margin-top: 8px; margin-bottom: 1rem;">Contenido inferior</p>
+    <div class="divider-label"><span>o continúa con</span></div>
+    <div class="row" style="margin-top: 1rem;">
+      <span style="font-size:14px; color: var(--text-secondary);">Elemento A</span>
+      <div class="divider-v"></div>
+      <span style="font-size:14px; color: var(--text-secondary);">Elemento B</span>
+      <div class="divider-v"></div>
+      <span style="font-size:14px; color: var(--text-secondary);">Elemento C</span>
+    </div>
+  </div>
+
+  <!-- SPINNERS -->
+  <div class="section">
+    <p class="section-label">Spinner / loader</p>
+    <div class="row">
+      <span class="row-label">SM</span>
+      <div class="spinner spinner--sm"></div>
+      <div class="spinner spinner--sm spinner--secondary"></div>
+    </div>
+    <div class="row">
+      <span class="row-label">MD</span>
+      <div class="spinner spinner--md"></div>
+      <div class="spinner spinner--md spinner--secondary"></div>
+    </div>
+    <div class="row">
+      <span class="row-label">LG</span>
+      <div class="spinner spinner--lg"></div>
+      <div class="spinner spinner--lg spinner--secondary"></div>
+    </div>
+  </div>
+
+  <!-- React Props -->
+  <div class="section ds-props">
+    <p class="ds-props__title">React TypeScript Props</p>
+    <pre class="ds-props__code">type BadgeVariant = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'neutral';
+type BadgeSize    = 'sm' | 'md' | 'lg';
+
+interface BadgeProps {
+  variant?: BadgeVariant;
+  size?: BadgeSize;
+  /** Renders outline style instead of filled */
+  outline?: boolean;
+  /** Prepends a colored dot */
+  dot?: boolean;
+  children: React.ReactNode;
+}
+
+type AvatarSize    = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type AvatarVariant = 'primary' | 'secondary' | 'neutral';
+
+interface AvatarProps {
+  /** 1–2 letter initials shown when no image */
+  initials: string;
+  size?: AvatarSize;
+  variant?: AvatarVariant;
+  /** Shows green online dot */
+  online?: boolean;
+  /** Image URL — hides initials when provided */
+  src?: string;
+  alt?: string;
+}
+
+interface AvatarGroupProps {
+  avatars: AvatarProps[];
+  /** Max avatars before showing +N overflow */
+  max?: number;
+}
+
+interface SpinnerProps {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'secondary';
+}
+
+interface DividerProps {
+  orientation?: 'horizontal' | 'vertical';
+  /** Optional center label — renders labeled divider */
+  label?: string;
+}</pre>
+  </div>
+
+</body>
+</html>

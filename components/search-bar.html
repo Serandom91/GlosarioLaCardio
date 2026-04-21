@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Bar — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       01 — TOKENS CSS
+       ============================================= */
+    :root {
+      --blue-50:#E8EEF8; --blue-100:#C5D3EE; --blue-200:#9FB5E3; --blue-300:#7897D7;
+      --blue-400:#5880CE; --blue-500:#3869C5; --blue-600:#2A56AD; --blue-700:#1E4394;
+      --blue-800:#13317A; --blue-900:#002D72;
+      --red-900:#E40046;
+      --gray-50:#F7F7F6; --gray-100:#EBEBEA; --gray-200:#D6D5D3; --gray-300:#C5C4C1;
+      --gray-400:#A8A7A3; --gray-500:#888780; --gray-600:#6B6A64; --gray-700:#4E4D48;
+      --gray-800:#34332F; --gray-900:#1E1D1A;
+
+      --color-brand-primary:   var(--blue-900);
+      --color-brand-secondary: var(--red-900);
+      --color-text-default:    var(--gray-900);
+      --color-text-muted:      var(--gray-500);
+      --color-text-inverse:    #FFFFFF;
+      --color-text-disabled:   var(--gray-500);
+      --color-surface-default: #FFFFFF;
+      --color-surface-subtle:  var(--gray-50);
+      --color-border-default:  var(--gray-200);
+      --color-border-strong:   var(--gray-400);
+      --color-border-focus:    var(--blue-900);
+
+      --font-family-base: 'Inter', sans-serif;
+      --font-size-xs:  0.75rem; --font-size-sm: 0.875rem;
+      --font-size-md:  1rem;    --font-size-lg: 1.125rem;
+      --font-size-xl:  1.25rem; --font-size-2xl: 1.5rem;
+      --font-weight-regular:400; --font-weight-medium:500;
+      --font-weight-semibold:600; --font-weight-bold:700;
+      --line-height-normal: 1.5;
+
+      --radius-md:   8px;
+      --radius-lg:   12px;
+      --radius-full: 9999px;
+
+      --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+      --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
+      --space-12:48px; --space-16:64px;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,.12);
+      --transition-fast: 150ms ease;
+      --transition-normal: 250ms ease;
+    }
+
+    /* DS Nav Shell */
+    .ds-nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--color-border-default); padding: 0 var(--space-6); height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-family-base); margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-6)) 0; }
+    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: var(--font-size-xs); color: var(--color-text-muted); text-decoration: none; transition: color var(--transition-fast); }
+    .ds-nav__back:hover { color: var(--color-brand-primary); }
+    .ds-nav__sep { width: 1px; height: 14px; background: var(--color-border-default); }
+    .ds-nav__title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-default); }
+    .ds-nav__react { margin-left: auto; font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); background: #EAF3DE; color: #3B6D11; }
+    .ds-props { margin-top: 3rem; border-top: 1px solid var(--color-border-default); padding-top: 2rem; }
+    .ds-props__title { font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 1rem; }
+    .ds-props__code { background: #1E1D1A; color: #E8E7E4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; padding: 20px 24px; border-radius: var(--radius-lg); overflow-x: auto; white-space: pre; }
+
+    /* =============================================
+       02 — RESET & BASE
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-md);
+      color: var(--color-text-default);
+      background: var(--gray-50);
+      padding: var(--space-10) var(--space-6);
+      line-height: var(--line-height-normal);
+    }
+
+    /* =============================================
+       03 — PÁGINA DE DEMOS
+       ============================================= */
+    .demo-page { max-width: 860px; margin: 0 auto; }
+    .demo-page__header { margin-bottom: var(--space-8); }
+    .demo-page__title {
+      font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);
+      color: var(--color-brand-primary); margin-bottom: var(--space-1);
+    }
+    .demo-page__subtitle { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+    .demo-section { margin-bottom: var(--space-12); }
+    .demo-section__label {
+      font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold);
+      text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-muted);
+      margin-bottom: var(--space-4); padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+    .demo-section__desc {
+      font-size: var(--font-size-sm); color: var(--color-text-muted);
+      margin-bottom: var(--space-5); max-width: 600px;
+    }
+    .demo-card {
+      background: var(--color-surface-default); border-radius: var(--radius-lg);
+      padding: var(--space-6); box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border-default);
+    }
+    .demo-card--wide { width: 100%; }
+    .demo-card__label {
+      font-size: var(--font-size-xs); color: var(--color-text-muted);
+      margin-top: var(--space-3); text-align: center;
+    }
+    .demo-stack { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    /* =============================================
+       04 — COMPONENTE: SEARCH BAR
+       ============================================= */
+    .search-bar {
+      display: flex; align-items: center;
+      background: var(--color-surface-default);
+      border: 1.5px solid var(--color-border-default);
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      overflow: hidden; width: 100%;
+    }
+    .search-bar:focus-within {
+      border-color: var(--color-border-focus);
+      box-shadow: 0 0 0 3px var(--blue-100);
+    }
+    .search-bar__icon {
+      display: flex; align-items: center; justify-content: center;
+      padding-left: var(--space-3); color: var(--color-text-muted);
+      flex-shrink: 0; pointer-events: none;
+    }
+    .search-bar__input {
+      flex: 1; border: none; outline: none; background: transparent;
+      font-family: var(--font-family-base); color: var(--color-text-default);
+      padding: 0 var(--space-3);
+    }
+    .search-bar__input::placeholder { color: var(--color-text-muted); }
+    /* Ocultar X nativa del tipo search */
+    .search-bar__input::-webkit-search-cancel-button { display: none; }
+    .search-bar__clear {
+      display: none; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: var(--space-1);
+      margin-right: var(--space-1); border-radius: var(--radius-full);
+      color: var(--color-text-muted);
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .search-bar__clear:hover { background: var(--gray-100); color: var(--color-text-default); }
+    .search-bar--has-value .search-bar__clear { display: flex; }
+    .search-bar__divider { width: 1px; height: 20px; background: var(--color-border-default); flex-shrink: 0; }
+    .search-bar__submit {
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      background: var(--color-brand-primary); border: none; cursor: pointer;
+      color: #fff; transition: background var(--transition-fast);
+    }
+    .search-bar__submit:hover { background: var(--blue-700); }
+    .search-bar__submit:focus-visible { outline: 3px solid var(--blue-300); outline-offset: -2px; }
+
+    /* Tamaños */
+    .search-bar--sm .search-bar__input { height: 36px; font-size: var(--font-size-sm); }
+    .search-bar--sm .search-bar__submit { width: 36px; height: 36px; }
+    .search-bar--md .search-bar__input { height: 44px; font-size: var(--font-size-sm); }
+    .search-bar--md .search-bar__submit { width: 44px; height: 44px; }
+    .search-bar--lg .search-bar__input { height: 52px; font-size: var(--font-size-md); }
+    .search-bar--lg .search-bar__submit { width: 52px; height: 52px; }
+
+    /* Pill */
+    .search-bar--pill { border-radius: var(--radius-full); }
+    .search-bar--pill .search-bar__submit { border-radius: 0 var(--radius-full) var(--radius-full) 0; }
+    .search-bar--pill .search-bar__icon { padding-left: var(--space-4); }
+
+    /* Con filtro */
+    .search-bar__filter {
+      display: flex; align-items: center; gap: var(--space-1);
+      padding: 0 var(--space-3); border-right: 1.5px solid var(--color-border-default);
+      background: var(--gray-50); cursor: pointer; height: 100%; flex-shrink: 0;
+    }
+    .search-bar__filter select {
+      appearance: none; background: transparent; border: none; outline: none;
+      font-family: var(--font-family-base); font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium); color: var(--color-text-default);
+      cursor: pointer; padding-right: var(--space-4);
+    }
+    .search-bar__filter-icon { color: var(--color-text-muted); pointer-events: none; margin-left: -12px; }
+
+    /* Disabled */
+    .search-bar--disabled { opacity: .55; pointer-events: none; background: var(--gray-100); }
+
+    /* =============================================
+       05 — HERO SEARCH
+       ============================================= */
+    .search-hero {
+      text-align: center; padding: var(--space-12) var(--space-6);
+      background: var(--blue-900); border-radius: var(--radius-lg);
+    }
+    .search-hero__eyebrow {
+      font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold);
+      text-transform: uppercase; letter-spacing: .1em; color: var(--blue-200);
+      margin-bottom: var(--space-3);
+    }
+    .search-hero__title {
+      font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);
+      color: #fff; margin-bottom: var(--space-6);
+    }
+    .search-hero__bar { max-width: 640px; margin: 0 auto var(--space-4); }
+    .search-hero .search-bar {
+      background: #fff; border-color: transparent; box-shadow: var(--shadow-lg);
+    }
+    .search-hero .search-bar:focus-within {
+      border-color: var(--blue-300);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+    }
+    .search-hero__suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); }
+    .search-hero__suggestion { font-size: var(--font-size-xs); color: var(--blue-200); }
+    .search-hero__suggestion a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+    .search-hero__suggestion a:hover { color: var(--blue-100); }
+
+    /* =============================================
+       06 — SUGGESTIONS DROPDOWN
+       ============================================= */
+    .search-bar-wrapper { position: relative; width: 100%; }
+    .search-suggestions {
+      position: absolute; top: calc(100% + var(--space-1)); left: 0; right: 0;
+      background: var(--color-surface-default); border: 1.5px solid var(--color-border-default);
+      border-radius: var(--radius-md); box-shadow: var(--shadow-md); z-index: 100; overflow: hidden;
+    }
+    .search-suggestions__section-label {
+      font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold);
+      text-transform: uppercase; letter-spacing: .07em; color: var(--color-text-muted);
+      padding: var(--space-3) var(--space-4) var(--space-2);
+    }
+    .search-suggestions__item {
+      display: flex; align-items: center; gap: var(--space-3);
+      padding: var(--space-3) var(--space-4); cursor: pointer;
+      transition: background var(--transition-fast);
+      text-decoration: none; color: var(--color-text-default);
+    }
+    .search-suggestions__item:hover,
+    .search-suggestions__item--active { background: var(--gray-50); }
+    .search-suggestions__item-icon {
+      width: 32px; height: 32px; border-radius: var(--radius-md);
+      background: var(--blue-50); display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; color: var(--color-brand-primary);
+    }
+    .search-suggestions__item-icon--history { background: var(--gray-100); color: var(--color-text-muted); }
+    .search-suggestions__item-text { flex: 1; }
+    .search-suggestions__item-title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); }
+    .search-suggestions__item-title mark { background: none; color: var(--color-brand-primary); font-weight: var(--font-weight-bold); }
+    .search-suggestions__item-meta { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: 2px; }
+    .search-suggestions__item-badge {
+      font-size: var(--font-size-xs); padding: 2px var(--space-2);
+      border-radius: var(--radius-full); background: var(--blue-50);
+      color: var(--color-brand-primary); font-weight: var(--font-weight-medium);
+    }
+    .search-suggestions__divider { height: 1px; background: var(--color-border-default); margin: var(--space-1) 0; }
+    .search-suggestions__footer {
+      display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+      padding: var(--space-3) var(--space-4); font-size: var(--font-size-xs);
+      color: var(--color-text-muted); border-top: 1px solid var(--color-border-default);
+      background: var(--gray-50);
+    }
+    .search-suggestions__footer a { color: var(--color-brand-primary); font-weight: var(--font-weight-medium); text-decoration: none; }
+    .search-suggestions__footer a:hover { text-decoration: underline; }
+
+    /* Tags de búsqueda rápida */
+    .search-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-3) 0; }
+    .search-tag {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      padding: var(--space-1) var(--space-3); border: 1.5px solid var(--color-border-default);
+      border-radius: var(--radius-full); font-size: var(--font-size-xs);
+      color: var(--color-text-default); cursor: pointer; background: #fff;
+      font-family: var(--font-family-base);
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .search-tag:hover { border-color: var(--color-brand-primary); background: var(--blue-50); color: var(--color-brand-primary); }
+  </style>
+</head>
+<body>
+
+<nav class="ds-nav">
+  <a href="../index.html" class="ds-nav__back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Design System
+  </a>
+  <span class="ds-nav__sep"></span>
+  <span class="ds-nav__title">Search Bar</span>
+  <span class="ds-nav__react">React Ready</span>
+</nav>
+
+<div class="demo-page">
+
+  <header class="demo-page__header">
+    <h1 class="demo-page__title">Search Bar</h1>
+    <p class="demo-page__subtitle">Componente 29/53 · 4 variantes: Default (3 tamaños), Pill, Con filtro, Hero, Con sugerencias · BEM + Tokens CSS</p>
+  </header>
+
+  <!-- V1: DEFAULT TAMAÑOS -->
+  <section class="demo-section">
+    <div class="demo-section__label">Variante 1 — Default · 3 tamaños (sm / md / lg)</div>
+    <p class="demo-section__desc">Barra estándar con ícono lupa izquierda, botón limpiar y botón de búsqueda. El anillo de foco cumple visibilidad de estado (Nielsen #1). El botón X aparece solo al escribir para no contaminar la UI vacía.</p>
+    <div class="demo-card demo-card--wide">
+      <div class="demo-stack">
+
+        <div>
+          <div class="search-bar search-bar--sm" role="search">
+            <span class="search-bar__icon" aria-hidden="true">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input class="search-bar__input" type="search" placeholder="Buscar…" aria-label="Buscar" autocomplete="off"/>
+            <button class="search-bar__clear" aria-label="Limpiar" type="button">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <span class="search-bar__divider" aria-hidden="true"></span>
+            <button class="search-bar__submit" aria-label="Buscar" type="submit">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--color-text-muted);margin-top:4px;">search-bar--sm · 36px</p>
+        </div>
+
+        <div>
+          <div class="search-bar search-bar--md" role="search">
+            <span class="search-bar__icon" aria-hidden="true">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input class="search-bar__input" type="search" placeholder="Buscar productos, artículos, páginas…" aria-label="Buscar" autocomplete="off"/>
+            <button class="search-bar__clear" aria-label="Limpiar" type="button">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <span class="search-bar__divider" aria-hidden="true"></span>
+            <button class="search-bar__submit" aria-label="Buscar" type="submit">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--color-text-muted);margin-top:4px;">search-bar--md · 44px (por defecto)</p>
+        </div>
+
+        <div>
+          <div class="search-bar search-bar--lg" role="search">
+            <span class="search-bar__icon" aria-hidden="true">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input class="search-bar__input" type="search" placeholder="¿Qué estás buscando?" aria-label="Buscar" autocomplete="off"/>
+            <button class="search-bar__clear" aria-label="Limpiar" type="button">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <span class="search-bar__divider" aria-hidden="true"></span>
+            <button class="search-bar__submit" aria-label="Buscar" type="submit">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--color-text-muted);margin-top:4px;">search-bar--lg · 52px</p>
+        </div>
+
+        <!-- Pill md -->
+        <div>
+          <div class="search-bar search-bar--md search-bar--pill" role="search">
+            <span class="search-bar__icon" aria-hidden="true">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <input class="search-bar__input" type="search" placeholder="Buscar…" aria-label="Buscar" autocomplete="off"/>
+            <button class="search-bar__clear" aria-label="Limpiar" type="button">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <span class="search-bar__divider" aria-hidden="true"></span>
+            <button class="search-bar__submit" aria-label="Buscar" type="submit">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </button>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--color-text-muted);margin-top:4px;">search-bar--md search-bar--pill · radius-full</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- V2: CON FILTRO -->
+  <section class="demo-section">
+    <div class="demo-section__label">Variante 2 — Con filtro de categoría</div>
+    <p class="demo-section__desc">Selector de categoría anclado izquierda. Mejora eficiencia de búsqueda (Nielsen #7: flexibilidad). Aplica en e-commerce, portales documentales y buscadores avanzados.</p>
+    <div class="demo-card demo-card--wide">
+      <div class="search-bar search-bar--md" role="search">
+        <div class="search-bar__filter">
+          <select aria-label="Filtrar por categoría">
+            <option>Todas las categorías</option>
+            <option>Productos</option>
+            <option>Noticias</option>
+            <option>Documentos</option>
+            <option>Personas</option>
+          </select>
+          <svg class="search-bar__filter-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <span class="search-bar__icon" aria-hidden="true">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <input class="search-bar__input" type="search" placeholder="Buscar en la categoría seleccionada…" aria-label="Buscar" autocomplete="off"/>
+        <button class="search-bar__clear" aria-label="Limpiar" type="button">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <span class="search-bar__divider" aria-hidden="true"></span>
+        <button class="search-bar__submit" aria-label="Buscar" type="submit">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <p class="demo-card__label">search-bar search-bar--md + search-bar__filter</p>
+    </div>
+  </section>
+
+  <!-- V3: HERO SEARCH -->
+  <section class="demo-section">
+    <div class="demo-section__label">Variante 3 — Hero Search (fondo marca)</div>
+    <p class="demo-section__desc">Search como acción principal de la página. Ideal en portales de conocimiento, help centers e intranets. Incluye términos populares como reconocimiento rápido (Nielsen #6).</p>
+    <div class="search-hero" role="search" aria-label="Búsqueda principal">
+      <p class="search-hero__eyebrow">¿En qué podemos ayudarte?</p>
+      <h2 class="search-hero__title">Encuentra lo que necesitas</h2>
+      <div class="search-hero__bar">
+        <div class="search-bar search-bar--lg search-bar--pill">
+          <span class="search-bar__icon" aria-hidden="true">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </span>
+          <input class="search-bar__input" type="search" placeholder="Ej: política de devoluciones, tutorial…" aria-label="Buscar" autocomplete="off"/>
+          <button class="search-bar__clear" aria-label="Limpiar" type="button">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+          <button class="search-bar__submit" aria-label="Buscar" type="submit">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="search-hero__suggestions">
+        <span class="search-hero__suggestion">Populares:</span>
+        <span class="search-hero__suggestion"><a href="#">Envíos</a></span>
+        <span class="search-hero__suggestion"><a href="#">Devoluciones</a></span>
+        <span class="search-hero__suggestion"><a href="#">Facturación</a></span>
+        <span class="search-hero__suggestion"><a href="#">Mi cuenta</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- V4: SUGGESTIONS DROPDOWN -->
+  <section class="demo-section">
+    <div class="demo-section__label">Variante 4 — Con dropdown de sugerencias (estado abierto)</div>
+    <p class="demo-section__desc">Autocomplete con historial reciente, resultados con badge de categoría y términos populares como tags. Aplica el patrón de reconocimiento sobre recuerdo (Nielsen #6).</p>
+    <div class="demo-card demo-card--wide">
+
+      <div class="search-bar-wrapper">
+        <div class="search-bar search-bar--md search-bar--has-value" role="combobox" aria-haspopup="listbox" aria-expanded="true">
+          <span class="search-bar__icon" aria-hidden="true">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </span>
+          <input class="search-bar__input" type="search" value="diseño de" aria-label="Buscar" aria-autocomplete="list" aria-controls="search-listbox" autocomplete="off"/>
+          <button class="search-bar__clear" aria-label="Limpiar" type="button">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+          <span class="search-bar__divider" aria-hidden="true"></span>
+          <button class="search-bar__submit" aria-label="Buscar" type="submit">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </button>
+        </div>
+
+        <div class="search-suggestions" role="listbox" id="search-listbox">
+          <p class="search-suggestions__section-label">Recientes</p>
+          <a href="#" class="search-suggestions__item" role="option">
+            <span class="search-suggestions__item-icon search-suggestions__item-icon--history" aria-hidden="true">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <span class="search-suggestions__item-text">
+              <span class="search-suggestions__item-title">diseño de interfaces</span>
+            </span>
+          </a>
+          <a href="#" class="search-suggestions__item" role="option">
+            <span class="search-suggestions__item-icon search-suggestions__item-icon--history" aria-hidden="true">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <span class="search-suggestions__item-text">
+              <span class="search-suggestions__item-title">diseño centrado en el usuario</span>
+            </span>
+          </a>
+          <div class="search-suggestions__divider"></div>
+          <p class="search-suggestions__section-label">Sugerencias</p>
+          <a href="#" class="search-suggestions__item search-suggestions__item--active" role="option" aria-selected="true">
+            <span class="search-suggestions__item-icon" aria-hidden="true">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <span class="search-suggestions__item-text">
+              <span class="search-suggestions__item-title"><mark>diseño de</mark> sistemas</span>
+              <span class="search-suggestions__item-meta">Artículo · 8 min de lectura</span>
+            </span>
+            <span class="search-suggestions__item-badge">Blog</span>
+          </a>
+          <a href="#" class="search-suggestions__item" role="option">
+            <span class="search-suggestions__item-icon" aria-hidden="true">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <span class="search-suggestions__item-text">
+              <span class="search-suggestions__item-title"><mark>diseño de</mark> experiencia de usuario</span>
+              <span class="search-suggestions__item-meta">Categoría · 24 artículos</span>
+            </span>
+            <span class="search-suggestions__item-badge">Categoría</span>
+          </a>
+          <a href="#" class="search-suggestions__item" role="option">
+            <span class="search-suggestions__item-icon" aria-hidden="true">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </span>
+            <span class="search-suggestions__item-text">
+              <span class="search-suggestions__item-title"><mark>diseño de</mark> tokens y variables CSS</span>
+              <span class="search-suggestions__item-meta">Guía técnica</span>
+            </span>
+            <span class="search-suggestions__item-badge">Guía</span>
+          </a>
+          <div class="search-suggestions__footer">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Ver todos los resultados para <a href="#">"diseño de"</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-16);">
+        <p style="font-size:var(--font-size-xs);color:var(--color-text-muted);margin-bottom:var(--space-2);">Búsquedas populares:</p>
+        <div class="search-tags">
+          <button class="search-tag" type="button">UX Research</button>
+          <button class="search-tag" type="button">Tokens CSS</button>
+          <button class="search-tag" type="button">Accesibilidad</button>
+          <button class="search-tag" type="button">Design System</button>
+          <button class="search-tag" type="button">Figma</button>
+        </div>
+      </div>
+      <p class="demo-card__label">search-bar-wrapper + search-suggestions (estado expandido)</p>
+    </div>
+  </section>
+
+  <!-- ESTADO DISABLED -->
+  <section class="demo-section">
+    <div class="demo-section__label">Estado Disabled</div>
+    <div class="demo-card demo-card--wide">
+      <div class="search-bar search-bar--md search-bar--disabled" role="search" aria-disabled="true">
+        <span class="search-bar__icon" aria-hidden="true">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <input class="search-bar__input" type="search" placeholder="Búsqueda no disponible" aria-label="Búsqueda deshabilitada" disabled/>
+        <span class="search-bar__divider" aria-hidden="true"></span>
+        <button class="search-bar__submit" type="submit" disabled aria-label="Buscar">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <p class="demo-card__label">search-bar--disabled · opacity .55 + pointer-events none</p>
+    </div>
+  </section>
+
+  <!-- React Props -->
+  <section class="demo-section ds-props">
+    <p class="ds-props__title">React TypeScript Props</p>
+    <pre class="ds-props__code">type SearchBarSize = 'sm' | 'md' | 'lg';
+
+interface SearchSuggestion {
+  type: 'history' | 'result';
+  title: string | React.ReactNode; // supports &lt;mark&gt; highlights
+  meta?: string;
+  badge?: string;
+  href?: string;
+}
+
+interface SearchBarProps {
+  size?: SearchBarSize;
+  /** Renders pill (radius-full) instead of rounded-md */
+  pill?: boolean;
+  placeholder?: string;
+  value?: string;
+  disabled?: boolean;
+  /** Category filter options shown on the left */
+  filterOptions?: Array&lt;{ value: string; label: string }&gt;;
+  /** Live autocomplete suggestions */
+  suggestions?: SearchSuggestion[];
+  onSearch?: (query: string) => void;
+  onChange?: (value: string) => void;
+  onClear?: () => void;
+  className?: string;
+}
+
+/** Full-bleed hero variant wrapping SearchBar */
+interface SearchHeroProps {
+  eyebrow?: string;
+  title?: string;
+  searchBarProps?: SearchBarProps;
+  popularTerms?: Array&lt;{ label: string; href: string }&gt;;
+}</pre>
+  </section>
+
+</div>
+
+<script>
+  document.querySelectorAll('.search-bar__input').forEach(input => {
+    const bar = input.closest('.search-bar');
+    if (!bar) return;
+    input.addEventListener('input', () => {
+      bar.classList.toggle('search-bar--has-value', input.value.length > 0);
+    });
+  });
+  document.querySelectorAll('.search-bar__clear').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bar = btn.closest('.search-bar');
+      const input = bar.querySelector('.search-bar__input');
+      input.value = '';
+      bar.classList.remove('search-bar--has-value');
+      input.focus();
+    });
+  });
+</script>
+</body>
+</html>
