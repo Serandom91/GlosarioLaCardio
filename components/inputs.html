@@ -4,61 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inputs — Sistema genérico</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../lacardio-tokens.css">
   <style>
-    :root {
-      --font-sans: 'Inter', sans-serif;
-      --brand-primary: #002D72; --brand-primary-subtle: #E5EBEF;
-      --error: #E40046; --error-subtle: #FEE5EB;
-      --text-primary: #1a1a1a; --text-secondary: #5F5E5A; --text-tertiary: #888780;
-      --bg-page: #F4F3F0; --bg-surface: #ffffff; --bg-disabled: #F4F3F0;
-      --border-default: rgba(0,0,0,0.15); --border-hover: rgba(0,0,0,0.3);
-      --radius-md: 8px;
-    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; max-width: 600px; margin: 0 auto; }
+    body { font-family: var(--font-sans); background: var(--color-bg-page); padding: 48px 32px; max-width: 600px; margin: 0 auto; }
     .section { margin-bottom: 2rem; }
-    .section-label { font-size: 11px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1rem; }
+    .section-label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1rem; }
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.25rem; }
-    .field__label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
-    .field__label span { color: var(--error); margin-left: 2px; }
+    .field__label { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+    .field__label span { color: var(--color-error-icon); margin-left: 2px; }
     .field__wrap { position: relative; }
     .field__input {
-      width: 100%; height: 40px; padding: 0 12px;
-      font-family: var(--font-sans); font-size: 14px; color: var(--text-primary);
-      background: var(--bg-surface); border: 1px solid var(--border-default);
+      width: 100%; height: 40px; padding: 0 var(--space-sm);
+      font-family: var(--font-sans); font-size: var(--font-size-sm); color: var(--color-text-primary);
+      background: var(--color-bg-surface); border: 1px solid var(--color-border-default);
       border-radius: var(--radius-md); outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .field__input::placeholder { color: var(--text-tertiary); }
-    .field__input:hover  { border-color: var(--border-hover); }
-    .field__input:focus  { border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(0,45,114,0.1); }
-    .field__input--error { border-color: var(--error); }
+    .field__input::placeholder { color: var(--color-text-tertiary); }
+    .field__input:hover  { border-color: var(--color-border-strong); }
+    .field__input:focus  { border-color: var(--color-border-focus); box-shadow: 0 0 0 3px rgba(0,45,114,0.1); }
+    .field__input--error { border-color: var(--color-error-icon); }
     .field__input--error:focus { box-shadow: 0 0 0 3px rgba(228,0,70,0.1); }
-    .field__input--disabled { background: var(--bg-disabled); color: var(--text-tertiary); cursor: not-allowed; }
+    .field__input--disabled { background: var(--color-bg-disabled); color: var(--color-text-tertiary); cursor: not-allowed; }
     .field__input--icon-l { padding-left: 38px; }
     .field__input--icon-r { padding-right: 38px; }
-    .field__icon { position: absolute; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); display: flex; align-items: center; }
+    .field__icon { position: absolute; top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary); display: flex; align-items: center; }
     .field__icon--left  { left: 11px; }
     .field__icon--right { right: 11px; cursor: pointer; }
-    .field__helper { font-size: 12px; color: var(--text-tertiary); }
-    .field__error  { font-size: 12px; color: var(--error); }
-    .field__count  { font-size: 11px; color: var(--text-tertiary); text-align: right; }
-    textarea.field__input { height: auto; padding: 10px 12px; resize: vertical; min-height: 96px; line-height: 1.5; }
+    .field__helper { font-size: 12px; color: var(--color-text-tertiary); }
+    .field__error  { font-size: 12px; color: var(--color-error-text); }
+    .field__count  { font-size: var(--font-size-xs); color: var(--color-text-tertiary); text-align: right; }
+    textarea.field__input { height: auto; padding: 10px var(--space-sm); resize: vertical; min-height: 96px; line-height: var(--leading-normal); }
     .select-wrap { position: relative; }
     select.field__input { appearance: none; padding-right: 36px; cursor: pointer; }
-    .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-tertiary); }
+    .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--color-text-tertiary); }
 
     /* DS Nav Shell */
-    .ds-nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 24px; height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: -48px -32px 0; }
-    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
-    .ds-nav__back:hover { color: var(--brand-primary); }
-    .ds-nav__sep { width: 1px; height: 14px; background: rgba(0,0,0,0.12); }
-    .ds-nav__title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-    .ds-nav__react { margin-left: auto; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; }
-    .ds-props { margin-top: 3rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 2rem; }
-    .ds-props__title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
-    .ds-props__code { background: #1E1D1A; color: #E8E7E4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; padding: 20px 24px; border-radius: 10px; overflow-x: auto; white-space: pre; }
+    .ds-nav { position: sticky; top: 0; z-index: 100; background: var(--color-bg-surface); border-bottom: 1px solid var(--color-border-default); padding: 0 var(--space-lg); height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: -48px -32px 0; }
+    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: var(--font-size-xs); color: var(--color-text-tertiary); text-decoration: none; transition: color 0.15s; }
+    .ds-nav__back:hover { color: var(--color-brand-primary); }
+    .ds-nav__sep { width: 1px; height: 14px; background: var(--color-border-default); }
+    .ds-nav__title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+    .ds-nav__react { margin-left: auto; font-size: 10px; font-weight: var(--font-weight-bold); letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); background: var(--prim-green-50); color: var(--prim-green-500); }
+    .ds-props { margin-top: 3rem; border-top: 1px solid var(--color-border-default); padding-top: 2rem; }
+    .ds-props__title { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 1rem; }
+    .ds-props__code { background: var(--prim-gray-800); color: var(--prim-gray-100); font-family: var(--font-mono); font-size: 12px; line-height: var(--leading-normal); padding: 20px 24px; border-radius: var(--radius-md); overflow-x: auto; white-space: pre; }
   </style>
 </head>
 <body>

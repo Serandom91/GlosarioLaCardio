@@ -4,18 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tooltip — Sistema genérico</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../lacardio-tokens.css">
   <style>
-    :root {
-      --font-sans: 'Inter', sans-serif;
-      --brand-primary: #002D72; --brand-primary-subtle: #E5EBEF;
-      --text-primary: #1a1a1a; --text-secondary: #5F5E5A; --text-tertiary: #888780;
-      --bg-page: #F4F3F0; --bg-surface: #ffffff; --border-default: rgba(0,0,0,0.12);
-    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); background: var(--bg-page); padding: 48px 32px; max-width: 700px; margin: 0 auto; }
+    body { font-family: var(--font-sans); background: var(--color-bg-page); padding: 48px 32px; max-width: 700px; margin: 0 auto; }
     .section { margin-bottom: 2.5rem; }
-    .section-label { font-size: 11px; font-weight: 500; color: var(--text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .section-label { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 1.5rem; }
     .row { display: flex; align-items: flex-start; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 2rem 0; }
 
     /* Tooltip wrapper */
@@ -25,18 +21,18 @@
     .tip__trigger {
       display: inline-flex; align-items: center; justify-content: center;
       width: 32px; height: 32px; border-radius: 50%;
-      background: var(--bg-surface); border: 0.5px solid var(--border-default);
-      cursor: pointer; color: var(--text-secondary); font-size: 13px; font-weight: 500;
+      background: var(--color-bg-surface); border: 0.5px solid var(--color-border-default);
+      cursor: pointer; color: var(--color-text-secondary); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);
       transition: background 0.15s, border-color 0.15s;
     }
-    .tip__trigger:hover { background: var(--brand-primary-subtle); border-color: var(--brand-primary); color: var(--brand-primary); }
+    .tip__trigger:hover { background: var(--color-brand-primary-subtle); border-color: var(--color-brand-primary); color: var(--color-brand-primary); }
 
     /* Tooltip box */
     .tip__box {
       position: absolute; z-index: 10;
-      background: #1E1D1B; color: #fff;
-      font-size: 12px; line-height: 1.5;
-      padding: 6px 10px; border-radius: 6px;
+      background: var(--prim-gray-800); color: var(--color-brand-primary-on);
+      font-size: 12px; line-height: var(--leading-normal);
+      padding: 6px 10px; border-radius: var(--radius-md);
       white-space: nowrap; pointer-events: none;
       opacity: 0; transition: opacity 0.15s;
     }
@@ -50,28 +46,28 @@
 
     /* Flecha */
     .tip__box::after { content: ''; position: absolute; border: 5px solid transparent; }
-    .tip__box--top::after    { top: 100%;  left: 50%; transform: translateX(-50%); border-top-color: #1E1D1B; }
-    .tip__box--bottom::after { bottom: 100%; left: 50%; transform: translateX(-50%); border-bottom-color: #1E1D1B; }
-    .tip__box--left::after   { left: 100%; top: 50%; transform: translateY(-50%); border-left-color: #1E1D1B; }
-    .tip__box--right::after  { right: 100%; top: 50%; transform: translateY(-50%); border-right-color: #1E1D1B; }
+    .tip__box--top::after    { top: 100%;    left: 50%; transform: translateX(-50%); border-top-color: var(--prim-gray-800); }
+    .tip__box--bottom::after { bottom: 100%; left: 50%; transform: translateX(-50%); border-bottom-color: var(--prim-gray-800); }
+    .tip__box--left::after   { left: 100%;   top: 50%;  transform: translateY(-50%); border-left-color: var(--prim-gray-800); }
+    .tip__box--right::after  { right: 100%;  top: 50%;  transform: translateY(-50%); border-right-color: var(--prim-gray-800); }
 
     /* Variante light */
-    .tip__box--light { background: var(--bg-surface); color: var(--text-primary); border: 0.5px solid var(--border-default); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .tip__box--light::after { border-top-color: var(--bg-surface); }
+    .tip__box--light { background: var(--color-bg-surface); color: var(--color-text-primary); border: 0.5px solid var(--color-border-default); box-shadow: var(--shadow-md); }
+    .tip__box--light::after { border-top-color: var(--color-bg-surface); }
 
-    .pos-label { font-size: 11px; color: var(--text-tertiary); text-align: center; margin-top: 6px; }
+    .pos-label { font-size: var(--font-size-xs); color: var(--color-text-tertiary); text-align: center; margin-top: 6px; }
     .tip-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 
     /* DS Nav Shell */
-    .ds-nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 24px; height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: -48px -32px 0; }
-    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
-    .ds-nav__back:hover { color: var(--brand-primary); }
-    .ds-nav__sep { width: 1px; height: 14px; background: rgba(0,0,0,0.12); }
-    .ds-nav__title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-    .ds-nav__react { margin-left: auto; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; background: #EAF3DE; color: #3B6D11; }
-    .ds-props { margin-top: 3rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 2rem; }
-    .ds-props__title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
-    .ds-props__code { background: #1E1D1A; color: #E8E7E4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; padding: 20px 24px; border-radius: 10px; overflow-x: auto; white-space: pre; }
+    .ds-nav { position: sticky; top: 0; z-index: 100; background: var(--color-bg-surface); border-bottom: 1px solid var(--color-border-default); padding: 0 var(--space-lg); height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: -48px -32px 0; }
+    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: var(--font-size-xs); color: var(--color-text-tertiary); text-decoration: none; transition: color 0.15s; }
+    .ds-nav__back:hover { color: var(--color-brand-primary); }
+    .ds-nav__sep { width: 1px; height: 14px; background: var(--color-border-default); }
+    .ds-nav__title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+    .ds-nav__react { margin-left: auto; font-size: 10px; font-weight: var(--font-weight-bold); letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); background: var(--prim-green-50); color: var(--prim-green-500); }
+    .ds-props { margin-top: 3rem; border-top: 1px solid var(--color-border-default); padding-top: 2rem; }
+    .ds-props__title { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 1rem; }
+    .ds-props__code { background: var(--prim-gray-800); color: var(--prim-gray-100); font-family: var(--font-mono); font-size: 12px; line-height: var(--leading-normal); padding: 20px 24px; border-radius: var(--radius-md); overflow-x: auto; white-space: pre; }
   </style>
 </head>
 <body>
@@ -136,7 +132,7 @@
   <div class="section">
     <p class="section-label">Tooltip — con ícono de información</p>
     <div class="row" style="justify-content: flex-start; padding: 1rem 0;">
-      <div style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-primary);">
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--color-text-primary);">
         Nombre del campo
         <div class="tip">
           <div class="tip__trigger" style="width:18px; height:18px; font-size:10px;">i</div>

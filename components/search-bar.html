@@ -6,65 +6,54 @@
   <title>Search Bar — Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../lacardio-tokens.css">
   <style>
     /* =============================================
-       01 — TOKENS CSS
+       01 — ALIASES LOCALES (bridge → tokens globales)
+       Variables propias de search-bar mapeadas
+       a los tokens canónicos del sistema.
        ============================================= */
     :root {
-      --blue-50:#E8EEF8; --blue-100:#C5D3EE; --blue-200:#9FB5E3; --blue-300:#7897D7;
-      --blue-400:#5880CE; --blue-500:#3869C5; --blue-600:#2A56AD; --blue-700:#1E4394;
-      --blue-800:#13317A; --blue-900:#002D72;
-      --red-900:#E40046;
-      --gray-50:#F7F7F6; --gray-100:#EBEBEA; --gray-200:#D6D5D3; --gray-300:#C5C4C1;
-      --gray-400:#A8A7A3; --gray-500:#888780; --gray-600:#6B6A64; --gray-700:#4E4D48;
-      --gray-800:#34332F; --gray-900:#1E1D1A;
-
-      --color-brand-primary:   var(--blue-900);
-      --color-brand-secondary: var(--red-900);
-      --color-text-default:    var(--gray-900);
-      --color-text-muted:      var(--gray-500);
-      --color-text-inverse:    #FFFFFF;
-      --color-text-disabled:   var(--gray-500);
-      --color-surface-default: #FFFFFF;
-      --color-surface-subtle:  var(--gray-50);
-      --color-border-default:  var(--gray-200);
-      --color-border-strong:   var(--gray-400);
-      --color-border-focus:    var(--blue-900);
-
-      --font-family-base: 'Inter', sans-serif;
-      --font-size-xs:  0.75rem; --font-size-sm: 0.875rem;
-      --font-size-md:  1rem;    --font-size-lg: 1.125rem;
-      --font-size-xl:  1.25rem; --font-size-2xl: 1.5rem;
-      --font-weight-regular:400; --font-weight-medium:500;
-      --font-weight-semibold:600; --font-weight-bold:700;
-      --line-height-normal: 1.5;
-
-      --radius-md:   8px;
-      --radius-lg:   12px;
-      --radius-full: 9999px;
-
-      --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
-      --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
-      --space-12:48px; --space-16:64px;
-
-      --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
-      --shadow-md: 0 4px 12px rgba(0,0,0,.10);
-      --shadow-lg: 0 8px 24px rgba(0,0,0,.12);
-      --transition-fast: 150ms ease;
-      --transition-normal: 250ms ease;
+      /* — Aliases semánticos —————————————————————————————— */
+      --color-text-default:    var(--color-text-primary);
+      --color-text-muted:      var(--color-text-tertiary);
+      --color-text-inverse:    var(--color-brand-primary-on);
+      --color-surface-default: var(--color-bg-surface);
+      --color-surface-subtle:  var(--color-bg-page);
+      --font-family-base:      var(--font-sans);
+      --font-weight-semibold:  600;
+      --line-height-normal:    var(--leading-normal);
+      --transition-fast:       150ms ease;
+      --transition-normal:     250ms ease;
+      /* — Primitivos locales → tokens canónicos —————————— */
+      --blue-50:  var(--prim-blue-50);
+      --blue-100: var(--prim-blue-100);
+      --blue-200: var(--prim-blue-200);
+      --blue-300: var(--prim-blue-300);
+      --blue-700: var(--prim-blue-700);
+      --blue-900: var(--prim-blue-500);
+      --gray-50:  var(--prim-gray-50);
+      --gray-100: var(--prim-gray-100);
+      /* — Space aliases: --space-N → --prim-space-N ———————— */
+      --space-1: var(--prim-space-1);   --space-2: var(--prim-space-2);
+      --space-3: var(--prim-space-3);   --space-4: var(--prim-space-4);
+      --space-5: var(--prim-space-5);   --space-6: var(--prim-space-6);
+      --space-8: var(--prim-space-8);   --space-10: var(--prim-space-10);
+      --space-12: var(--prim-space-12); --space-16: var(--prim-space-16);
     }
 
     /* DS Nav Shell */
-    .ds-nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--color-border-default); padding: 0 var(--space-6); height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-family-base); margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-6)) 0; }
-    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: var(--font-size-xs); color: var(--color-text-muted); text-decoration: none; transition: color var(--transition-fast); }
+    .ds-nav { position: sticky; top: 0; z-index: 100; background: var(--color-bg-surface); border-bottom: 1px solid var(--color-border-default); padding: 0 var(--space-6); height: 48px; display: flex; align-items: center; gap: 10px; font-family: var(--font-sans); margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-6)) 0; }
+    .ds-nav__back { display: flex; align-items: center; gap: 5px; font-size: var(--font-size-xs); color: var(--color-text-tertiary); text-decoration: none; transition: color var(--transition-fast); }
     .ds-nav__back:hover { color: var(--color-brand-primary); }
     .ds-nav__sep { width: 1px; height: 14px; background: var(--color-border-default); }
-    .ds-nav__title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-default); }
-    .ds-nav__react { margin-left: auto; font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); background: #EAF3DE; color: #3B6D11; }
+    .ds-nav__title { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+    .ds-nav__react { margin-left: auto; font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: var(--radius-full); background: var(--prim-green-50); color: var(--prim-green-500); }
     .ds-props { margin-top: 3rem; border-top: 1px solid var(--color-border-default); padding-top: 2rem; }
-    .ds-props__title { font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 1rem; }
-    .ds-props__code { background: #1E1D1A; color: #E8E7E4; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.7; padding: 20px 24px; border-radius: var(--radius-lg); overflow-x: auto; white-space: pre; }
+    .ds-props__title { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 1rem; }
+    .ds-props__code { background: var(--prim-gray-800); color: var(--prim-gray-100); font-family: var(--font-mono); font-size: 12px; line-height: var(--leading-normal); padding: 20px 24px; border-radius: var(--radius-lg); overflow-x: auto; white-space: pre; }
 
     /* =============================================
        02 — RESET & BASE
