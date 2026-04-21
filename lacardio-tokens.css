@@ -1,0 +1,88 @@
+/*
+ * ============================================================
+ *  LACARDIO — TOKENS DE CLIENTE
+ *  Clínica CardioInfantil · Fundación CardioInfantil
+ *
+ *  Este archivo extiende tokens.css con la identidad
+ *  específica de la marca LaCardio.
+ *
+ *  Uso:
+ *    <link rel="stylesheet" href="tokens.css">
+ *    <link rel="stylesheet" href="lacardio-tokens.css">
+ *
+ *  Para la variante Fundación, añadir también:
+ *    <link rel="stylesheet" href="lacardio-fundacion.css">
+ * ============================================================
+ */
+
+/* ── Importa el sistema base ──────────────────────────────── */
+@import url('tokens.css');
+
+
+:root {
+
+  /* ══════════════════════════════════════════════════════════
+     BRAND — CLÍNICA (por defecto)
+     Azul institucional. Confirma y documenta que el
+     sistema genérico ya refleja estos valores.
+  ══════════════════════════════════════════════════════════ */
+
+  --color-brand-primary:        #002d72;  /* Blue/500 */
+  --color-brand-primary-hover:  #00245c;  /* Blue/600 */
+  --color-brand-primary-active: #001b45;  /* Blue/700 */
+  --color-brand-primary-subtle: #e5ebf6;  /* Blue/50  */
+  --color-brand-primary-on:     #ffffff;
+
+  /* ══════════════════════════════════════════════════════════
+     BRAND — SECUNDARIO (Fundación)
+     Rojo institucional. Se activa en lacardio-fundacion.css.
+     Documentado aquí para centralizar la paleta de marca.
+  ══════════════════════════════════════════════════════════ */
+
+  --color-brand-secondary:        #e40046;  /* Red/500 */
+  --color-brand-secondary-hover:  #b70038;  /* Red/600 */
+  --color-brand-secondary-active: #8a002a;  /* Red/700 */
+  --color-brand-secondary-subtle: #fee5eb;  /* Red/50  */
+  --color-brand-secondary-on:     #ffffff;
+
+  /* ══════════════════════════════════════════════════════════
+     TIPOGRAFÍA — LaCardio
+     Inter para UI, IBM Plex Mono para datos/código.
+  ══════════════════════════════════════════════════════════ */
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* ══════════════════════════════════════════════════════════
+     COMPONENTES — LaCardio específicos
+     Extensiones sobre los tokens base del sistema genérico.
+  ══════════════════════════════════════════════════════════ */
+
+  /* Navbar LaCardio */
+  --navbar-height: 64px;  /* Spacing/3XL — altura estándar del header */
+
+  /* Header Clínica — bottom bar mobile */
+  --header-clinica-bar-bg:   var(--color-brand-primary);        /* azul */
+  --header-clinica-bar-text: var(--color-brand-primary-on);
+
+  /* Header Fundación — bottom bar mobile */
+  --header-fundacion-bar-bg:   var(--color-brand-secondary);    /* rojo */
+  --header-fundacion-bar-text: var(--color-brand-secondary-on);
+
+}
+
+
+/*
+ * ══════════════════════════════════════════════════════════
+ *  TEMA OSCURO (scaffold — completar cuando aplique)
+ * ══════════════════════════════════════════════════════════
+ *
+ * @media (prefers-color-scheme: dark) {
+ *   :root {
+ *     --color-bg-page:    #0f0f0f;
+ *     --color-bg-surface: #1a1a1a;
+ *     --color-text-primary:   #f4f3f0;
+ *     --color-text-secondary: #a4a3a0;
+ *   }
+ * }
+ */
